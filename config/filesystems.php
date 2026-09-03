@@ -1,5 +1,16 @@
 <?php
 
+$objectStorage = [
+    'driver' => 's3',
+    'key' => env('ATLAS_MINIO_ROOT_USER', env('AWS_ACCESS_KEY_ID')),
+    'secret' => env('ATLAS_MINIO_ROOT_PASSWORD', env('AWS_SECRET_ACCESS_KEY')),
+    'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+    'endpoint' => env('AWS_ENDPOINT'),
+    'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', true),
+    'throw' => true,
+    'report' => true,
+];
+
 return [
 
     /*
@@ -58,6 +69,21 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
             'report' => false,
+        ],
+
+        'atlas_raw' => [
+            ...$objectStorage,
+            'bucket' => env('ATLAS_RAW_BUCKET', 'atlas-raw'),
+        ],
+
+        'atlas_processing' => [
+            ...$objectStorage,
+            'bucket' => env('ATLAS_PROCESSING_BUCKET', 'atlas-processing'),
+        ],
+
+        'atlas_candidates' => [
+            ...$objectStorage,
+            'bucket' => env('ATLAS_CANDIDATES_BUCKET', 'atlas-candidates'),
         ],
 
     ],

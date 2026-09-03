@@ -46,6 +46,15 @@
 - Önce dar testler, ardından ilgili format/static analysis ve gerekli entegrasyon
   testleri çalıştırılır; yalnız mock/fake kanıtıyla external adapter tamamlanmış sayılmaz.
 
+## Test yürütme kuralı
+
+- Test kodları geliştirme sırasında yazılır fakat kullanıcı açıkça istemeden hiçbir
+  test suite veya tekil test çalıştırılmaz.
+- Kullanıcı testleri çalıştırmayı istediğinde sonuçlar zaman damgalı geçici bir
+  dosyaya yazılır ve özetlenir.
+- Başarısız testler bu çalıştırma kapsamında düzeltilmez; fix ancak kullanıcı ayrıca
+  isterse yapılır.
+
 ## Mimari sınırlar
 
 - Hedef uygulama Laravel tabanlıdır. Domain kuralları `app/Domain` altında framework,
