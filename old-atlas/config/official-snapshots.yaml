@@ -1,0 +1,42 @@
+version: "2026.08.30"
+artifacts:
+  - env: ATLAS_ADEME_CSV
+    relative_path: ademe/base-carbone.csv
+    test: tests/unit/test_ademe.py::test_official_ademe_snapshot
+  - env: ATLAS_AIB_XLSX
+    relative_path: aib/residual-mix.xlsx
+    test: tests/unit/test_aib.py::test_official_aib_snapshot
+  - env: ATLAS_CANADA_EFRV_HTML
+    relative_path: canada/efrv-v3.html
+    test: tests/unit/test_canada.py::test_official_canada_version_3_snapshot
+  - env: ATLAS_CBAM_DEFAULT_VALUES_XLSX
+    relative_path: cbam/default-values.xlsx
+    test: tests/unit/test_cbam.py::test_official_cbam_definitive_2026_snapshot
+  - env: ATLAS_CBAM_BENCHMARKS_XLSX
+    relative_path: cbam/benchmarks.xlsx
+    test: tests/unit/test_cbam.py::test_official_cbam_definitive_2026_snapshot
+  - env: ATLAS_EPA_WORKBOOK
+    relative_path: epa/ghg-emission-factors-hub.xlsx
+    test: tests/unit/test_epa.py::test_official_epa_workbook_snapshot
+  - env: ATLAS_ETKB_PDF_DIR
+    relative_path: etkb
+    kind: directory
+    test: tests/unit/test_etkb.py::test_official_etkb_annual_snapshots
+  - env: ATLAS_GHG_PROTOCOL_XLSX
+    relative_path: ghg-protocol/cross-sector-v2.xlsx
+    test: tests/unit/test_ghg_protocol.py::test_official_cross_sector_v2_snapshot
+  - env: ATLAS_GLEC_PDF
+    relative_path: glec/framework-v3.2.pdf
+    test: tests/unit/test_glec.py::test_official_glec_v3_2_snapshot
+  - env: ATLAS_IPCC_EXPORT
+    relative_path: ipcc/efdb-export.xlsx
+    test: tests/unit/test_ipcc.py::test_official_ipcc_export_snapshot
+  - env: ATLAS_OPEN_CEDA_2024_XLSX
+    relative_path: open-ceda/2024.xlsx
+    test: tests/unit/test_open_ceda.py::test_official_open_ceda_2024_snapshot
+  - env: ATLAS_OPEN_CEDA_2025_XLSX
+    relative_path: open-ceda/2025.xlsx
+    test: tests/unit/test_open_ceda.py::test_official_open_ceda_2025_snapshot
+  - env: ATLAS_WRAP_XLSX
+    relative_path: wrap/emission-factor-database-v1.2.xlsx
+    test: tests/unit/test_wrap.py::test_official_wrap_snapshot_contract

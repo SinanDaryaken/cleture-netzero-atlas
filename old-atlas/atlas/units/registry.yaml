@@ -1,0 +1,144 @@
+version: "1.4.0"
+units:
+  - {code: dimensionless, dimension: dimensionless, scale_to_base: 1, ucum_code: "1", aliases: [fraction, ratio, "No dimension"]}
+  - {code: percent, dimension: dimensionless, scale_to_base: 0.01, ucum_code: "%", aliases: ["%", percent]}
+  - {code: mg, dimension: mass, scale_to_base: 0.000001, ucum_code: mg, aliases: [milligram, milligrams]}
+  - {code: g, dimension: mass, scale_to_base: 0.001, ucum_code: g, aliases: [gram, grams]}
+  - {code: kg, dimension: mass, scale_to_base: 1, ucum_code: kg, aliases: [kilogram, kilograms]}
+  - {code: tonne, dimension: mass, scale_to_base: 1000, ucum_code: t, aliases: [t, tonnes, metric_ton]}
+  - {code: kt, dimension: mass, scale_to_base: 1000000, aliases: [kilotonne, kilotonnes]}
+  - {code: Gg, dimension: mass, scale_to_base: 1000000, ucum_code: Gg, aliases: [gigagram, gigagrams]}
+  - {code: Mt, dimension: mass, scale_to_base: 1000000000, aliases: [megatonne, megatonnes]}
+  - {code: short_ton, dimension: mass, scale_to_base: 907.18474, ucum_code: "[ston_av]"}
+  - {code: lb, dimension: mass, scale_to_base: 0.45359237, ucum_code: "[lb_av]", aliases: [pound, pounds]}
+  - {code: gCO2e, dimension: emission_mass, scale_to_base: 0.001, aliases: [gCO2eq], qualifiers: [co2e]}
+  - {code: kgCO2e, dimension: emission_mass, scale_to_base: 1, aliases: [kgCO2eq], qualifiers: [co2e]}
+  - {code: tCO2e, dimension: emission_mass, scale_to_base: 1000, aliases: [tonneCO2e], qualifiers: [co2e]}
+  - {code: gCO2, dimension: emission_mass, scale_to_base: 0.001, qualifiers: [co2], aliases: ["g CO2"]}
+  - {code: kgCO2, dimension: emission_mass, scale_to_base: 1, qualifiers: [co2], aliases: ["kg CO2", "Kg CO2"]}
+  - {code: tCO2, dimension: emission_mass, scale_to_base: 1000, qualifiers: [co2], aliases: ["t CO2", "tonne CO2", "Tonne CO2"]}
+  - {code: gCH4, dimension: emission_mass, scale_to_base: 0.001, qualifiers: [ch4], aliases: ["g CH4"]}
+  - {code: kgCH4, dimension: emission_mass, scale_to_base: 1, qualifiers: [ch4], aliases: ["kg CH4", "Kg CH4"]}
+  - {code: kgN2O, dimension: emission_mass, scale_to_base: 1, qualifiers: [n2o], aliases: ["kg N2O", "Kg N2O"]}
+  - {code: kgN, dimension: emission_mass, scale_to_base: 1, qualifiers: [nitrogen], aliases: ["kg N"]}
+  - {code: gN, dimension: emission_mass, scale_to_base: 0.001, qualifiers: [nitrogen], aliases: ["g N"]}
+  - {code: kgN2O_N, dimension: emission_mass, scale_to_base: 1, qualifiers: [n2o_n], aliases: ["kg N2O-N", "Kg N2O-N"]}
+  - {code: tC, dimension: emission_mass, scale_to_base: 1000, qualifiers: [carbon], aliases: ["t C", "tonne C", "tonnes C"]}
+  - {code: kgC, dimension: emission_mass, scale_to_base: 1, qualifiers: [carbon], aliases: ["kg C"]}
+  - {code: kgCF4, dimension: emission_mass, scale_to_base: 1, qualifiers: [cf4], aliases: ["kg CF4"]}
+  - {code: kgPFC, dimension: emission_mass, scale_to_base: 1, qualifiers: [pfc], aliases: ["kg PFC"]}
+  - {code: J, dimension: energy, scale_to_base: 1, ucum_code: J}
+  - {code: MJ, dimension: energy, scale_to_base: 1000000, ucum_code: MJ}
+  - {code: GJ, dimension: energy, scale_to_base: 1000000000, ucum_code: GJ}
+  - {code: TJ, dimension: energy, scale_to_base: 1000000000000, ucum_code: TJ}
+  - {code: Wh, dimension: energy, scale_to_base: 3600, ucum_code: W.h}
+  - {code: kWh, dimension: energy, scale_to_base: 3600000, ucum_code: kW.h, aliases: [KWh]}
+  - {code: MWh, dimension: energy, scale_to_base: 3600000000, ucum_code: MW.h}
+  - {code: kWh_net_cv, dimension: energy, scale_to_base: 3600000, qualifiers: [net_cv], aliases: ["kWh (Net CV)"]}
+  - {code: kWh_gross_cv, dimension: energy, scale_to_base: 3600000, qualifiers: [gross_cv], aliases: ["kWh (Gross CV)"]}
+  - {code: MJ_net_cv, dimension: energy, scale_to_base: 1000000, qualifiers: [net_cv]}
+  - {code: GJ_net_cv, dimension: energy, scale_to_base: 1000000000, qualifiers: [net_cv]}
+  - {code: GJ_gross_cv, dimension: energy, scale_to_base: 1000000000, qualifiers: [gross_cv]}
+  - {code: ml, dimension: volume, scale_to_base: 0.000001, ucum_code: mL}
+  - {code: l, dimension: volume, scale_to_base: 0.001, ucum_code: L, aliases: [litre, litres, liter]}
+  - {code: m3, dimension: volume, scale_to_base: 1, ucum_code: m3, aliases: ["cubic metres", "cubic meter"]}
+  - {code: normal_m3, dimension: volume, scale_to_base: 1, qualifiers: [normal_conditions], aliases: ["m3 (n)"]}
+  - {code: scf, dimension: volume, scale_to_base: 0.028316846592, ucum_code: "[ft_i]3"}
+  - {code: m, dimension: distance, scale_to_base: 1, ucum_code: m}
+  - {code: km, dimension: distance, scale_to_base: 1000, ucum_code: km, aliases: [kilometer, kilometres]}
+  - {code: mile, dimension: distance, scale_to_base: 1609.344, ucum_code: "[mi_i]", aliases: [miles]}
+  - {code: tonne.km, dimension: transport_work, scale_to_base: 1000000, qualifiers: [freight], aliases: [tonne-km, tkm]}
+  - {code: passenger.km, dimension: passenger_distance, scale_to_base: 1000, qualifiers: [passenger], aliases: [passenger-km, pkm]}
+  - {code: passenger, dimension: passenger_count, scale_to_base: 1, qualifiers: [passenger], aliases: [passengers]}
+  - {code: vehicle.km, dimension: vehicle_distance, scale_to_base: 1000, qualifiers: [vehicle], aliases: [vehicle-km]}
+  - {code: m2, dimension: area, scale_to_base: 1, ucum_code: m2, aliases: ["m²"]}
+  - {code: ha, dimension: area, scale_to_base: 10000, ucum_code: har}
+  - {code: hour, dimension: time, scale_to_base: 3600, ucum_code: h, aliases: [h, heure]}
+  - {code: day, dimension: time, scale_to_base: 86400, ucum_code: d}
+  - {code: year, dimension: time, scale_to_base: 31557600, ucum_code: a}
+  - {code: head, dimension: count, scale_to_base: 1, qualifiers: [animal_head], aliases: [animal]}
+  - {code: LTO, dimension: count, scale_to_base: 1, qualifiers: [landing_takeoff_cycle]}
+  - {code: start, dimension: count, scale_to_base: 1, qualifiers: [engine_start]}
+  - {code: mine, dimension: count, scale_to_base: 1, qualifiers: [mine]}
+  - {code: EUR, dimension: currency, scale_to_base: 1, qualifiers: [EUR]}
+  - {code: USD, dimension: currency, scale_to_base: 1, qualifiers: [USD]}
+  - {code: GBP, dimension: currency, scale_to_base: 1, qualifiers: [GBP]}
+  - {code: TRY, dimension: currency, scale_to_base: 1, qualifiers: [TRY]}
+  - {code: CAD, dimension: currency, scale_to_base: 1, qualifiers: [CAD]}
+  - {code: BRL, dimension: currency, scale_to_base: 1, qualifiers: [BRL]}
+  - {code: MXN, dimension: currency, scale_to_base: 1, qualifiers: [MXN]}
+  - {code: ZAR, dimension: currency, scale_to_base: 1, qualifiers: [ZAR]}
+  - {code: EGP, dimension: currency, scale_to_base: 1, qualifiers: [EGP]}
+  - {code: AED, dimension: currency, scale_to_base: 1, qualifiers: [AED]}
+  - {code: SAR, dimension: currency, scale_to_base: 1, qualifiers: [SAR]}
+  - {code: INR, dimension: currency, scale_to_base: 1, qualifiers: [INR]}
+  - {code: CNY, dimension: currency, scale_to_base: 1, qualifiers: [CNY]}
+  - {code: JPY, dimension: currency, scale_to_base: 1, qualifiers: [JPY]}
+  - {code: KRW, dimension: currency, scale_to_base: 1, qualifiers: [KRW]}
+  - {code: AUD, dimension: currency, scale_to_base: 1, qualifiers: [AUD]}
+  - {code: SGD, dimension: currency, scale_to_base: 1, qualifiers: [SGD]}
+  - {code: SEK, dimension: currency, scale_to_base: 1, qualifiers: [SEK]}
+  - {code: item, dimension: count, scale_to_base: 1, qualifiers: [generic_item], aliases: [unit, unité]}
+  - {code: room.night, dimension: service, scale_to_base: 1, qualifiers: [room_night], aliases: ["Room per night"]}
+  - {code: fte.hour, dimension: service, scale_to_base: 1, qualifiers: [fte_hour], aliases: ["per FTE Working Hour"]}
+  - {code: sheet.a4, dimension: product, scale_to_base: 1, qualifiers: [a4_sheet]}
+  - {code: kg_product, dimension: product_mass, scale_to_base: 1, qualifiers: [product]}
+  - {code: tonne_product, dimension: product_mass, scale_to_base: 1000, qualifiers: [product]}
+  - {code: USD_2022_producer_price, dimension: currency, scale_to_base: 1, qualifiers: [USD, "2022", producer_price]}
+  - {code: USD_2023_producer_price, dimension: currency, scale_to_base: 1, qualifiers: [USD, "2023", producer_price]}
+  - {code: EUR_2019_ex_vat, dimension: currency, scale_to_base: 1, qualifiers: [EUR, "2019", ex_vat]}
+  - {code: EUR_2020_ex_vat, dimension: currency, scale_to_base: 1, qualifiers: [EUR, "2020", ex_vat]}
+  - {code: EUR_2021_ex_vat, dimension: currency, scale_to_base: 1, qualifiers: [EUR, "2021", ex_vat]}
+  - {code: EUR_2022_ex_vat, dimension: currency, scale_to_base: 1, qualifiers: [EUR, "2022", ex_vat]}
+  - {code: EUR_2023_ex_vat, dimension: currency, scale_to_base: 1, qualifiers: [EUR, "2023", ex_vat]}
+  - {code: piece, dimension: count, scale_to_base: 1, qualifiers: [piece]}
+  - {code: device, dimension: count, scale_to_base: 1, qualifiers: [device]}
+  - {code: plant, dimension: count, scale_to_base: 1, qualifiers: [plant]}
+  - {code: meal, dimension: count, scale_to_base: 1, qualifiers: [meal]}
+  - {code: container, dimension: count, scale_to_base: 1, qualifiers: [container]}
+  - {code: book, dimension: count, scale_to_base: 1, qualifiers: [book]}
+  - {code: head.year, dimension: animal_time, scale_to_base: 1, qualifiers: [animal_head_year], aliases: [head/yr, head/year, "animal/yr", "animal/year"]}
+  - {code: kg_fuel, dimension: product_mass, scale_to_base: 1, qualifiers: [fuel], aliases: ["kg fuel"]}
+  - {code: tonne_fuel, dimension: product_mass, scale_to_base: 1000, qualifiers: [fuel], aliases: ["t fuel", "tonne fuel", "tonnes fuel"]}
+  - {code: kg_dry_biomass, dimension: product_mass, scale_to_base: 1, qualifiers: [dry_biomass], aliases: ["kg of dry biomass", "kg dry matter combusted"]}
+  - {code: tonne_aluminium, dimension: product_mass, scale_to_base: 1000, qualifiers: [aluminium], aliases: ["tonne Al", "Tonne Al"]}
+  - {code: kg_refrigerant, dimension: product_mass, scale_to_base: 1, qualifiers: [refrigerant]}
+  - {code: person.month, dimension: person_time, scale_to_base: 1, qualifiers: [person_month]}
+  - {code: ha.year, dimension: area_time, scale_to_base: 315576000000, qualifiers: [hectare_year]}
+  - {code: TEU-km, dimension: container_distance, scale_to_base: 1000, qualifiers: [teu]}
+  - {code: m3.km, dimension: volume_distance, scale_to_base: 1000, qualifiers: [volume_transport]}
+  - {code: kg.km, dimension: transport_work, scale_to_base: 1000, qualifiers: [freight], aliases: ["kg*km"]}
+  - {code: toe_net_cv, dimension: energy, scale_to_base: 41868000000, qualifiers: [net_cv]}
+  - {code: toe_gross_cv, dimension: energy, scale_to_base: 41868000000, qualifiers: [gross_cv]}
+  - {code: kg_net_weight, dimension: product_mass, scale_to_base: 1, qualifiers: [net_weight]}
+  - {code: kg_nitrogen, dimension: product_mass, scale_to_base: 1, qualifiers: [nitrogen]}
+  - {code: kg_waste, dimension: product_mass, scale_to_base: 1, qualifiers: [waste]}
+  - {code: tonne_waste, dimension: product_mass, scale_to_base: 1000, qualifiers: [waste]}
+  - {code: kg_dry_matter, dimension: product_mass, scale_to_base: 1, qualifiers: [dry_matter]}
+  - {code: kg_live_weight, dimension: product_mass, scale_to_base: 1, qualifiers: [live_weight]}
+  - {code: kg_hydrogen, dimension: product_mass, scale_to_base: 1, qualifiers: [hydrogen]}
+  - {code: tonne_nitrogen, dimension: product_mass, scale_to_base: 1000, qualifiers: [nitrogen]}
+  - {code: tonne_p2o5, dimension: product_mass, scale_to_base: 1000, qualifiers: [p2o5]}
+  - {code: tonne_k2o, dimension: product_mass, scale_to_base: 1000, qualifiers: [k2o]}
+  - {code: tonne_clinker, dimension: product_mass, scale_to_base: 1000, qualifiers: [clinker]}
+  - {code: kg_active_substance, dimension: product_mass, scale_to_base: 1, qualifiers: [active_substance]}
+  - {code: kg_leather_treated, dimension: product_mass, scale_to_base: 1, qualifiers: [leather_treated]}
+  - {code: kg_nitrogen_applied, dimension: product_mass, scale_to_base: 1, qualifiers: [nitrogen_applied]}
+  - {code: kg_cod_removed, dimension: product_mass, scale_to_base: 1, qualifiers: [cod_removed]}
+  - {code: kg_tkn, dimension: product_mass, scale_to_base: 1, qualifiers: [tkn]}
+  - {code: kg_bio_cng, dimension: product_mass, scale_to_base: 1, qualifiers: [bio_cng]}
+  - {code: m2_shon, dimension: area, scale_to_base: 1, qualifiers: [shon]}
+  - {code: m2_wall, dimension: area, scale_to_base: 1, qualifiers: [wall]}
+  - {code: m2_floor, dimension: area, scale_to_base: 1, qualifiers: [floor]}
+  - {code: m2_roof, dimension: area, scale_to_base: 1, qualifiers: [roof]}
+  - {code: m_road, dimension: distance, scale_to_base: 1, qualifiers: [road]}
+  - {code: kg_hydrogen_per_100km, dimension: fuel_consumption_rate, scale_to_base: 0.01, qualifiers: [hydrogen]}
+conditional_bridges:
+  - {from_dimension: volume, to_dimension: mass, parameter: density}
+  - {from_dimension: mass, to_dimension: volume, parameter: density}
+  - {from_dimension: volume, to_dimension: energy, parameter: calorific_value}
+  - {from_dimension: mass, to_dimension: energy, parameter: calorific_value}
+  - {from_dimension: distance, to_dimension: transport_work, parameter: load}
+  - {from_dimension: distance, to_dimension: passenger_distance, parameter: occupancy}
+  - {from_dimension: passenger_count, to_dimension: passenger_distance, parameter: distance}
+  - {from_dimension: currency, to_dimension: currency, parameter: exchange_rate}

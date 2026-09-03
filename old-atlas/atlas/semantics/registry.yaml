@@ -1,0 +1,196 @@
+version: "1.2.2"
+target_languages: [en, tr, de, fr, es, ru, ar]
+context_defaults:
+  corporate_carbon: corporate_carbon.ghg_protocol.scope1
+  lca: lca.iso14040
+  pcf: pcf.iso14067
+  cbam: cbam.eu_definitive
+  freight: freight.glec
+profiles:
+  - code: corporate_carbon.ghg_protocol.scope1
+    context: corporate_carbon
+    allowed_entity_types: [emission_factor, implied_emission_factor]
+    allowed_factor_value_kinds: [co2e_total]
+    allowed_intended_uses: [inventory]
+    allowed_scopes: [scope 1]
+    allow_conditional_conversion: true
+  - code: corporate_carbon.ghg_protocol.scope2_location
+    context: corporate_carbon
+    allowed_entity_types: [emission_factor, implied_emission_factor]
+    allowed_factor_value_kinds: [co2e_total]
+    allowed_intended_uses: [inventory]
+    allowed_scopes: [scope 2]
+    allow_conditional_conversion: false
+  - code: corporate_carbon.ghg_protocol.scope3
+    context: corporate_carbon
+    allowed_entity_types: [emission_factor, implied_emission_factor]
+    allowed_factor_value_kinds: [co2e_total]
+    allowed_intended_uses: [inventory]
+    allowed_scopes: [scope 3]
+    allow_conditional_conversion: true
+  - code: lca.iso14040
+    context: lca
+    allowed_entity_types: [lca_result, characterization_result, epd]
+    allowed_factor_value_kinds: [co2e_total, characterization_factor]
+    allowed_intended_uses: [characterization, calculation_input]
+    allow_conditional_conversion: false
+  - code: pcf.iso14067
+    context: pcf
+    allowed_entity_types: [lca_result, characterization_result, epd]
+    allowed_factor_value_kinds: [co2e_total, characterization_factor]
+    allowed_intended_uses: [characterization, calculation_input]
+    allow_conditional_conversion: false
+  - code: cbam.eu_definitive
+    context: cbam
+    allowed_entity_types: [embodied_emission_factor]
+    allowed_factor_value_kinds: [co2e_total]
+    allowed_intended_uses: [calculation_input]
+    allow_conditional_conversion: false
+  - code: freight.glec
+    context: freight
+    allowed_entity_types: [emission_factor, implied_emission_factor]
+    allowed_factor_value_kinds: [co2e_total]
+    allowed_intended_uses: [inventory]
+    allow_conditional_conversion: true
+concepts:
+  - code: energy.gasoline
+    family: fuel
+    canonical_name_en: Gasoline
+    labels:
+      - {language: en, label: Gasoline, kind: canonical}
+      - {language: en, label: Motor gasoline, kind: synonym}
+      - {language: en, label: Petrol, kind: synonym}
+      - {language: en, label: Motor petrol, kind: synonym}
+      - {language: tr, label: Benzin, kind: translation}
+      - {language: tr, label: Motor benzini, kind: synonym}
+      - {language: de, label: Benzin, kind: translation}
+      - {language: de, label: Ottokraftstoff, kind: synonym}
+      - {language: fr, label: Essence, kind: translation}
+      - {language: es, label: Gasolina, kind: translation}
+      - {language: ru, label: Бензин, kind: translation}
+      - {language: ar, label: بنزين, kind: translation}
+  - code: energy.diesel
+    family: fuel
+    canonical_name_en: Diesel
+    labels:
+      - {language: en, label: Diesel, kind: canonical}
+      - {language: en, label: Diesel oil, kind: synonym}
+      - {language: en, label: Gas oil, kind: synonym}
+      - {language: tr, label: Motorin, kind: translation}
+      - {language: tr, label: Mazot, kind: synonym}
+      - {language: de, label: Dieselkraftstoff, kind: translation}
+      - {language: fr, label: Gazole, kind: translation}
+  - code: energy.natural_gas
+    family: fuel
+    canonical_name_en: Natural gas
+    labels:
+      - {language: en, label: Natural gas, kind: canonical}
+      - {language: en, label: natural gas combustion, kind: synonym}
+      - {language: en, label: pipeline gas, kind: synonym}
+      - {language: en, label: nat gas, kind: synonym}
+      - {language: tr, label: Doğal gaz, kind: translation}
+      - {language: tr, label: doğalgaz, kind: synonym}
+      - {language: tr, label: doğal gaz tüketimi, kind: synonym}
+      - {language: tr, label: gaz tüketimi, kind: synonym}
+      - {language: de, label: Erdgas, kind: translation}
+      - {language: de, label: Erdgasverbrauch, kind: synonym}
+      - {language: fr, label: Gaz naturel, kind: translation}
+  - code: energy.electricity
+    family: electricity
+    canonical_name_en: Electricity
+    labels:
+      - {language: en, label: Electricity, kind: canonical}
+      - {language: en, label: grid electricity, kind: synonym}
+      - {language: tr, label: Elektrik, kind: translation}
+      - {language: tr, label: şebeke elektriği, kind: synonym}
+  - code: material.steel
+    family: material
+    canonical_name_en: Steel
+    labels:
+      - {language: en, label: Steel, kind: canonical}
+      - {language: tr, label: Çelik, kind: translation}
+      - {language: de, label: Stahl, kind: translation}
+      - {language: fr, label: Acier, kind: translation}
+  - code: agriculture.wheat
+    family: agricultural_product
+    canonical_name_en: Wheat
+    labels:
+      - {language: en, label: Wheat, kind: canonical}
+      - {language: en, label: soft wheat, kind: synonym}
+      - {language: tr, label: Buğday, kind: translation}
+      - {language: tr, label: ekmeklik buğday, kind: synonym}
+      - {language: fr, label: Blé, kind: translation}
+      - {language: fr, label: blé tendre, kind: synonym}
+      - {language: de, label: Weizen, kind: translation}
+  - code: material.aluminium
+    family: material
+    canonical_name_en: Aluminium
+    labels:
+      - {language: en, label: Aluminium, kind: canonical}
+      - {language: en, label: Aluminum, kind: synonym}
+      - {language: tr, label: Alüminyum, kind: translation}
+  - code: transport.freight.road
+    family: transport_mode
+    canonical_name_en: Road freight
+    labels:
+      - {language: en, label: Road freight, kind: canonical}
+      - {language: en, label: trucking, kind: synonym}
+      - {language: en, label: truck, kind: synonym}
+      - {language: tr, label: Karayolu taşımacılığı, kind: translation}
+      - {language: tr, label: kamyon taşımacılığı, kind: synonym}
+      - {language: tr, label: tır, kind: synonym}
+      - {language: de, label: Straßengüterverkehr, kind: translation}
+      - {language: de, label: Lkw, kind: synonym}
+      - {language: fr, label: Transport routier de marchandises, kind: translation}
+      - {language: fr, label: camion, kind: synonym}
+      - {language: es, label: Transporte de mercancías por carretera, kind: translation}
+      - {language: es, label: camión, kind: synonym}
+      - {language: ru, label: Автомобильные грузоперевозки, kind: translation}
+      - {language: ru, label: грузовик, kind: synonym}
+      - {language: ar, label: النقل البري للبضائع, kind: translation}
+      - {language: ar, label: شاحنة, kind: synonym}
+  - code: transport.road.passenger
+    family: transport_mode
+    canonical_name_en: Road passenger transport
+    labels:
+      - {language: en, label: Road passenger transport, kind: canonical}
+      - {language: en, label: car, kind: synonym}
+      - {language: en, label: passenger car, kind: synonym}
+      - {language: tr, label: Karayolu yolcu taşımacılığı, kind: translation}
+      - {language: tr, label: araba, kind: synonym}
+      - {language: tr, label: otomobil, kind: synonym}
+      - {language: tr, label: binek araç, kind: synonym}
+      - {language: de, label: Personenverkehr auf der Straße, kind: translation}
+      - {language: de, label: Auto, kind: synonym}
+      - {language: de, label: Pkw, kind: synonym}
+      - {language: fr, label: Transport routier de voyageurs, kind: translation}
+      - {language: fr, label: voiture, kind: synonym}
+      - {language: es, label: Transporte de pasajeros por carretera, kind: translation}
+      - {language: es, label: coche, kind: synonym}
+      - {language: es, label: automóvil, kind: synonym}
+      - {language: ru, label: Автомобильные пассажирские перевозки, kind: translation}
+      - {language: ru, label: автомобиль, kind: synonym}
+      - {language: ar, label: نقل الركاب على الطرق, kind: translation}
+      - {language: ar, label: سيارة, kind: synonym}
+  - code: transport.road.delivery
+    family: transport_mode
+    canonical_name_en: Road delivery vehicle
+    labels:
+      - {language: en, label: Road delivery vehicle, kind: canonical}
+      - {language: en, label: delivery van, kind: synonym}
+      - {language: en, label: panel van, kind: synonym}
+      - {language: en, label: van, kind: synonym}
+      - {language: tr, label: Karayolu teslimat aracı, kind: translation}
+      - {language: tr, label: panelvan, kind: synonym}
+      - {language: tr, label: panel van, kind: synonym}
+      - {language: de, label: Lieferfahrzeug, kind: translation}
+      - {language: de, label: Lieferwagen, kind: synonym}
+      - {language: de, label: Transporter, kind: synonym}
+      - {language: fr, label: Véhicule de livraison, kind: translation}
+      - {language: fr, label: fourgonnette, kind: synonym}
+      - {language: es, label: Vehículo de reparto, kind: translation}
+      - {language: es, label: furgoneta, kind: synonym}
+      - {language: ru, label: Автомобиль доставки, kind: translation}
+      - {language: ru, label: фургон, kind: synonym}
+      - {language: ar, label: مركبة توصيل, kind: translation}
+      - {language: ar, label: شاحنة صغيرة, kind: synonym}

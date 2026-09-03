@@ -1,0 +1,90 @@
+code: CANADA
+name: Canada GHG Offset Emission Factors and Reference Values
+publisher: Environment and Climate Change Canada
+country: CA
+region: null
+status: active
+health: healthy
+license:
+  name: Open Government Licence - Canada 2.0
+  url: https://open.canada.ca/en/open-government-licence-canada
+  commercial_use: true
+  redistribution: true
+  modification: true
+  attribution_required: true
+  api_distribution: true
+  raw_data_distribution: true
+  restrictions: >-
+    Contains information licensed under the Open Government Licence - Canada.
+    Attribution is required; third-party content and official marks are excluded,
+    and reuse must not imply Government of Canada endorsement.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: audited_html_document
+  schedule: "0 8 * * 1"
+  timeout_seconds: 900
+  max_attempts: 4
+location:
+  landing_page: https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/output-based-pricing-system/federal-greenhouse-gas-offset-system/emission-factors-reference-values.html
+  download_url: https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/output-based-pricing-system/federal-greenhouse-gas-offset-system/emission-factors-reference-values.html
+change_detection:
+  strategies: [version_marker, data_table_sha256]
+adapter:
+  class_path: sources.canada.adapter.CanadaAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: official Version 3.0 HTML regulatory document
+  master_page: https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/output-based-pricing-system/federal-greenhouse-gas-offset-system/emission-factors-reference-values.html
+  snapshot_endpoints:
+    version_3_0: https://www.canada.ca/en/environment-climate-change/services/climate-change/pricing-pollution-how-it-will-work/output-based-pricing-system/federal-greenhouse-gas-offset-system/emission-factors-reference-values.html
+  snapshot_parameters:
+    dataset_version: "3.0"
+  schemas:
+    - name: canada_ghg_offset_v3_html
+      parser_version: 0.1.0
+      file_format: html
+quality:
+  minimum_expected_rows: 440
+  minimum_expected_factors: 390
+  expected_table_factor_counts:
+    "1": 69
+    "2": 60
+    "3": 36
+    "4": 189
+    "5": 39
+    "6": 6
+  maximum_row_count_change_ratio: 0.10
+coverage:
+  - {level: country, code: CA, name: Canada}
+  - {level: province, code: CA-AB, name: Alberta}
+  - {level: province, code: CA-BC, name: British Columbia}
+  - {level: province, code: CA-MB, name: Manitoba}
+  - {level: province, code: CA-NB, name: New Brunswick}
+  - {level: province, code: CA-NL, name: Newfoundland and Labrador}
+  - {level: province, code: CA-NS, name: Nova Scotia}
+  - {level: province, code: CA-NT, name: Northwest Territories}
+  - {level: province, code: CA-NU, name: Nunavut}
+  - {level: province, code: CA-ON, name: Ontario}
+  - {level: province, code: CA-PE, name: Prince Edward Island}
+  - {level: province, code: CA-QC, name: Quebec}
+  - {level: province, code: CA-SK, name: Saskatchewan}
+  - {level: province, code: CA-YT, name: Yukon}
+data_types:
+  - emission_factor
+  - calculation_parameter
+  - reference_value
+use_contexts:
+  - CORPORATE_CARBON
+  - OFFSET_PROJECT
+  - SCOPE_1
+  - SCOPE_2
+  - ENERGY
+  - WASTE
+  - AGRICULTURE
+  - FORESTRY
+standards:
+  - Canadian Greenhouse Gas Offset Credit System Regulations
+  - Greenhouse Gas Pollution Pricing Act Schedule 3
+  - National Inventory Report 1990-2023

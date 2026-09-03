@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Atlas Factor Catalog</title>
+    <link rel="stylesheet" href="/explorer/assets/styles.css" />
+    <link rel="stylesheet" href="/explorer/assets/catalog.css" />
+    <script src="/explorer/assets/catalog.js" defer></script>
+  </head>
+  <body class="catalog-page">
+    <div class="ambient-grid" aria-hidden="true"></div>
+
+    <header class="masthead catalog-masthead">
+      <a class="brand-lockup catalog-brand" href="/explorer" aria-label="Back to Atlas Explorer">
+        <div class="brand-mark" aria-hidden="true"><span>A</span></div>
+        <div>
+          <p class="eyebrow">Cleture environmental intelligence</p>
+          <h1>Factor <span>Catalog</span></h1>
+        </div>
+      </a>
+      <div class="masthead-tools">
+        <div class="catalog-mode"><i></i><span>Published records</span><b>Source-faithful view</b></div>
+        <div class="system-health"><i></i><span>Atlas API</span><b id="catalog-health">Checking</b></div>
+        <a class="catalog-back" href="/explorer">← Explorer</a>
+      </div>
+    </header>
+
+    <section class="catalog-command" aria-label="Factor catalog filters">
+      <div class="catalog-intro">
+        <p class="section-index">Atlas archive / factor records</p>
+        <h2>Inspect the published truth.</h2>
+        <p>Select a source and scope, then filter published factors and LCA results as you type.</p>
+      </div>
+      <form id="catalog-filters" class="catalog-filters">
+        <label class="field">
+          <span>Source</span>
+          <select id="catalog-source"><option value="">All published sources</option></select>
+          <small id="source-summary">Loading source registry…</small>
+        </label>
+        <label class="field">
+          <span>Sector</span>
+          <select id="catalog-sector"><option value="">All sectors</option></select>
+          <small id="sector-summary">Loading sector registry…</small>
+        </label>
+        <label class="field">
+          <span>Category</span>
+          <select id="catalog-category"><option value="">All categories</option></select>
+          <small>Categories follow the selected sector</small>
+        </label>
+        <label class="field">
+          <span>GHG scope</span>
+          <select id="catalog-scope">
+            <option value="">All scopes</option>
+            <option value="scope_1">Scope 1</option>
+            <option value="scope_2">Scope 2</option>
+            <option value="scope_3">Scope 3</option>
+            <option value="unspecified">Unspecified by publisher</option>
+          </select>
+          <small>National inventory combustion is inferred as Scope 1</small>
+        </label>
+        <label class="field catalog-search-field">
+          <span>Instant text search</span>
+          <div class="catalog-search-box">
+            <i aria-hidden="true"></i>
+            <input id="catalog-query" type="search" placeholder="Name, taxonomy, factor ID, unit…" autocomplete="off" />
+            <kbd>/</kbd>
+          </div>
+          <small>Searches the selected source and scope on the server</small>
+        </label>
+        <button id="catalog-reset" class="catalog-reset" type="button">Reset filters</button>
+      </form>
+    </section>
+
+    <main class="catalog-grid">
+      <section class="catalog-results" aria-labelledby="catalog-results-title">
+        <header class="catalog-pane-head">
+          <div>
+            <p class="section-index">01 / Records</p>
+            <h2 id="catalog-results-title">Factor &amp; LCA records</h2>
+            <p id="catalog-year-breakdown" class="catalog-year-breakdown" hidden></p>
+          </div>
+          <span id="catalog-count" class="catalog-count">—</span>
+        </header>
+        <div id="catalog-active-filters" class="catalog-active-filters"></div>
+        <div id="catalog-list" class="catalog-list" aria-live="polite"></div>
+        <button id="catalog-more" class="catalog-more" type="button" hidden>Load next records ↓</button>
+      </section>
+
+      <section class="catalog-detail" aria-labelledby="catalog-detail-title">
+        <header class="catalog-pane-head detail-head">
+          <div>
+            <p class="section-index">02 / Complete record</p>
+            <h2 id="catalog-detail-title">Factor inspector</h2>
+          </div>
+          <button id="copy-factor-id" class="copy-factor" type="button" hidden>Copy factor ID</button>
+        </header>
+        <div id="catalog-detail-body" class="catalog-detail-body"></div>
+      </section>
+    </main>
+
+    <div id="catalog-toast" class="toast" role="status"></div>
+  </body>
+</html>

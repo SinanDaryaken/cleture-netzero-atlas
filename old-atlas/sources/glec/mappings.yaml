@@ -1,0 +1,11 @@
+version: 0.1.1
+taxonomy:
+  fuel: atlas.transport.energy_carrier
+  air: atlas.transport.freight.air
+  inland-waterway: atlas.transport.freight.inland_waterway
+  hub: atlas.transport.freight.hub
+  rail: atlas.transport.freight.rail
+  road: atlas.transport.freight.road
+  sea: atlas.transport.freight.sea
+  sea-container: atlas.transport.freight.sea.container
+  refrigerant: atlas.refrigerants.characterization

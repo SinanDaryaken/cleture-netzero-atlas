@@ -1,0 +1,15 @@
+name: Licensed official snapshots
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: [self-hosted, atlas-official-snapshots]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - run: uv run atlas-official-snapshots-check --require-all --run-tests
+        env:
+          ATLAS_SNAPSHOT_ROOT: ${{ vars.ATLAS_SNAPSHOT_ROOT }}

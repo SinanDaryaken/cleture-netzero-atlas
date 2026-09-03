@@ -1,0 +1,75 @@
+code: CBAM
+name: EU CBAM Definitive Default Values and Benchmarks
+publisher: European Commission, Directorate-General for Taxation and Customs Union
+country: null
+region: GLOBAL
+status: active
+health: healthy
+license:
+  name: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  url: https://commission.europa.eu/legal-notice_en
+  commercial_use: true
+  redistribution: true
+  modification: true
+  attribution_required: true
+  api_distribution: true
+  raw_data_distribution: true
+  restrictions: >-
+    The XLSX workbooks are informational reproductions. Binding values and calculation
+    rules are those in the cited EU legal acts, including corrections and year-specific
+    markups. Reuse must attribute the European Union and indicate changes.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: excel_bundle
+  schedule: "55 7 * * 1"
+  timeout_seconds: 900
+  max_attempts: 4
+location:
+  landing_page: https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-legislation-and-guidance_en
+change_detection:
+  strategies:
+    - member_sha256
+    - bundle_sha256
+adapter:
+  class_path: sources.cbam.adapter.CbamAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.1
+history:
+  strategy: versioned_database
+  preferred_asset: deterministic bundle of corrected default-value and benchmark XLSX workbooks
+  master_page: https://taxation-customs.ec.europa.eu/carbon-border-adjustment-mechanism/cbam-legislation-and-guidance_en
+  snapshot_endpoints:
+    default_values: https://taxation-customs.ec.europa.eu/document/download/1c05d211-80cb-4aaa-8ef0-e08005a95d7e_en?filename=DV+correcting+act_final+update_06.08.xlsx
+    benchmarks: https://taxation-customs.ec.europa.eu/document/download/9877523c-2a02-4926-a211-aefae7cf6d0d_en?filename=CBAM+Benchmarks_20260206.xlsx
+  snapshot_parameters:
+    dataset_version: definitive-2026-v2
+  schemas:
+    - name: cbam_definitive_workbook_bundle
+      parser_version: 0.1.0
+      file_format: zip_xlsx_bundle
+quality:
+  minimum_expected_rows: 13000
+  minimum_expected_factors: 11000
+  expected_table_factor_counts:
+    cement: 345
+    fertilisers: 2443
+    iron_steel: 6629
+    aluminium: 1656
+    hydrogen: 97
+  maximum_row_count_change_ratio: 0.10
+coverage:
+  - {level: global, code: GLOBAL, name: Global}
+  - {level: country, code: TR, name: Türkiye}
+data_types:
+  - embodied_emission_factor
+  - calculation_parameter
+use_contexts:
+  - PRODUCT_CARBON
+  - CBAM
+  - IMPORT_EXPORT
+  - SUPPLY_CHAIN
+standards:
+  - Regulation (EU) 2023/956
+  - Commission Implementing Regulation (EU) 2025/2621
+  - Commission Implementing Regulation (EU) 2026/1740
+  - Commission Implementing Regulation (EU) 2025/2620

@@ -1,0 +1,48 @@
+code: IPCC
+name: IPCC Emission Factor Database
+publisher: Intergovernmental Panel on Climate Change
+status: active
+health: healthy
+coverage:
+  - level: global
+    code: GLOBAL
+    name: Global
+license:
+  name: IPCC Copyright and Use
+  commercial_use: null
+  redistribution: null
+  modification: null
+  attribution_required: true
+  api_distribution: null
+  raw_data_distribution: null
+  restrictions: Requires legal review before publication or redistribution.
+ingestion:
+  source_type: html_export
+  schedule: "30 6 * * 1"
+  timeout_seconds: 600
+location:
+  landing_page: https://www.ipcc-nggip.iges.or.jp/EFDB/main.php
+  download_url: https://www.ipcc-nggip.iges.or.jp/EFDB/find_ef_xls.php
+change_detection:
+  strategies: [worksheet_sha256, row_count]
+adapter:
+  class_path: sources.ipcc.adapter.IpccAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.2.0
+history:
+  strategy: versioned_database
+  preferred_asset: database_export
+  master_page: https://www.ipcc-nggip.iges.or.jp/EFDB/main.php
+  snapshot_endpoints:
+    search: https://www.ipcc-nggip.iges.or.jp/EFDB/find_ef_main.php
+    records: https://www.ipcc-nggip.iges.or.jp/EFDB/find_ef.php
+    fulltext: https://www.ipcc-nggip.iges.or.jp/EFDB/find_ef_ft.php
+    factor_id: https://www.ipcc-nggip.iges.or.jp/EFDB/find_ef_id.php
+    export: https://www.ipcc-nggip.iges.or.jp/EFDB/find_ef_xls.php
+  schemas:
+    - name: efdb_export
+      parser_version: 0.1.0
+      file_format: xlsx
+quality:
+  minimum_expected_rows: 27000
+  minimum_expected_factors: 8000

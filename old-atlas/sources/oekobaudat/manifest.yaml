@@ -1,0 +1,68 @@
+code: OEKOBAUDAT
+name: ÖKOBAUDAT 2024-II
+publisher: German Federal Ministry for Housing, Urban Development and Building (BMWSB)
+country: DE
+region: EUROPE
+status: active
+health: healthy
+license:
+  name: ÖKOBAUDAT terms of use
+  url: https://www.oekobaudat.de/en/guidance/data-users.html
+  commercial_use: true
+  redistribution: true
+  modification: false
+  attribution_required: true
+  api_distribution: false
+  raw_data_distribution: true
+  restrictions: >-
+    Free redistribution is limited to unmodified data with source attribution.
+    The datasets are intended primarily for building LCA and are not intended
+    for preparing product LCAs.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: csv_snapshot
+  schedule: "23 7 * * *"
+  timeout_seconds: 900
+  max_attempts: 4
+location:
+  landing_page: https://www.oekobaudat.de/en/service/downloads.html
+  download_url: https://www.oekobaudat.de/OEKOBAU.DAT/resource/datastocks/cc64f7e1-14d8-4a57-b11b-2cf03d200c82/exportCSV
+  api_url: https://www.oekobaudat.de/OEKOBAU.DAT/resource
+change_detection:
+  strategies: [sha256]
+adapter:
+  class_path: sources.oekobaudat.adapter.OekobaudatAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: current CSV export with period decimal separator
+  master_page: https://www.oekobaudat.de/en/service/downloads.html
+  snapshot_endpoints:
+    current_export: https://www.oekobaudat.de/OEKOBAU.DAT/resource/datastocks/cc64f7e1-14d8-4a57-b11b-2cf03d200c82/exportCSV
+  snapshot_parameters:
+    dataset_version: 2024-II
+    release_published_at: "2026-07-22"
+    data_stock_uuid: cc64f7e1-14d8-4a57-b11b-2cf03d200c82
+  schemas:
+    - name: oekobaudat_csv_export
+      parser_version: 0.1.0
+      file_format: semicolon_csv_iso_8859_1
+quality:
+  minimum_expected_rows: 40000
+  minimum_expected_factors: 40000
+  maximum_row_count_change_ratio: 0.15
+coverage:
+  - {level: global, code: GLOBAL, name: Global}
+  - {level: continent, code: EUROPE, name: Europe}
+  - {level: country, code: DE, name: Germany}
+data_types:
+  - lca_result
+use_contexts:
+  - LCA
+  - BUILDING_LCA
+  - CONSTRUCTION
+standards:
+  - EN 15804+A1
+  - EN 15804+A2
+  - ISO 14025

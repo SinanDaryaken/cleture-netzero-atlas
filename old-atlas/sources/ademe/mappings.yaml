@@ -1,0 +1,92 @@
+version: 0.1.0
+
+categories:
+  "Achats de biens": atlas.material.purchased_goods
+  "Réseaux de chaleur / froid": atlas.energy.heat_cooling
+  "Combustibles": atlas.energy.fuels
+  "Electricité": atlas.energy.electricity
+  "Process et émissions fugitives": atlas.industrial_processes.fugitive_emissions
+  "Traitement des déchets": atlas.waste.treatment
+  "Achats de services": atlas.services.purchased_services
+  "UTCF": atlas.land_use
+  "Transport de marchandises": atlas.transport.freight
+  "Transport de personnes": atlas.transport.passenger
+  "Statistiques territoriales": atlas.services.territorial_statistics
+
+country_aliases:
+  France: FR
+  Royaume-Uni: GB
+  Turquie: TR
+  États-Unis: US
+
+# divisor converts a source denominator to one canonical activity unit.
+units:
+  "kgCO2e/100 feuilles A4": {activity_unit: sheet.a4, divisor: 100}
+  "kgCO2e/GJ PCI": {activity_unit: GJ_net_cv, divisor: 1}
+  "kgCO2e/GJ PCS": {activity_unit: GJ_gross_cv, divisor: 1}
+  "kgCO2e/KWh PCI": {activity_unit: kWh_net_cv, divisor: 1}
+  "kgCO2e/Kg": {activity_unit: kg, divisor: 1}
+  "kgCO2e/Litre": {activity_unit: l, divisor: 1}
+  "kgCO2e/MJ PCI": {activity_unit: MJ_net_cv, divisor: 1}
+  "kgCO2e/TEP PCI": {activity_unit: toe_net_cv, divisor: 1}
+  "kgCO2e/TEP PCS": {activity_unit: toe_gross_cv, divisor: 1}
+  "kgCO2e/appareil": {activity_unit: device, divisor: 1}
+  "kgCO2e/euro dépensé": {activity_unit: EUR, divisor: 1}
+  "kgCO2e/ha": {activity_unit: ha, divisor: 1}
+  "kgCO2e/ha.an": {activity_unit: ha.year, divisor: 1}
+  "kgCO2e/heure": {activity_unit: hour, divisor: 1}
+  "kgCO2e/kWh": {activity_unit: kWh, divisor: 1}
+  "kgCO2e/kWh (PCI)": {activity_unit: kWh_net_cv, divisor: 1}
+  "kgCO2e/kWh PCI": {activity_unit: kWh_net_cv, divisor: 1}
+  "kgCO2e/kWh PCS": {activity_unit: kWh_gross_cv, divisor: 1}
+  "kgCO2e/kWhPCI": {activity_unit: kWh_net_cv, divisor: 1}
+  "kgCO2e/keuro": {activity_unit: EUR, divisor: 1000}
+  "kgCO2e/keuro (2019) HT": {activity_unit: EUR_2019_ex_vat, divisor: 1000}
+  "kgCO2e/keuro (2020) HT": {activity_unit: EUR_2020_ex_vat, divisor: 1000}
+  "kgCO2e/keuro (2021) HT": {activity_unit: EUR_2021_ex_vat, divisor: 1000}
+  "kgCO2e/keuro (2022) HT": {activity_unit: EUR_2022_ex_vat, divisor: 1000}
+  "kgCO2e/keuro (2023) HT": {activity_unit: EUR_2023_ex_vat, divisor: 1000}
+  "kgCO2e/kg": {activity_unit: kg, divisor: 1}
+  "kgCO2e/kg BioGNC": {activity_unit: kg_bio_cng, divisor: 1}
+  "kgCO2e/kg DCO éliminée": {activity_unit: kg_cod_removed, divisor: 1}
+  "kgCO2e/kg NTK": {activity_unit: kg_tkn, divisor: 1}
+  "kgCO2e/kg d'azote épandu": {activity_unit: kg_nitrogen_applied, divisor: 1}
+  "kgCO2e/kg de cuir traité": {activity_unit: kg_leather_treated, divisor: 1}
+  "kgCO2e/kg de matière active": {activity_unit: kg_active_substance, divisor: 1}
+  "kgCO2e/kg de poids net": {activity_unit: kg_net_weight, divisor: 1}
+  "kgCO2e/kg de poids vif": {activity_unit: kg_live_weight, divisor: 1}
+  "kgCO2e/kgH2": {activity_unit: kg_hydrogen, divisor: 1}
+  "kgCO2e/kgH2/100km": {activity_unit: kg_hydrogen_per_100km, divisor: 1}
+  "kgCO2e/km": {activity_unit: km, divisor: 1}
+  "kgCO2e/litre": {activity_unit: l, divisor: 1}
+  "kgCO2e/livre": {activity_unit: book, divisor: 1}
+  "kgCO2e/m": {activity_unit: m, divisor: 1}
+  "kgCO2e/m de route": {activity_unit: m_road, divisor: 1}
+  "kgCO2e/m2 SHON": {activity_unit: m2_shon, divisor: 1}
+  "kgCO2e/m3": {activity_unit: m3, divisor: 1}
+  "kgCO2e/m3 (n)": {activity_unit: normal_m3, divisor: 1}
+  "kgCO2e/m3.km": {activity_unit: m3.km, divisor: 1}
+  "kgCO2e/mL": {activity_unit: ml, divisor: 1}
+  "kgCO2e/m²": {activity_unit: m2, divisor: 1}
+  "kgCO2e/m² SHON": {activity_unit: m2_shon, divisor: 1}
+  "kgCO2e/m² de paroi": {activity_unit: m2_wall, divisor: 1}
+  "kgCO2e/m² de sol": {activity_unit: m2_floor, divisor: 1}
+  "kgCO2e/m² de toiture": {activity_unit: m2_roof, divisor: 1}
+  "kgCO2e/m³": {activity_unit: m3, divisor: 1}
+  "kgCO2e/passager.km": {activity_unit: passenger.km, divisor: 1}
+  "kgCO2e/personne.mois": {activity_unit: person.month, divisor: 1}
+  "kgCO2e/plant": {activity_unit: plant, divisor: 1}
+  "kgCO2e/repas": {activity_unit: meal, divisor: 1}
+  "kgCO2e/t": {activity_unit: tonne, divisor: 1}
+  "kgCO2e/t.km": {activity_unit: tonne.km, divisor: 1}
+  "kgCO2e/tep PCI": {activity_unit: toe_net_cv, divisor: 1}
+  "kgCO2e/tep PCS": {activity_unit: toe_gross_cv, divisor: 1}
+  "kgCO2e/tonne": {activity_unit: tonne, divisor: 1}
+  "kgCO2e/tonne de K2O": {activity_unit: tonne_k2o, divisor: 1}
+  "kgCO2e/tonne de N": {activity_unit: tonne_nitrogen, divisor: 1}
+  "kgCO2e/tonne de P2O5": {activity_unit: tonne_p2o5, divisor: 1}
+  "kgCO2e/tonne de clinker": {activity_unit: tonne_clinker, divisor: 1}
+  "kgCO2e/tonne de déchets": {activity_unit: tonne_waste, divisor: 1}
+  "kgCO2e/tonne produites": {activity_unit: tonne_product, divisor: 1}
+  "kgCO2e/tonne.km": {activity_unit: tonne.km, divisor: 1}
+  "kgCO2e/unité": {activity_unit: unit, divisor: 1}

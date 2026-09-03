@@ -1,0 +1,11 @@
+version: 0.1.0
+taxonomy:
+  classification: CEDA 400-sector economic classification
+  root: atlas.spend.economic_sector
+geography:
+  country_codes: ISO 3166-1 alpha-3 converted to alpha-2
+  rest_of_world: OPEN_CEDA_ROW
+  regional_scheme: United Nations M49 subregions
+units:
+  source: kgCO2e/US Dollar
+  canonical_pattern: kgCO2e/USD_{base_year}_producer_price

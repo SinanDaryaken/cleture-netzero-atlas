@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <title>Atlas Explorer</title>
+    <link rel="stylesheet" href="/explorer/assets/styles.css" />
+    <script src="/explorer/assets/app.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient-grid" aria-hidden="true"></div>
+
+    <header class="masthead">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"><span>A</span></div>
+        <div>
+          <p class="eyebrow">Cleture environmental intelligence</p>
+          <h1>Atlas <span>Explorer</span></h1>
+        </div>
+      </div>
+      <div class="masthead-tools">
+        <div class="system-health"><i></i><span>Atlas API</span><b id="health-label">Checking</b></div>
+        <a class="catalog-button" href="/explorer/catalog"><i></i> Factor catalog</a>
+        <button id="test-lab-open" class="test-lab-button" type="button"><i></i> Test Lab</button>
+        <button id="terminology-open" class="terminology-button" type="button">Terminology</button>
+        <label class="debug-toggle">
+          <input id="debug-toggle" type="checkbox" />
+          <span class="toggle-track"><i></i></span>
+          Advanced debug
+        </label>
+      </div>
+    </header>
+
+    <section class="context-shell" aria-label="Global test context">
+      <div class="context-heading">
+        <span>Global test context</span>
+        <small>Shared by every search</small>
+      </div>
+      <div class="context-grid">
+        <label class="field facility-field">
+          <span>Facility</span>
+          <select id="facility"><option>Loading facilities…</option></select>
+          <small id="facility-meta">İzmir · 38.7996°N, 26.9707°E · Production</small>
+        </label>
+        <label class="field">
+          <span>Country</span>
+          <select id="country"><option value="TR">Türkiye · TR</option></select>
+          <small id="country-code">ISO · TR</small>
+        </label>
+        <label class="field compact-field">
+          <span>Reporting year</span>
+          <input id="year" type="number" value="2025" min="1900" max="2200" />
+        </label>
+        <label class="field">
+          <span>Calculation context</span>
+          <select id="context"></select>
+        </label>
+        <label class="field profile-field">
+          <span>Calculation profile</span>
+          <select id="profile"></select>
+          <small id="policy-version">Policy loading…</small>
+        </label>
+      </div>
+    </section>
+
+    <main class="explorer-grid">
+      <section class="search-column" aria-labelledby="search-title">
+        <div class="column-heading">
+          <p class="section-index">01 / Input</p>
+          <h2 id="search-title">Search Atlas</h2>
+          <p>Describe the activity and provide the value Atlas should evaluate.</p>
+        </div>
+
+        <form id="search-form" class="search-form">
+          <label class="field search-text-field">
+            <span>Text</span>
+            <input id="search-query" type="text" value="Electricity" placeholder="Electricity, natural gas, wheat…" autocomplete="off" required />
+          </label>
+          <label id="scope3-category-field" class="field is-hidden">
+            <span>Scope 3 category</span>
+            <select id="scope3-category">
+              <option value="">Select GHG Protocol category…</option>
+            </select>
+            <small id="scope3-category-meta">Category is required for Scope 3 decisions.</small>
+          </label>
+          <label id="scope3-haul-field" class="field is-hidden">
+            <span>Travel distance class</span>
+            <select id="scope3-haul">
+              <option value="">Select travel class…</option>
+              <option value="domestic">Domestic</option>
+              <option value="short_haul">Short haul</option>
+              <option value="long_haul">Long haul</option>
+              <option value="international">International</option>
+            </select>
+          </label>
+          <div id="scope3-waste-fields" class="scope3-detail-grid is-hidden">
+            <label class="field">
+              <span>Waste material</span>
+              <input id="scope3-waste-material" type="text" placeholder="e.g. Aluminum Cans" />
+            </label>
+            <label class="field">
+              <span>Treatment</span>
+              <select id="scope3-waste-treatment">
+                <option value="">Select treatment…</option>
+                <option value="landfill">Landfill</option>
+                <option value="recycling">Recycling</option>
+                <option value="compost">Compost</option>
+                <option value="incineration">Incineration</option>
+              </select>
+            </label>
+          </div>
+          <label class="field">
+            <span>Quantity</span>
+            <input id="search-quantity" type="number" value="100" min="0" step="any" inputmode="decimal" />
+          </label>
+          <label class="field">
+            <span>Unit</span>
+            <select id="search-unit" disabled>
+              <option value="">Loading unit registry…</option>
+            </select>
+          </label>
+          <button id="search-submit" class="primary" type="submit">
+            <span>Search</span><b aria-hidden="true">↗</b>
+          </button>
+        </form>
+
+        <div class="input-context" aria-label="Active search context">
+          <span>Active request</span>
+          <dl>
+            <div><dt>Geography</dt><dd id="request-geography">TR</dd></div>
+            <div><dt>Context</dt><dd id="request-context">Corporate Carbon</dd></div>
+            <div id="request-scope3-row" class="is-hidden"><dt>Scope 3 category</dt><dd id="request-scope3-category">—</dd></div>
+            <div><dt>Year</dt><dd id="request-year">2025</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="results-column" aria-labelledby="results-title">
+        <div class="column-heading results-heading">
+          <div>
+            <p class="section-index">02 / Results</p>
+            <h2 id="results-title">Search results</h2>
+          </div>
+          <span id="result-count" class="result-count">—</span>
+        </div>
+        <div id="results-list" class="results-list" aria-live="polite"></div>
+      </section>
+
+      <section class="detail-column" aria-labelledby="detail-title">
+        <div id="factor-detail" class="detail-pane"></div>
+        <div id="decision-detail" class="detail-pane decision-pane"></div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status"></div>
+
+    <dialog id="test-lab-dialog" class="test-lab-dialog">
+      <form method="dialog" class="lab-head">
+        <div>
+          <p class="section-index">Atlas intelligence / Flight recorder</p>
+          <h2>Explorer Test Lab</h2>
+          <p>Exercise the live resolver, country policy, factor ranking, conversion and calculation chain.</p>
+        </div>
+        <button value="cancel" aria-label="Close Test Lab">×</button>
+      </form>
+
+      <nav class="lab-nav" aria-label="Test Lab sections">
+        <button class="active" type="button" data-lab-tab="pipeline">Live pipeline</button>
+        <button type="button" data-lab-tab="suite">Regression suite</button>
+        <button type="button" data-lab-tab="languages">Language matrix</button>
+        <button type="button" data-lab-tab="coverage">System coverage</button>
+      </nav>
+
+      <div class="lab-body">
+        <section class="lab-panel active" data-lab-panel="pipeline">
+          <div class="lab-command-bar">
+            <div>
+              <span>Current Explorer scenario</span>
+              <strong id="lab-current-scenario">Waiting for Explorer input</strong>
+            </div>
+            <button id="lab-run-current" class="secondary signal" type="button">Run live probe ↗</button>
+          </div>
+          <div class="lab-pipeline-layout">
+            <div>
+              <div class="lab-section-title"><span>01</span><div><h3>Decision pipeline</h3><p>Every stage is backed by the live Atlas API response.</p></div></div>
+              <div id="lab-pipeline" class="pipeline-stack"></div>
+            </div>
+            <aside>
+              <div class="lab-section-title"><span>02</span><div><h3>Selected outcome</h3><p>The final recommendation and calculation contract.</p></div></div>
+              <div id="lab-outcome" class="lab-outcome"></div>
+              <details class="raw-contract">
+                <summary>Raw request</summary>
+                <pre id="lab-raw-request">—</pre>
+              </details>
+              <details class="raw-contract">
+                <summary>Raw response</summary>
+                <pre id="lab-raw-response">—</pre>
+              </details>
+            </aside>
+          </div>
+        </section>
+
+        <section class="lab-panel" data-lab-panel="suite">
+          <div class="lab-command-bar">
+            <div><span>Live regression pack</span><strong>Country, scope, fallback and multilingual resolution</strong></div>
+            <button id="lab-run-suite" class="secondary signal" type="button">Run all cases ↗</button>
+          </div>
+          <div class="suite-summary" id="lab-suite-summary"></div>
+          <div class="suite-table-wrap">
+            <table class="suite-table">
+              <thead><tr><th>Case</th><th>Input</th><th>Expected</th><th>Observed</th><th>Status</th></tr></thead>
+              <tbody id="lab-suite-results"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="lab-panel" data-lab-panel="languages">
+          <div class="lab-command-bar">
+            <div><span>Canonical concept parity</span><strong>Edit any phrase, then resolve all languages against one concept</strong></div>
+            <button id="lab-run-languages" class="secondary signal" type="button">Resolve matrix ↗</button>
+          </div>
+          <div class="language-target">
+            <label class="field"><span>Expected canonical concept</span><input id="lab-language-target" value="energy.natural_gas" /></label>
+          </div>
+          <div id="lab-language-grid" class="language-grid"></div>
+        </section>
+
+        <section class="lab-panel" data-lab-panel="coverage">
+          <div class="lab-command-bar coverage-command">
+            <div><span>Registry readiness</span><strong>Live concepts, approved labels, drafts, factors and unit coverage</strong></div>
+            <label class="field"><span>Admin key</span><input id="lab-admin-key" type="password" autocomplete="off" /></label>
+            <button id="lab-load-coverage" class="secondary signal" type="button">Load coverage ↗</button>
+          </div>
+          <div id="lab-coverage-gates" class="coverage-gates"></div>
+          <div id="lab-coverage-metrics" class="coverage-metrics"></div>
+          <div class="coverage-footer">
+            <p>Draft terminology is visible here for QA, but runtime matching continues to use approved labels only.</p>
+            <button id="lab-open-terminology" class="secondary" type="button">Open terminology review</button>
+          </div>
+        </section>
+      </div>
+    </dialog>
+
+    <dialog id="terminology-dialog" class="terminology-dialog">
+      <form method="dialog" class="terminology-head">
+        <div><p class="section-index">Intelligence / Review</p><h2>Terminology control</h2></div>
+        <button value="cancel" aria-label="Close">×</button>
+      </form>
+      <div class="terminology-toolbar">
+        <label class="field"><span>Admin key</span><input id="terminology-admin-key" type="password" autocomplete="off" /></label>
+        <label class="field"><span>Language</span><select id="terminology-language"><option>en</option><option selected>tr</option><option>de</option><option>fr</option><option>es</option><option>ru</option><option>ar</option></select></label>
+        <button id="terminology-load" class="secondary" type="button">Load drafts</button>
+        <button id="terminology-create-job" class="secondary signal" type="button">Start 50-item groups</button>
+      </div>
+      <div class="terminology-layout">
+        <section><h3>Review queue</h3><div id="terminology-reviews" class="terminology-list"></div></section>
+        <aside>
+          <h3>Terminology jobs</h3><div id="terminology-jobs" class="terminology-list compact"></div>
+          <h3>Glossary</h3>
+          <form id="glossary-form" class="glossary-form">
+            <input id="glossary-source" placeholder="English source term" required />
+            <input id="glossary-target" placeholder="Target term; blank means preserve" />
+            <label><input id="glossary-protected" type="checkbox" /> Preserve exactly</label>
+            <button class="secondary" type="submit">Save glossary term</button>
+          </form>
+          <div id="terminology-glossary" class="terminology-list compact"></div>
+        </aside>
+      </div>
+    </dialog>
+  </body>
+</html>

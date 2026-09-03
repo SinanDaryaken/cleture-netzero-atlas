@@ -1,0 +1,57 @@
+code: ADEME
+name: ADEME Base Carbone® (Base Empreinte)
+publisher: Agence de la transition écologique (ADEME)
+country: FR
+status: active
+health: healthy
+coverage:
+  - level: country
+    code: FR
+    name: France
+  - level: region
+    code: FR_OVERSEAS
+    name: French overseas territories
+  - level: continent
+    code: EUROPE
+    name: Europe
+  - level: global
+    code: GLOBAL
+    name: Global
+license:
+  name: Licence Ouverte / Open Licence version 2.0
+  url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
+  commercial_use: true
+  redistribution: true
+  modification: true
+  attribution_required: true
+  api_distribution: true
+  raw_data_distribution: true
+  restrictions: Attribute ADEME and state the source and latest update date.
+  reviewed_at: 2026-08-27
+ingestion:
+  source_type: csv_api
+  schedule: "45 6 * * *"
+  timeout_seconds: 600
+location:
+  landing_page: https://data.ademe.fr/datasets/base-carboner
+  api_url: https://data.ademe.fr/data-fair/api/v1/datasets/base-carboner
+change_detection:
+  strategies: [data_updated_at, md5, row_count, sha256]
+adapter:
+  class_path: sources.ademe.adapter.AdemeAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: api_snapshot
+  master_page: https://base-empreinte.ademe.fr/
+  snapshot_endpoints:
+    dataset: https://data.ademe.fr/data-fair/api/v1/datasets/base-carboner
+    records: https://data.ademe.fr/data-fair/api/v1/datasets/base-carboner/lines
+  schemas:
+    - name: base_carbone_csv
+      parser_version: 0.1.0
+      file_format: csv
+quality:
+  minimum_expected_rows: 18000
+  minimum_expected_factors: 6300

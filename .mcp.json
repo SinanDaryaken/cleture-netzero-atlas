@@ -1,0 +1,12 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "wsl.exe",
+            "args": [
+                "/home/sinan/.config/herd-lite/bin/php",
+                "/home/sinan/projects/cleture-netzero-atlas/artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}

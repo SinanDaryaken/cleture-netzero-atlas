@@ -1,0 +1,73 @@
+code: GHG_PROTOCOL
+name: GHG Protocol Cross-sector Emission Factors
+publisher: World Resources Institute and World Business Council for Sustainable Development
+country: null
+region: GLOBAL
+status: active
+health: healthy
+license:
+  name: GHG Protocol terms of use and calculation-tool disclaimer
+  url: https://ghgprotocol.org/terms-use
+  commercial_use: false
+  redistribution: false
+  modification: null
+  attribution_required: true
+  api_distribution: false
+  raw_data_distribution: false
+  restrictions: >-
+    The calculation-tool disclaimer permits distribution when the distributor checks
+    for updates and tells users how to do so, while the general terms restrict copying,
+    distribution, and commercial/public use without permission. Atlas therefore keeps
+    API, raw-data, redistribution, and commercial use blocked pending explicit permission.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: audited_excel_workbook
+  schedule: "50 7 * * 1"
+  timeout_seconds: 900
+  max_attempts: 4
+location:
+  landing_page: https://ghgptechassistance.zendesk.com/hc/en-us/articles/47397108734740-Cross-sector-Emission-Factors
+  download_url: https://ghgprotocol.org/sites/default/files/2024-05/Emission_Factors_for_Cross_Sector_Tools_V2.0_0.xlsx
+change_detection:
+  strategies: [etag, last_modified, content_length, sha256]
+adapter:
+  class_path: sources.ghg_protocol.adapter.GhgProtocolAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: official Cross-sector Emission Factors workbook
+  master_page: https://ghgptechassistance.zendesk.com/hc/en-us/articles/47397108734740-Cross-sector-Emission-Factors
+  snapshot_endpoints:
+    cross_sector_v2_0: https://ghgprotocol.org/sites/default/files/2024-05/Emission_Factors_for_Cross_Sector_Tools_V2.0_0.xlsx
+  schemas:
+    - name: cross_sector_v2_0_xlsx
+      parser_version: 0.1.0
+      file_format: xlsx
+quality:
+  minimum_expected_rows: 800
+  minimum_expected_factors: 650
+  maximum_row_count_change_ratio: 0.10
+coverage:
+  - {level: global, code: GLOBAL, name: Global}
+  - {level: country, code: US, name: United States}
+  - {level: country, code: GB, name: United Kingdom}
+  - {level: country, code: CN, name: China}
+  - {level: country, code: TW, name: Taiwan}
+  - {level: country, code: BR, name: Brazil}
+  - {level: country, code: TH, name: Thailand}
+data_types:
+  - emission_factor
+  - conversion_factor
+  - technical_property
+use_contexts:
+  - CORPORATE_CARBON
+  - SCOPE_1
+  - SCOPE_2
+  - SCOPE_3
+  - FREIGHT
+  - ENERGY
+standards:
+  - GHG Protocol Corporate Standard
+  - GHG Protocol Scope 2 Guidance
+  - GHG Protocol Scope 3 Standard

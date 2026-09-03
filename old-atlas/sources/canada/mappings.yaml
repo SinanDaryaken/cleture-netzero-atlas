@@ -1,0 +1,22 @@
+version: 0.1.0
+taxonomy:
+  "1": atlas.energy.stationary_combustion
+  "2": atlas.energy.stationary_combustion
+  "3": atlas.energy.stationary_combustion
+  "4": atlas.energy.stationary_combustion
+  "5": atlas.energy.electricity.grid_mix
+  "6": atlas.waste.biogas_combustion
+provinces:
+  Alberta: CA-AB
+  British Columbia: CA-BC
+  Manitoba: CA-MB
+  New Brunswick: CA-NB
+  Newfoundland and Labrador: CA-NL
+  Northwest Territories: CA-NT
+  Nova Scotia: CA-NS
+  Nunavut: CA-NU
+  Ontario: CA-ON
+  Prince Edward Island: CA-PE
+  Quebec: CA-QC
+  Saskatchewan: CA-SK
+  Yukon: CA-YT

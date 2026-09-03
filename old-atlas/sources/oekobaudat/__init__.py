@@ -1,0 +1,1 @@
+"""ÖKOBAUDAT source integration."""

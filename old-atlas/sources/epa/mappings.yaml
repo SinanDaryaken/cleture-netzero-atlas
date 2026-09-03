@@ -1,0 +1,14 @@
+version: 0.1.0
+tables:
+  "1": atlas.energy.stationary_combustion
+  "2": atlas.transport.mobile_combustion
+  "3": atlas.transport.mobile_combustion
+  "4": atlas.transport.mobile_combustion
+  "5": atlas.transport.mobile_combustion
+  "6": atlas.energy.electricity
+  "7": atlas.energy.steam_heat
+  "8": atlas.transport.freight
+  "9": atlas.waste.treatment
+  "10": atlas.transport.passenger
+  "11": atlas.methodology.gwp
+  "12": atlas.methodology.gwp

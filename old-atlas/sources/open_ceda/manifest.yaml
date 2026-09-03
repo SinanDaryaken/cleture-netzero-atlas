@@ -1,0 +1,83 @@
+code: OPEN_CEDA
+name: Open CEDA by Watershed
+publisher: Watershed Technology
+country: null
+region: GLOBAL
+status: active
+health: healthy
+license:
+  name: Creative Commons Attribution-ShareAlike 4.0 International
+  url: https://creativecommons.org/licenses/by-sa/4.0/
+  commercial_use: true
+  redistribution: true
+  modification: true
+  attribution_required: true
+  api_distribution: true
+  raw_data_distribution: true
+  restrictions: >-
+    Prominently attribute “CEDA by Watershed”; redistributed adaptations must retain
+    CC BY-SA 4.0 share-alike terms.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: excel_matrix
+  schedule: "25 7 * * 1"
+  timeout_seconds: 900
+  max_attempts: 4
+location:
+  landing_page: https://openceda.org/en-GB/solutions/ceda
+  download_url: https://open-ceda.s3.us-west-2.amazonaws.com/data/Open%20CEDA%202025%20by%20Watershed.xlsx
+change_detection:
+  strategies:
+    - etag
+    - last_modified
+    - content_length
+    - sha256
+adapter:
+  class_path: sources.open_ceda.adapter.OpenCedaAdapter
+  parser_version: 0.2.0
+  mapping_version: 0.1.0
+history:
+  strategy: yearly_release
+  start_year: 2024
+  end_year: 2025
+  preferred_asset: raw producer-price USD XLSX matrix
+  master_page: https://openceda.org/en-GB/solutions/ceda
+  release_pages:
+    2024: https://open-ceda.s3.us-west-2.amazonaws.com/data/Open%20CEDA%202024%20by%20Watershed.xlsx
+    2025: https://open-ceda.s3.us-west-2.amazonaws.com/data/Open%20CEDA%202025%20by%20Watershed.xlsx
+  schemas:
+    - name: open_ceda_2024_matrix
+      parser_version: 0.1.0
+      file_format: xlsx
+      start_year: 2024
+      end_year: 2024
+    - name: open_ceda_2025_raw_and_regional_matrix
+      parser_version: 0.2.0
+      file_format: xlsx
+      start_year: 2025
+      end_year: 2025
+  release_expectations:
+    2024:
+      minimum_expected_rows: 59000
+      minimum_expected_factors: 59600
+      maximum_row_count_change_ratio: 0.20
+    2025:
+      minimum_expected_rows: 68000
+      minimum_expected_factors: 68000
+      maximum_row_count_change_ratio: 0.20
+quality:
+  minimum_expected_rows: 59000
+  minimum_expected_factors: 59600
+  maximum_row_count_change_ratio: 0.20
+coverage:
+  - {level: global, code: GLOBAL, name: Global}
+data_types:
+  - emission_factor
+  - calculation_parameter
+use_contexts:
+  - CORPORATE_CARBON
+  - SCOPE_3
+  - SPEND_BASED
+  - SUPPLY_CHAIN
+standards:
+  - GHG Protocol Scope 3

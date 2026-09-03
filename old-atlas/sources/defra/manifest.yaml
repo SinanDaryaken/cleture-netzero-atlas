@@ -1,0 +1,59 @@
+code: DEFRA
+name: UK Government GHG Conversion Factors
+publisher: Department for Energy Security and Net Zero
+country: GB
+status: active
+health: warning
+coverage:
+  - level: country
+    code: GB
+    name: United Kingdom
+license:
+  name: Open Government Licence
+  commercial_use: true
+  redistribution: true
+  modification: true
+  attribution_required: true
+  api_distribution: true
+  raw_data_distribution: true
+ingestion:
+  source_type: excel
+  schedule: "0 6 * * *"
+  timeout_seconds: 300
+  max_attempts: 4
+location:
+  landing_page: https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting
+change_detection:
+  strategies: [etag, last_modified, sha256]
+adapter:
+  class_path: sources.defra.adapter.DefraAdapter
+  parser_version: 0.2.0
+  mapping_version: 0.2.0
+history:
+  strategy: yearly_release
+  start_year: 2020
+  end_year: 2026
+  preferred_asset: flat_file
+  master_page: https://www.gov.uk/government/collections/government-conversion-factors-for-company-reporting
+  release_pages:
+    2020: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2020
+    2021: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2021
+    2022: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022
+    2023: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2023
+    2024: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2024
+    2025: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2025
+    2026: https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026
+  schemas:
+    - name: legacy_flat_file
+      parser_version: 0.2.0
+      file_format: xls_or_xlsx
+      start_year: 2020
+      end_year: 2022
+    - name: identified_flat_file
+      parser_version: 0.2.0
+      file_format: xlsx
+      start_year: 2023
+      end_year: 2026
+quality:
+  minimum_expected_rows: 5000
+  maximum_row_count_change_ratio: 0.30

@@ -1,0 +1,75 @@
+code: PLASTICS_EUROPE
+name: Plastics Europe Eco-profiles March 2026
+publisher: Plastics Europe AISBL
+region: EUROPE
+status: active
+health: healthy
+license:
+  name: Plastics Europe public Eco-profile publication; external reuse rights not stated
+  url: https://plasticseurope.org/sustainability/circularity/life-cycle-thinking/eco-profiles-set/
+  commercial_use: false
+  redistribution: false
+  modification: false
+  attribution_required: true
+  api_distribution: false
+  raw_data_distribution: false
+  restrictions: >-
+    Eco-profile reports and LCI packages are freely available for LCA use, but the
+    publication does not state an open redistribution, derivative, hosted-API, or
+    commercial reuse licence. External distribution requires Plastics Europe approval.
+    Atlas includes only publisher-reported LCIA summaries from the four March 2026
+    packages; it does not expose embedded ecoinvent-based inventory exchanges.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: zip_pdf_ilcd_bundle
+  schedule: "20 9 * * 1"
+  timeout_seconds: 900
+  max_attempts: 4
+location:
+  landing_page: https://plasticseurope.org/sustainability/circularity/life-cycle-thinking/eco-profiles-set/
+change_detection:
+  strategies:
+    - package_sha256_set
+adapter:
+  class_path: sources.plastics_europe.adapter.PlasticsEuropeAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: deterministic bundle of official March 2026 Eco-profile PDF and ILCD packages
+  master_page: https://plasticseurope.org/sustainability/circularity/life-cycle-thinking/eco-profiles-set/
+  snapshot_endpoints:
+    landing_page: https://plasticseurope.org/sustainability/circularity/life-cycle-thinking/eco-profiles-set/
+    pe_and_pp: https://plasticseurope.org/wp-content/uploads/2026/03/PE-and-PP.zip
+    cvm_and_pvc: https://plasticseurope.org/wp-content/uploads/2026/03/CVM-and-PVC.zip
+    steam_cracker: https://plasticseurope.org/wp-content/uploads/2026/03/Steam-Cracker.zip
+    refinery: https://plasticseurope.org/wp-content/uploads/2026/03/Refinery.zip
+  snapshot_parameters:
+    dataset_version: "2026-03"
+    release_date: "2026-03-13"
+    packages: "4"
+    product_results: "28"
+  schemas:
+    - name: plastics_europe_eco_profile_2026
+      parser_version: 0.1.0
+      file_format: deterministic_zip_pdf_ilcd_bundle
+quality:
+  minimum_expected_rows: 28
+  minimum_expected_factors: 28
+  maximum_row_count_change_ratio: 0.10
+coverage:
+  - {level: continent, code: EUROPE, name: Europe}
+data_types:
+  - lca_result
+use_contexts:
+  - PRODUCT_CARBON
+  - LCA
+  - CORPORATE_CARBON
+  - SCOPE3
+  - SUPPLY_CHAIN
+standards:
+  - Plastics Europe Eco-profiles methodology v3.1
+  - Product Environmental Footprint EF 3.1
+  - IPCC 2021 GWP100
+  - ISO 14040
+  - ISO 14044

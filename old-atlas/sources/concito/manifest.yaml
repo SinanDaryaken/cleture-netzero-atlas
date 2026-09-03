@@ -1,0 +1,68 @@
+code: CONCITO
+name: The Big Climate Database v1.2
+publisher: CONCITO and 2.-0 LCA consultants
+country: DK
+status: active
+health: healthy
+license:
+  name: Creative Commons Attribution 4.0 International
+  url: https://creativecommons.org/licenses/by/4.0/
+  commercial_use: true
+  redistribution: true
+  modification: true
+  attribution_required: true
+  api_distribution: true
+  raw_data_distribution: true
+  restrictions: Credit CONCITO and 2.-0 LCA consultants, link CC BY 4.0, and indicate modifications. Do not imply endorsement.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: html_bundle
+  schedule: "45 8 * * 1"
+  timeout_seconds: 1800
+  max_attempts: 4
+location:
+  landing_page: https://www.thebigclimatedatabase.com/
+change_detection:
+  strategies:
+    - index_sha256
+adapter:
+  class_path: sources.concito.adapter.ConcitoAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: deterministic HTML index and full-precision activity-detail bundle
+  master_page: https://www.thebigclimatedatabase.com/about/
+  snapshot_endpoints:
+    database: https://www.thebigclimatedatabase.com/
+  snapshot_parameters:
+    dataset_version: "1.2"
+    release_date: "2024-09-23"
+    activities: "2700"
+  schemas:
+    - name: the_big_climate_database_v1_2
+      parser_version: 0.1.0
+      file_format: zip_html_bundle
+quality:
+  minimum_expected_rows: 18900
+  minimum_expected_factors: 16000
+  maximum_row_count_change_ratio: 0.20
+coverage:
+  - {level: country, code: DK, name: Denmark}
+  - {level: country, code: GB, name: United Kingdom}
+  - {level: country, code: FR, name: France}
+  - {level: country, code: ES, name: Spain}
+  - {level: country, code: NL, name: Netherlands}
+data_types:
+  - lca_result
+use_contexts:
+  - FOOD
+  - PRODUCT_CARBON
+  - LCA
+  - CORPORATE_CARBON
+  - SCOPE3
+  - SUPPLY_CHAIN
+standards:
+  - ISO 14040:2006
+  - ISO 14044:2006
+  - IPCC 2013 GWP100

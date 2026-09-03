@@ -1,0 +1,104 @@
+code: AIB
+name: European Residual Mix
+publisher: Association of Issuing Bodies
+region: Europe
+status: active
+health: healthy
+coverage:
+  - {level: country, code: BA, name: Bosnia and Herzegovina}
+  - {level: country, code: BE, name: Belgium}
+  - {level: country, code: BG, name: Bulgaria}
+  - {level: country, code: CY, name: Cyprus}
+  - {level: country, code: CZ, name: Czechia}
+  - {level: country, code: DE, name: Germany}
+  - {level: country, code: DK, name: Denmark}
+  - {level: country, code: EE, name: Estonia}
+  - {level: country, code: ES, name: Spain}
+  - {level: country, code: FI, name: Finland}
+  - {level: country, code: FR, name: France}
+  - {level: country, code: GB, name: United Kingdom}
+  - {level: country, code: GR, name: Greece}
+  - {level: country, code: HR, name: Croatia}
+  - {level: country, code: HU, name: Hungary}
+  - {level: country, code: IE, name: Ireland}
+  - {level: country, code: IS, name: Iceland}
+  - {level: country, code: IT, name: Italy}
+  - {level: country, code: LT, name: Lithuania}
+  - {level: country, code: LU, name: Luxembourg}
+  - {level: country, code: LV, name: Latvia}
+  - {level: country, code: ME, name: Montenegro}
+  - {level: country, code: MT, name: Malta}
+  - {level: country, code: "NO", name: Norway}
+  - {level: country, code: PL, name: Poland}
+  - {level: country, code: PT, name: Portugal}
+  - {level: country, code: RO, name: Romania}
+  - {level: country, code: RS, name: Serbia}
+  - {level: country, code: SE, name: Sweden}
+  - {level: country, code: SI, name: Slovenia}
+  - {level: country, code: SK, name: Slovakia}
+license:
+  name: AIB residual-mix data use / website terms
+  url: https://www.aib-net.org/faq/residual-mix
+  commercial_use: null
+  redistribution: null
+  modification: null
+  attribution_required: true
+  api_distribution: null
+  raw_data_distribution: null
+  restrictions: AIB permits use with attribution; commercial, API, and raw redistribution require explicit legal approval.
+ingestion:
+  source_type: excel
+  schedule: "0 7 * * *"
+  timeout_seconds: 300
+location:
+  landing_page: https://www.aib-net.org/facts/european-residual-mix
+change_detection:
+  strategies: [last_modified, filename, sha256]
+adapter:
+  class_path: sources.aib.adapter.AibAdapter
+  parser_version: 0.2.0
+  mapping_version: 0.1.0
+history:
+  strategy: lagged_yearly_release
+  start_year: 2020
+  end_year: 2025
+  publication_lag_years: 1
+  preferred_asset: excel
+  master_page: https://www.aib-net.org/facts/european-residual-mix
+  release_pages:
+    2020: https://www.aib-net.org/facts/european-residual-mix/2020
+    2021: https://www.aib-net.org/facts/european-residual-mix/2021
+    2022: https://www.aib-net.org/facts/european-residual-mix/2022
+    2023: https://www.aib-net.org/facts/european-residual-mix/2023
+    2024: https://www.aib-net.org/facts/european-residual-mix/2024
+    2025: https://www.aib-net.org/facts/european-residual-mix
+  schemas:
+    - name: published_report_pdf
+      parser_version: 0.2.0
+      file_format: pdf
+      start_year: 2020
+      end_year: 2021
+      implemented: false
+    - name: calculation_workbook_legacy
+      parser_version: 0.2.0
+      file_format: xlsx
+      start_year: 2022
+      end_year: 2023
+    - name: calculation_workbook_v2
+      parser_version: 0.2.0
+      file_format: xlsx
+      start_year: 2024
+      end_year: 2024
+    - name: calculation_workbook_v3
+      parser_version: 0.2.0
+      file_format: xlsx
+      start_year: 2025
+      end_year: 2025
+  release_expectations:
+    2022: {minimum_expected_rows: 34, minimum_expected_factors: 32}
+    2023: {minimum_expected_rows: 34, minimum_expected_factors: 32}
+    2024: {minimum_expected_rows: 34, minimum_expected_factors: 32}
+    2025: {minimum_expected_rows: 34, minimum_expected_factors: 31}
+quality:
+  minimum_expected_rows: 34
+  minimum_expected_factors: 31

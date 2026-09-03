@@ -1,0 +1,5 @@
+version: 0.1.0
+taxonomy:
+  national_generation: atlas.energy.electricity.grid_mix
+  fuel_generation: atlas.energy.electricity.fuel_generation
+  consumption_point: atlas.energy.electricity.grid_mix

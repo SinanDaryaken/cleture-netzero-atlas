@@ -1,0 +1,42 @@
+version: 0.1.0
+taxonomy:
+  stationary-combustion: atlas.energy.stationary_combustion
+  mobile-combustion-fuel: atlas.transport.mobile_combustion
+  vehicle-distance: atlas.transport.mobile_combustion
+  purchased-electricity: atlas.energy.electricity
+  freight-transport: atlas.transport.freight
+  public-passenger-distance: atlas.transport.passenger
+  public-vehicle-distance: atlas.transport.passenger
+grid_codes:
+  ASCC Alaska Grid: AKGD
+  ASCC - Alaska Grid: AKGD
+  ASCC Miscellaneous: AKMS
+  ASCC - Miscellaneous: AKMS
+  WECC Southwest: AZNM
+  WECC California: CAMX
+  ERCOT All: ERCT
+  ERCOT - All: ERCT
+  FRCC All: FRCC
+  FRCC - All: FRCC
+  HICC Miscellaneous: HIMS
+  HICC Oahu: HIOA
+  MRO East: MROE
+  MRO West: MROW
+  NPCC New England: NEWE
+  NPCC NYC/Westchester: NYCW
+  NPCC Long Island: NYLI
+  NPCC Upstate NY: NYUP
+  Puerto Rico Miscellaneous: PRMS
+  RFC East: RFCE
+  RFC East/Michigan: RFCM
+  RFC Michigan: RFCM
+  RFC West: RFCW
+  WECC Rockies: RMPA
+  WECC Northwest: NWPP
+  SPP North: SPNO
+  SPP South: SPSO
+  SERC Mississippi Valley: SRMV
+  SERC Midwest: SRMW
+  SERC South: SRSO
+  SERC Tennessee Valley: SRTV
+  SERC Virginia/Carolina: SRVC

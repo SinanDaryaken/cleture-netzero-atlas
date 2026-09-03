@@ -1,0 +1,18 @@
+version: 0.2.0
+
+# IPCC inventory sectors. More specific source-category mappings can be added
+# append-only in later mapping versions without changing the parser.
+sectors_2006:
+  "1": atlas.energy
+  "2": atlas.material
+  "3": atlas.agriculture
+  "4": atlas.waste
+  "5": atlas.other
+
+sectors_1996:
+  "1": atlas.energy
+  "2": atlas.material
+  "3": atlas.material.solvents
+  "4": atlas.agriculture
+  "5": atlas.agriculture.land_use
+  "6": atlas.waste

@@ -1,0 +1,69 @@
+code: WRAP
+name: WRAP Food & Drink Emission Factor Database v2.0
+publisher: Waste and Resources Action Programme (WRAP)
+country: GB
+status: active
+health: healthy
+license:
+  name: WRAP website terms and workbook copyright notice
+  url: https://www.wrap.ngo/terms-conditions
+  commercial_use: false
+  redistribution: false
+  modification: false
+  attribution_required: true
+  api_distribution: false
+  raw_data_distribution: false
+  restrictions: Own-use copying is limited to the UK; use outside the UK and commercial, hosted, adapted, derivative or redistributed use requires specific prior WRAP permission. Canonical API and raw download distribution remain disabled.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: excel_workbook
+  schedule: "20 8 * * 1"
+  timeout_seconds: 600
+  max_attempts: 4
+location:
+  landing_page: https://www.wrap.ngo/resources/guide/scope-3-ghg-measurement-and-reporting-protocols-food-and-drink
+  download_url: https://www.wrap.ngo/sites/default/files/2024-03/WRAP-Emission-Factor-Database-v2.0.xlsx
+change_detection:
+  strategies:
+    - sha256
+adapter:
+  class_path: sources.wrap.adapter.WrapAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: Food & Drink Emission Factor Database v2.0 XLSX workbook
+  master_page: https://www.wrap.ngo/resources/guide/scope-3-ghg-measurement-and-reporting-protocols-food-and-drink
+  snapshot_endpoints:
+    workbook: https://www.wrap.ngo/sites/default/files/2024-03/WRAP-Emission-Factor-Database-v2.0.xlsx
+  snapshot_parameters:
+    dataset_version: "2.0"
+    workbook_tables_version: "1.2"
+    release_date: "2024-03-27"
+  schemas:
+    - name: wrap_food_drink_v2
+      parser_version: 0.1.0
+      file_format: xlsx
+quality:
+  minimum_expected_rows: 1140
+  minimum_expected_factors: 1140
+  expected_table_factor_counts:
+    hestia_gwp100: 722
+    refined: 418
+  maximum_row_count_change_ratio: 0.20
+coverage:
+  - {level: global, code: GLOBAL, name: Global}
+  - {level: country, code: GB, name: United Kingdom}
+  - {level: country, code: FR, name: France}
+  - {level: continent, code: EUROPE, name: Europe}
+data_types:
+  - lca_result
+use_contexts:
+  - FOOD
+  - PRODUCT_CARBON
+  - LCA
+  - CORPORATE_CARBON
+  - SCOPE3
+  - SUPPLY_CHAIN
+standards:
+  - IPCC 2021 GWP100

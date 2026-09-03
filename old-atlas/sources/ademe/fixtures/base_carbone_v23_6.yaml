@@ -1,0 +1,78 @@
+- Type Ligne: Elément
+  Identifiant de l'élément: "24253"
+  Structure: élément décomposé par poste et par gaz
+  Type de l'élément: Facteur d'émission
+  Statut de l'élément: Valide générique
+  Nom base français: Adhésif Epoxy
+  Nom attribut français: France mix
+  Code de la catégorie: Achats de biens > Matériaux
+  Unité français: kgCO2e/kg
+  Contributeur: ADEME
+  Programme: Base Carbone
+  Source: ADEME
+  Localisation géographique: France continentale
+  Période de validité: Année 2023
+  Incertitude: "30"
+  Qualité: "2.5"
+  Total poste non décomposé: "6,87"
+  CO2f: "6,4"
+  CH4f: "0,414"
+  CH4b: "0"
+  N2O: "0,0534"
+  Autres GES: "3,61E-05"
+  CO2b: "0,1091175"
+- Type Ligne: Poste
+  Identifiant de l'élément: "24253"
+  Structure: élément décomposé par poste et par gaz
+  Type de l'élément: Facteur d'émission
+  Statut de l'élément: Valide générique
+  Nom base français: Adhésif Epoxy
+  Code de la catégorie: Achats de biens > Matériaux
+  Unité français: kgCO2e/kg
+  Localisation géographique: France continentale
+  Type poste: Amont
+  Nom poste français: Matières premières
+  Total poste non décomposé: "1,2"
+  CO2f: "1,1"
+- Type Ligne: Elément
+  Identifiant de l'élément: "34625"
+  Structure: élément non décomposé
+  Type de l'élément: Facteur d'émission
+  Statut de l'élément: Valide spécifique
+  Nom base français: DEA Bois
+  Code de la catégorie: Traitement des déchets > Ménages
+  Unité français: kgCO2e/tonne de déchets
+  Localisation géographique: Monde
+  Total poste non décomposé: "-335"
+- Type Ligne: Elément
+  Identifiant de l'élément: "50001"
+  Structure: élément non décomposé
+  Type de l'élément: Facteur d'émission
+  Statut de l'élément: Valide générique
+  Nom base français: Service test
+  Code de la catégorie: Achats de services > Conseil
+  Unité français: kgCO2e/keuro (2023) HT
+  Localisation géographique: Europe
+  Période de validité: "2023"
+  Total poste non décomposé: "100"
+- Type Ligne: Elément
+  Identifiant de l'élément: "50002"
+  Structure: élément non décomposé
+  Type de l'élément: Facteur d'émission
+  Statut de l'élément: Archivé
+  Nom base français: Ancien facteur
+  Code de la catégorie: Combustibles > Gaz
+  Unité français: kgCO2e/kWh
+  Localisation géographique: France continentale
+  Total poste non décomposé: "0,2"
+- Type Ligne: Elément
+  Identifiant de l'élément: "50003"
+  Structure: élément non décomposé
+  Type de l'élément: Facteur d'émission
+  Statut de l'élément: Valide générique
+  Nom base français: Facteur canadien non mappé
+  Code de la catégorie: Electricité > Mix
+  Unité français: kgCO2e/kWh
+  Localisation géographique: Autre pays du monde
+  Sous-localisation géographique français: Canada
+  Total poste non décomposé: "0,1"

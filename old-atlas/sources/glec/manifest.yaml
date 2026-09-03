@@ -1,0 +1,71 @@
+code: GLEC
+name: GLEC Framework for Logistics Emissions Accounting and Reporting
+publisher: Smart Freight Centre
+country: null
+region: GLOBAL
+status: active
+health: healthy
+license:
+  name: Smart Freight Centre publication terms
+  url: https://smartfreightcentre.org/news/13311209
+  commercial_use: false
+  redistribution: true
+  modification: null
+  attribution_required: true
+  api_distribution: false
+  raw_data_distribution: false
+  restrictions: >-
+    Whole or partial reproduction is permitted for educational or non-profit purposes
+    with acknowledgement. Resale and other commercial use require prior written
+    permission from Smart Freight Centre; API and raw redistribution therefore remain
+    blocked pending explicit approval.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: audited_pdf_tables
+  schedule: "40 7 * * 1"
+  timeout_seconds: 900
+  max_attempts: 4
+location:
+  landing_page: https://smartfreightcentre.org/news/13311209
+  download_url: https://d1c2gz5q23tkk0.cloudfront.net/shrine_store/uploads/networks/3660/communication_news/13311209/61c644c3cbc7aabd60d91cff8d37cff2.pdf
+change_detection:
+  strategies: [etag, last_modified, content_length, sha256]
+adapter:
+  class_path: sources.glec.adapter.GlecAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.1
+history:
+  strategy: versioned_database
+  preferred_asset: official GLEC Framework PDF
+  master_page: https://smartfreightcentre.org/news/13311209
+  snapshot_endpoints:
+    framework_v3_2: https://d1c2gz5q23tkk0.cloudfront.net/shrine_store/uploads/networks/3660/communication_news/13311209/61c644c3cbc7aabd60d91cff8d37cff2.pdf
+  schemas:
+    - name: glec_framework_v3_2_pdf
+      parser_version: 0.1.0
+      file_format: pdf
+quality:
+  minimum_expected_rows: 500
+  minimum_expected_factors: 500
+  maximum_row_count_change_ratio: 0.10
+coverage:
+  - {level: global, code: GLOBAL, name: Global}
+  - {level: continent, code: EU, name: Europe}
+  - {level: continent, code: NA, name: North America}
+  - {level: region, code: EU_SA, name: Europe and South America}
+  - {level: country, code: CN, name: China}
+  - {level: country, code: IN, name: India}
+data_types:
+  - emission_factor
+  - characterization_result
+  - calculation_parameter
+use_contexts:
+  - CORPORATE_CARBON
+  - SCOPE_3
+  - FREIGHT
+  - LOGISTICS
+  - SUPPLY_CHAIN
+standards:
+  - ISO 14083:2023
+  - GHG Protocol
+  - GLEC Framework v3.2

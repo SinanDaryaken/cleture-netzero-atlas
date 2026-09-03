@@ -1,0 +1,21 @@
+version: 0.1.0
+geographies:
+  GLO: {level: global, code: GLOBAL, name: Global, fit: global}
+  EU: {level: continent, code: EUROPE, name: Europe, fit: continental}
+  EU-27: {level: continent, code: EUROPE, name: Europe, fit: continental}
+  EU-25&CC: {level: continent, code: EUROPE, name: Europe, fit: continental}
+  Europe: {level: continent, code: EUROPE, name: Europe, fit: continental}
+  RER: {level: continent, code: EUROPE, name: Europe, fit: continental}
+  WEU: {level: region, code: WESTERN_EUROPE, name: Western Europe, fit: regional}
+  RNA: {level: region, code: NORTH_AMERICA, name: North America, fit: regional}
+  RAS: {level: region, code: ASIA, name: Asia, fit: regional}
+  UK: {level: country, code: GB, name: United Kingdom, fit: country_modelled}
+units:
+  kg: kg
+  qm: m2
+  m3: m3
+  m: m
+  pcs.: piece
+  kgkm: kg*km
+  MJ: MJ
+  a: year

@@ -1,0 +1,177 @@
+name: cleture-atlas
+
+x-atlas-environment: &atlas-environment
+  ATLAS_ENVIRONMENT: local
+  ATLAS_DATABASE_URL: postgresql+psycopg://atlas:atlas@postgres:5432/atlas
+  ATLAS_REDIS_URL: redis://redis:6379/0
+  ATLAS_S3_ENDPOINT_URL: http://minio:9000
+  ATLAS_S3_ACCESS_KEY: atlas
+  ATLAS_S3_SECRET_KEY: atlas-local-secret
+  ATLAS_S3_RAW_BUCKET: atlas-raw
+  ATLAS_S3_PROCESSING_BUCKET: atlas-processing
+  ATLAS_ADMIN_API_KEY: ${ATLAS_ADMIN_API_KEY:-replace-this-local-admin-key}
+  ATLAS_EMBER_API_KEY: ${ATLAS_EMBER_API_KEY:-}
+  ATLAS_OPENAI_API_KEY: ${ATLAS_OPENAI_API_KEY:-}
+  ATLAS_OPENAI_ORGANIZATION: ${ATLAS_OPENAI_ORGANIZATION:-}
+  ATLAS_OPENAI_PROJECT: ${ATLAS_OPENAI_PROJECT:-}
+  ATLAS_TRANSLATION_PROVIDER: ${ATLAS_TRANSLATION_PROVIDER:-openai}
+  ATLAS_TRANSLATION_TARGET_LANGUAGE: ${ATLAS_TRANSLATION_TARGET_LANGUAGE:-tr}
+  ATLAS_TRANSLATION_BATCH_SIZE: ${ATLAS_TRANSLATION_BATCH_SIZE:-50}
+  ATLAS_OPENAI_TRANSLATION_MODEL: ${ATLAS_OPENAI_TRANSLATION_MODEL:-gpt-5.6-terra}
+  ATLAS_OPENAI_QA_MODEL: ${ATLAS_OPENAI_QA_MODEL:-gpt-5.6-sol}
+  ATLAS_OPENAI_BATCH_ENABLED: ${ATLAS_OPENAI_BATCH_ENABLED:-true}
+  ATLAS_MULTILINGUAL_RESOLVER_V2: ${ATLAS_MULTILINGUAL_RESOLVER_V2:-true}
+  ATLAS_LOCAL_SOURCE_ASSET_ROOT: /source-assets
+  ATLAS_API_HOST: 0.0.0.0
+  ATLAS_API_PORT: 48080
+  ATLAS_SOURCE_INGESTION_ENABLED: "false"
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    shm_size: 512mb
+    environment:
+      POSTGRES_DB: atlas
+      POSTGRES_USER: atlas
+      POSTGRES_PASSWORD: atlas
+    ports:
+      - "${ATLAS_POSTGRES_HOST_PORT:-45432}:5432"
+    volumes:
+      - atlas-postgres:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/001-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U atlas -d atlas"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${ATLAS_REDIS_HOST_PORT:-46379}:6379"
+    volumes:
+      - atlas-redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address :9001
+    environment:
+      MINIO_ROOT_USER: atlas
+      MINIO_ROOT_PASSWORD: atlas-local-secret
+    ports:
+      - "${ATLAS_MINIO_API_HOST_PORT:-49000}:9000"
+      - "${ATLAS_MINIO_CONSOLE_HOST_PORT:-49001}:9001"
+    volumes:
+      - atlas-minio:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  migrate:
+    build: .
+    command: ["alembic", "upgrade", "head"]
+    environment: *atlas-environment
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  recommendation-index:
+    build: .
+    command: ["atlas-recommendation-ensure"]
+    environment: *atlas-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  sector-index:
+    build: .
+    command: ["atlas-sectors-ensure"]
+    environment: *atlas-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  readiness-check:
+    build: .
+    command: ["atlas-readiness-check"]
+    environment: *atlas-environment
+    profiles: ["validation"]
+    depends_on:
+      recommendation-index:
+        condition: service_completed_successfully
+      sector-index:
+        condition: service_completed_successfully
+
+  api:
+    build: .
+    command: ["atlas-api"]
+    environment: *atlas-environment
+    ports:
+      - "${ATLAS_API_PORT:-48080}:48080"
+    depends_on:
+      recommendation-index:
+        condition: service_completed_successfully
+      sector-index:
+        condition: service_completed_successfully
+      minio:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:48080/health', timeout=3)",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  dispatcher:
+    build: .
+    command: ["atlas-dispatcher"]
+    environment: *atlas-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    build: .
+    command: ["atlas-worker"]
+    environment: *atlas-environment
+    volumes:
+      - ./sources/unfccc-tuik:/source-assets/unfccc-tuik:ro
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    restart: unless-stopped
+
+  scheduler:
+    build: .
+    command: ["atlas-scheduler"]
+    environment: *atlas-environment
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+volumes:
+  atlas-postgres:
+  atlas-redis:
+  atlas-minio:

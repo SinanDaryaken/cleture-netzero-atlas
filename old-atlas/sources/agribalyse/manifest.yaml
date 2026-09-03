@@ -1,0 +1,79 @@
+code: AGRIBALYSE
+name: AGRIBALYSE 3.2 Public LCA Results
+publisher: Agence de la transition écologique (ADEME)
+country: FR
+status: active
+health: healthy
+license:
+  name: Licence Ouverte / Open Licence version 2.0
+  url: https://www.etalab.gouv.fr/licence-ouverte-open-licence
+  commercial_use: true
+  redistribution: true
+  modification: true
+  attribution_required: true
+  api_distribution: true
+  raw_data_distribution: true
+  restrictions: Public result workbooks only; ecoinvent background inventories are excluded.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: excel_bundle
+  schedule: "35 7 * * 1"
+  timeout_seconds: 900
+  max_attempts: 4
+location:
+  landing_page: https://agribalyse.ademe.fr/
+change_detection:
+  strategies:
+    - member_sha256
+    - bundle_sha256
+adapter:
+  class_path: sources.agribalyse.adapter.AgribalyseAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: deterministic bundle of public result XLSX workbooks
+  master_page: https://doc.agribalyse.fr/
+  snapshot_endpoints:
+    conventional: https://entrepot.recherche.data.gouv.fr/api/access/datafile/:persistentId?persistentId=doi:10.57745/U47O7U
+    organic: https://entrepot.recherche.data.gouv.fr/api/access/datafile/:persistentId?persistentId=doi:10.57745/TXLAQQ
+    food: https://entrepot.recherche.data.gouv.fr/api/access/datafile/:persistentId?persistentId=doi:10.57745/JPY8JS
+  snapshot_parameters:
+    dataset_version: "3.2"
+  schemas:
+    - name: agribalyse_3_2_public_results
+      parser_version: 0.1.0
+      file_format: zip_xlsx_bundle
+quality:
+  minimum_expected_rows: 2900
+  minimum_expected_factors: 2900
+  maximum_row_count_change_ratio: 0.20
+coverage:
+  - {level: country, code: FR, name: France}
+  - {level: country, code: BR, name: Brazil}
+  - {level: country, code: MA, name: Morocco}
+  - {level: country, code: NL, name: Netherlands}
+  - {level: country, code: CI, name: Côte d'Ivoire}
+  - {level: country, code: RE, name: Réunion}
+  - {level: country, code: ES, name: Spain}
+  - {level: country, code: PL, name: Poland}
+  - {level: country, code: VN, name: Viet Nam}
+  - {level: country, code: US, name: United States}
+  - {level: country, code: "NO", name: Norway}
+  - {level: country, code: GB, name: United Kingdom}
+  - {level: country, code: IE, name: Ireland}
+  - {level: country, code: CN, name: China}
+  - {level: country, code: IN, name: India}
+  - {level: continent, code: EUROPE, name: Europe}
+  - {level: region, code: WI, name: West Indies}
+data_types:
+  - lca_result
+  - characterization_result
+use_contexts:
+  - AGRICULTURE
+  - FOOD
+  - PRODUCT_CARBON
+  - LCA
+  - SUPPLY_CHAIN
+standards:
+  - EF 3.1

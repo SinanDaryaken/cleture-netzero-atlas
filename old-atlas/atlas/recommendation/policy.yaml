@@ -1,0 +1,254 @@
+version: "1.1.1"
+
+families:
+  gasoline:
+    concept_code: energy.gasoline
+    terms: [gasoline, motor gasoline, petrol, motor petrol, benzin, motor benzini, ottokraftstoff, essence, gasolina]
+    factor_terms: [motor gasoline, motor petrol]
+    calculation_role: stationary_combustion
+    activity_basis: energy
+    default_scope: scope_1
+    scope3_categories: [3]
+  natural_gas:
+    concept_code: energy.natural_gas
+    terms: [natural gas, natural_gas, doğalgaz, doğal gaz, erdgas, gaz naturel]
+    calculation_role: stationary_combustion
+    activity_basis: energy
+    default_scope: scope_1
+    scope3_categories: [3]
+  diesel:
+    concept_code: energy.diesel
+    terms: [diesel, motorin, mazot, gas oil, gas_oil]
+    factor_terms: [diesel, motorin, mazot, distillate fuel oil no. 1, distillate fuel oil no. 2]
+    calculation_role: stationary_combustion
+    activity_basis: energy
+    default_scope: scope_1
+    scope3_categories: [3]
+  electricity:
+    concept_code: energy.electricity
+    terms: [electricity, electric, elektrik, grid electricity, grid_mix]
+    calculation_role: purchased_electricity
+    activity_basis: energy
+    default_scope: scope_2
+    scope3_categories: [3]
+  refrigerants:
+    concept_code: refrigerants
+    terms: [refrigerant, refrigerants, soğutucu, r134a, r410a, r32, hfc, hcfc]
+    calculation_role: fugitive_emissions
+    activity_basis: mass
+    default_scope: scope_1
+  road_freight:
+    concept_code: transport.freight.road
+    terms: [road freight, trucking, truck, hgv, kamyon, karayolu, tonne.km, ton-mile]
+    calculation_role: freight_transport
+    activity_basis: transport_work
+    default_scope: scope_3
+    scope3_categories: [4, 9]
+  air_travel:
+    concept_code: transport.passenger.air
+    terms: [air travel, flight, aviation, uçuş, passenger flight, domestic flight]
+    calculation_role: business_travel
+    activity_basis: passenger_distance
+    default_scope: scope_3
+    scope3_categories: [6]
+    scope3_required_qualifiers: [haul]
+  waste:
+    concept_code: waste
+    terms: [waste, disposal, landfill, recycling, atık, bertaraf, compost]
+    calculation_role: waste_treatment
+    activity_basis: mass
+    default_scope: scope_3
+    scope3_categories: [5, 12]
+    scope3_required_qualifiers: [material, treatment]
+  purchased_services:
+    concept_code: spend.services
+    terms: [service, services, education, training, consulting, hizmet, eğitim, spend, usd, eur, try]
+    calculation_role: purchased_service
+    activity_basis: spend
+    default_scope: scope_3
+    scope3_categories: [1]
+    classification_prefixes:
+      - atlas.spend.economic_sector.51
+      - atlas.spend.economic_sector.52
+      - atlas.spend.economic_sector.53
+      - atlas.spend.economic_sector.54
+      - atlas.spend.economic_sector.55
+      - atlas.spend.economic_sector.56
+      - atlas.spend.economic_sector.61
+      - atlas.spend.economic_sector.62
+      - atlas.spend.economic_sector.71
+      - atlas.spend.economic_sector.72
+      - atlas.spend.economic_sector.81
+      - atlas.spend.economic_sector.92
+    query_classifications:
+      education: [atlas.spend.economic_sector.61]
+      training: [atlas.spend.economic_sector.61]
+      consulting: [atlas.spend.economic_sector.5416]
+      legal: [atlas.spend.economic_sector.5411]
+      accounting: [atlas.spend.economic_sector.5412]
+      software: [atlas.spend.economic_sector.51]
+      financial: [atlas.spend.economic_sector.52]
+      insurance: [atlas.spend.economic_sector.524]
+
+scope3_categories:
+  - code: 1
+    slug: purchased_goods_and_services
+    name: Purchased goods and services
+    direction: upstream
+    availability: partial
+    methods: [supplier_specific, hybrid, average_data, spend_based]
+    required_inputs: [purchased_item_or_service, quantity_and_unit, supplier_or_spend_classification]
+    note: Spend-based services are available through Open CEDA; physical purchased-goods coverage remains source-dependent.
+  - code: 2
+    slug: capital_goods
+    name: Capital goods
+    direction: upstream
+    availability: not_supported
+    methods: [supplier_specific, hybrid, average_data, spend_based]
+    required_inputs: [capital_asset_classification, acquisition_value_or_physical_quantity]
+    note: Capital-goods classification and lifetime boundary are not yet implemented.
+  - code: 3
+    slug: fuel_and_energy_related_activities
+    name: Fuel- and energy-related activities
+    direction: upstream
+    availability: partial
+    methods: [well_to_tank, transmission_and_distribution_losses]
+    required_inputs: [fuel_or_energy_type, quantity_and_unit]
+    note: Published Scope 3 WTT factors are supported; Scope 1 combustion and Scope 2 generation factors are never relabelled as Scope 3.
+  - code: 4
+    slug: upstream_transportation_and_distribution
+    name: Upstream transportation and distribution
+    direction: upstream
+    availability: supported
+    methods: [distance_based, fuel_based]
+    required_inputs: [transport_mode, freight_mass, distance]
+    note: Freight work factors are selected with an explicit upstream category.
+  - code: 5
+    slug: waste_generated_in_operations
+    name: Waste generated in operations
+    direction: upstream
+    availability: supported
+    methods: [waste_type_specific]
+    required_inputs: [waste_material, treatment, mass]
+    note: Treatment and material must describe operational waste.
+  - code: 6
+    slug: business_travel
+    name: Business travel
+    direction: upstream
+    availability: partial
+    methods: [distance_based]
+    required_inputs: [travel_mode, distance, passenger_count]
+    note: Air-travel factors are supported; other travel modes require additional family mappings.
+  - code: 7
+    slug: employee_commuting
+    name: Employee commuting
+    direction: upstream
+    availability: not_supported
+    methods: [distance_based, average_data]
+    required_inputs: [commuting_mode, distance, frequency, employees]
+    note: Employee commuting is not yet a dedicated recommendation family.
+  - code: 8
+    slug: upstream_leased_assets
+    name: Upstream leased assets
+    direction: upstream
+    availability: not_supported
+    methods: [asset_specific, average_data]
+    required_inputs: [asset_type, operational_activity, allocation]
+    note: Operational emissions must be allocated to leased assets before factor selection.
+  - code: 9
+    slug: downstream_transportation_and_distribution
+    name: Downstream transportation and distribution
+    direction: downstream
+    availability: supported
+    methods: [distance_based, fuel_based]
+    required_inputs: [transport_mode, freight_mass, distance]
+    note: Freight work factors are selected with an explicit downstream category.
+  - code: 10
+    slug: processing_of_sold_products
+    name: Processing of sold products
+    direction: downstream
+    availability: not_supported
+    methods: [site_specific, average_data]
+    required_inputs: [sold_intermediate_product, downstream_process, quantity]
+    note: Downstream processing boundaries are not yet represented in recommendation applicability.
+  - code: 11
+    slug: use_of_sold_products
+    name: Use of sold products
+    direction: downstream
+    availability: not_supported
+    methods: [direct_use_phase, indirect_use_phase]
+    required_inputs: [product, lifetime, use_profile, energy_or_fuel]
+    note: Product lifetime and use-phase scenario modelling are not yet implemented.
+  - code: 12
+    slug: end_of_life_treatment_of_sold_products
+    name: End-of-life treatment of sold products
+    direction: downstream
+    availability: partial
+    methods: [waste_type_specific]
+    required_inputs: [sold_product_material, treatment, mass]
+    note: Waste treatment factors are supported; product composition and market treatment shares must be supplied by the consumer.
+  - code: 13
+    slug: downstream_leased_assets
+    name: Downstream leased assets
+    direction: downstream
+    availability: not_supported
+    methods: [asset_specific, average_data]
+    required_inputs: [asset_type, operational_activity, allocation]
+    note: Downstream leased-asset allocation is not yet implemented.
+  - code: 14
+    slug: franchises
+    name: Franchises
+    direction: downstream
+    availability: not_supported
+    methods: [franchise_specific, average_data]
+    required_inputs: [franchise_activity, scope1_and_scope2_activity, allocation]
+    note: Franchise operational aggregation is not yet implemented.
+  - code: 15
+    slug: investments
+    name: Investments
+    direction: downstream
+    availability: not_supported
+    methods: [pcaf_asset_class]
+    required_inputs: [asset_class, outstanding_amount, attribution_factor, investee_emissions]
+    note: PCAF asset-class attribution and financed-emissions datasets are not yet implemented.
+
+default_source_authority:
+  ETKB: 0
+  IPCC: 1
+  GHG_PROTOCOL: 1
+  DEFRA: 2
+  EPA: 3
+  EMBER: 3
+  OPEN_CEDA: 4
+  UNFCCC_TUIK: 5
+
+# Publisher authority is policy data. Core classification must not learn source
+# names; jurisdictions can extend or reorder this list without a code release.
+official_sources: [ADEME, AIB, CANADA, DEFRA, EPA, ETKB]
+
+# Overrides are jurisdictional, not global. Unlisted ISO countries use the
+# generic exact-country -> regional -> global hierarchy.
+jurisdictions:
+  TR:
+    source_authority: {ETKB: 0, GHG_PROTOCOL: 1, IPCC: 1, EMBER: 2, DEFRA: 8, EPA: 8}
+  US:
+    source_authority: {EPA: 0, GHG_PROTOCOL: 1, IPCC: 1, DEFRA: 8, ETKB: 8}
+  GB:
+    source_authority: {DEFRA: 0, GHG_PROTOCOL: 1, IPCC: 1, EPA: 8, ETKB: 8}
+  CA:
+    source_authority: {CANADA: 0, GHG_PROTOCOL: 1, IPCC: 1}
+  FR:
+    source_authority: {ADEME: 0, AIB: 1, GHG_PROTOCOL: 2, IPCC: 2}
+  DE:
+    source_authority: {AIB: 0, GHG_PROTOCOL: 1, IPCC: 1}
+  NL:
+    source_authority: {AIB: 0, GHG_PROTOCOL: 1, IPCC: 1}
+  SE:
+    source_authority: {AIB: 0, GHG_PROTOCOL: 1, IPCC: 1}
+
+fallback_tiers:
+  - {code: country_official, rank: 0, proxy: false}
+  - {code: country_modelled, rank: 1, proxy: false}
+  - {code: regional, rank: 2, proxy: false}
+  - {code: global, rank: 3, proxy: false}
+  - {code: foreign_proxy, rank: 4, proxy: true}

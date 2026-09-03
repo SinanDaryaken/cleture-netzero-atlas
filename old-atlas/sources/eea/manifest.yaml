@@ -1,0 +1,70 @@
+code: EEA
+name: EMEP/EEA Guidebook 2023 Emission Factor Viewer
+publisher: European Environment Agency
+region: EUROPE
+status: active
+health: healthy
+license:
+  name: Creative Commons Attribution 4.0 International
+  url: https://creativecommons.org/licenses/by/4.0/
+  commercial_use: true
+  redistribution: true
+  modification: true
+  attribution_required: true
+  api_distribution: true
+  raw_data_distribution: true
+  restrictions: >-
+    EEA attribution and preservation of the source meaning are required. The viewer is a
+    selected convenience extract, not the complete Guidebook; the published chapter
+    prevails if it differs from the viewer. Third-party references remain identified per
+    row and may carry their own rights.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: paginated_json_api
+  schedule: "43 7 * * 1"
+  timeout_seconds: 600
+  max_attempts: 4
+location:
+  landing_page: https://www.eea.europa.eu/en/analysis/publications/emep-eea-guidebook-2023
+  api_url: https://efdb.apps.eea.europa.eu/tools/api
+change_detection:
+  strategies:
+    - canonical_data_sha256
+adapter:
+  class_path: sources.eea.adapter.EeaAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.1
+history:
+  strategy: versioned_database
+  preferred_asset: deterministic full snapshot of the official EEA factor viewer API
+  master_page: https://www.eea.europa.eu/en/analysis/publications/emep-eea-guidebook-2023
+  snapshot_endpoints:
+    emission_factor_viewer: https://efdb.apps.eea.europa.eu/tools/api
+  snapshot_parameters:
+    guidebook_edition: "2023"
+    viewer_records: "13336"
+    canonical_ghg_factors: "1556"
+    source_observations: "11469"
+    raw_parsed_only_non_numeric: "311"
+  schemas:
+    - name: emep_eea_guidebook_2023_viewer_v3
+      parser_version: 0.1.0
+      file_format: paginated_json_snapshot
+quality:
+  minimum_expected_rows: 13000
+  minimum_expected_factors: 1500
+  maximum_row_count_change_ratio: 0.20
+coverage:
+  - {level: continent, code: EUROPE, name: Europe}
+data_types:
+  - emission_factor
+  - calculation_parameter
+use_contexts:
+  - PRODUCT_CARBON
+  - CORPORATE_CARBON
+  - TRANSPORT
+  - AIR_POLLUTANT_INVENTORY
+standards:
+  - EMEP/EEA air pollutant emission inventory guidebook 2023
+  - UNECE CLRTAP
+  - EU National Emission Ceilings Directive

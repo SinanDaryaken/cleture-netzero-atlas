@@ -1,0 +1,1 @@
+"""Administrative intelligence-index tooling."""

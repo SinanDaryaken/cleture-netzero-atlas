@@ -1,0 +1,94 @@
+code: UNFCCC_TUIK
+name: UNFCCC / Turkish Statistical Institute National Inventory
+publisher: Turkish Statistical Institute / Government of Türkiye
+country: TR
+status: active
+health: healthy
+license:
+  name: UNFCCC public national inventory submission
+  url: https://unfccc.int/reports
+  commercial_use: null
+  redistribution: null
+  modification: null
+  attribution_required: true
+  api_distribution: null
+  raw_data_distribution: false
+  restrictions: Structured CRF/CRT values may be served with full attribution; redistribution and commercial terms require review.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: crf_crt_zip
+  schedule: "20 8 * * 1"
+  timeout_seconds: 1800
+  max_attempts: 4
+location:
+  landing_page: https://unfccc.int/reports?f%5B0%5D=corporate_author%3A249
+change_detection:
+  strategies: [sha256]
+adapter:
+  class_path: sources.unfccc_tuik.adapter.UnfcccTuikAdapter
+  parser_version: 0.3.0
+  mapping_version: 0.2.0
+history:
+  strategy: yearly_submission
+  start_year: 2020
+  end_year: 2026
+  preferred_asset: structured CRF/CRT ZIP
+  master_page: https://unfccc.int/reports?f%5B0%5D=corporate_author%3A249
+  release_pages:
+    2020: https://unfccc.int/sites/default/files/resource/tur-2020-crf-13apr20.zip
+    2021: https://unfccc.int/sites/default/files/resource/tur-2021-crf-13apr21.zip
+    2022: https://unfccc.int/sites/default/files/resource/tur-2022-crf-14apr22.zip
+    2023: https://unfccc.int/sites/default/files/resource/tur-2023-crf-14apr23_AR4.zip
+    2024: https://unfccc.int/sites/default/files/resource/TUR-CRT-2024-V0.1-20241118-143948_started.zip
+    2025: https://unfccc.int/sites/default/files/resource/TUR-CRT-2025-V2.0-20250603-165137_awaiting%20submission.zip
+    2026: https://unfccc.int/sites/default/files/resource/TUR-CRT-2026-V1.0.zip
+  snapshot_parameters:
+    asset_2020: tur-2020-crf-13apr20.zip
+    asset_2021: tur-2021-crf-13apr21.zip
+    asset_2022: tur-2022-crf-14apr22.zip
+    asset_2023: tur-2023-crf-14apr23_AR4.zip
+    asset_2024: TUR-CRT-2024-V0.1-20241118-143948_started.zip
+    asset_2025: TUR-CRT-2025-V2.0-20250603-165137_awaiting%20submission.zip
+    asset_2026: TUR-CRT-2026-V1.0.zip
+    status_2020: submitted
+    status_2021: submitted
+    status_2022: submitted
+    status_2023: submitted
+    status_2024: started
+    status_2025: awaiting_submission
+    status_2026: submitted
+  schemas:
+    - name: crf_legacy
+      parser_version: 0.2.0
+      file_format: zip_xlsx_crf
+      start_year: 2020
+      end_year: 2023
+    - name: crt_etf
+      parser_version: 0.3.0
+      file_format: zip_xlsx_crt
+      start_year: 2024
+      end_year: 2026
+quality:
+  minimum_expected_rows: 1000
+  minimum_expected_factors: 1000
+  maximum_row_count_change_ratio: 0.50
+coverage:
+  - {level: country, code: TR, name: Türkiye}
+data_types:
+  - emission_factor
+  - implied_emission_factor
+  - activity_data
+  - emission_result
+  - calculation_parameter
+use_contexts:
+  - NATIONAL_INVENTORY
+  - CORPORATE_CARBON
+  - ENERGY
+  - AGRICULTURE
+  - WASTE
+  - IPPU
+  - LAND_USE
+standards:
+  - UNFCCC CRF
+  - UNFCCC CRT
+  - IPCC 2006 Guidelines

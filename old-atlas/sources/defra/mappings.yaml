@@ -1,0 +1,42 @@
+version: 0.2.0
+
+categories:
+  "Freighting goods": atlas.transport.freight
+  "Managed assets- vehicles": atlas.transport.managed_assets.vehicles
+  "Business travel- land": atlas.transport.business_travel.land
+  "Passenger vehicles": atlas.transport.road.passenger
+  "Delivery vehicles": atlas.transport.road.delivery
+  "Refrigerant & other": atlas.refrigerants
+  "Fuels": atlas.energy.fuels
+  "SECR kWh pass & delivery vehs": atlas.transport.road.secr_energy
+  "WTT- delivery vehs & freight": atlas.transport.freight.upstream
+  "UK electricity for EVs": atlas.energy.electricity.ev
+  "UK electricity for Evs": atlas.energy.electricity.ev
+  "UK electricity T&D for EVs": atlas.energy.electricity.ev.td
+  "Waste disposal": atlas.waste
+  "Material use": atlas.material
+  "WTT- fuels": atlas.energy.fuels.upstream
+  "Business travel- air": atlas.transport.business_travel.air
+  "SECR kWh UK electricity for EVs": atlas.energy.electricity.ev.secr
+  "Outside of scopes": atlas.energy.outside_scopes
+  "Hotel stay": atlas.services.hotel
+  "Bioenergy": atlas.energy.bioenergy
+  "WTT- bioenergy": atlas.energy.bioenergy.upstream
+  "WTT- business travel- air": atlas.transport.business_travel.air.upstream
+  "Business travel- sea": atlas.transport.business_travel.sea
+  "Heat and steam": atlas.energy.heat_steam
+  "Transmission and distribution": atlas.energy.electricity.td
+  "UK electricity": atlas.energy.electricity
+  "Managed assets- electricity": atlas.energy.electricity.managed_assets
+  "WTT- heat and steam": atlas.energy.heat_steam.upstream
+  "WTT- business travel- sea": atlas.transport.business_travel.sea.upstream
+  "WTT- pass vehs & travel- land": atlas.transport.business_travel.land.upstream
+  "Homeworking": atlas.services.homeworking
+  "WTT- UK electricity": atlas.energy.electricity.upstream
+  "WTT- UK & overseas elec": atlas.energy.electricity.upstream
+  "Passenger and delivery vehicles- kWh factors": atlas.transport.road.secr_energy
+  "WTT- business travel (air)": atlas.transport.business_travel.air.upstream
+  "WTT- business travel (sea)": atlas.transport.business_travel.sea.upstream
+  "WTT- pass vehs & travel (land)": atlas.transport.business_travel.land.upstream
+  "Water supply": atlas.water.supply
+  "Water treatment": atlas.water.treatment

@@ -1,0 +1,136 @@
+version: 1.0.0
+fit_scores:
+  country_specific: 100
+  country_modelled: 90
+  regional: 75
+  continental: 65
+  global: 50
+  proxy: 35
+fallback_order:
+  - country_specific
+  - country_modelled
+  - regional
+  - continental
+  - global
+  - proxy
+geographies:
+  GLOBAL:
+    level: global
+    name: Global
+    parent: null
+  EUROPE:
+    level: continent
+    name: Europe
+    parent: GLOBAL
+  NORTH_AMERICA:
+    level: continent
+    name: North America
+    parent: GLOBAL
+  TR:
+    level: country
+    name: Türkiye
+    parent: EUROPE
+  XK:
+    level: country
+    name: Kosovo
+    parent: EUROPE
+  GB:
+    level: country
+    name: United Kingdom
+    parent: EUROPE
+  FR:
+    level: country
+    name: France
+    parent: EUROPE
+  AT: {level: country, name: Austria, parent: EUROPE}
+  BA: {level: country, name: Bosnia and Herzegovina, parent: EUROPE}
+  BE: {level: country, name: Belgium, parent: EUROPE}
+  BG: {level: country, name: Bulgaria, parent: EUROPE}
+  CH: {level: country, name: Switzerland, parent: EUROPE}
+  CY: {level: country, name: Cyprus, parent: EUROPE}
+  CZ: {level: country, name: Czechia, parent: EUROPE}
+  DE: {level: country, name: Germany, parent: EUROPE}
+  DK: {level: country, name: Denmark, parent: EUROPE}
+  EE: {level: country, name: Estonia, parent: EUROPE}
+  ES: {level: country, name: Spain, parent: EUROPE}
+  FI: {level: country, name: Finland, parent: EUROPE}
+  GR: {level: country, name: Greece, parent: EUROPE}
+  HR: {level: country, name: Croatia, parent: EUROPE}
+  HU: {level: country, name: Hungary, parent: EUROPE}
+  IE: {level: country, name: Ireland, parent: EUROPE}
+  IS: {level: country, name: Iceland, parent: EUROPE}
+  IT: {level: country, name: Italy, parent: EUROPE}
+  LT: {level: country, name: Lithuania, parent: EUROPE}
+  LU: {level: country, name: Luxembourg, parent: EUROPE}
+  LV: {level: country, name: Latvia, parent: EUROPE}
+  ME: {level: country, name: Montenegro, parent: EUROPE}
+  MT: {level: country, name: Malta, parent: EUROPE}
+  NL: {level: country, name: Netherlands, parent: EUROPE}
+  "NO": {level: country, name: Norway, parent: EUROPE}
+  PL: {level: country, name: Poland, parent: EUROPE}
+  PT: {level: country, name: Portugal, parent: EUROPE}
+  RO: {level: country, name: Romania, parent: EUROPE}
+  RS: {level: country, name: Serbia, parent: EUROPE}
+  SE: {level: country, name: Sweden, parent: EUROPE}
+  SI: {level: country, name: Slovenia, parent: EUROPE}
+  SK: {level: country, name: Slovakia, parent: EUROPE}
+  FR_OVERSEAS:
+    level: region
+    name: French overseas territories
+    parent: GLOBAL
+  US:
+    level: country
+    name: United States
+    parent: NORTH_AMERICA
+  CA:
+    level: country
+    name: Canada
+    parent: NORTH_AMERICA
+  CA-AB: {level: province, name: Alberta, parent: CA}
+  CA-BC: {level: province, name: British Columbia, parent: CA}
+  CA-MB: {level: province, name: Manitoba, parent: CA}
+  CA-NB: {level: province, name: New Brunswick, parent: CA}
+  CA-NL: {level: province, name: Newfoundland and Labrador, parent: CA}
+  CA-NS: {level: province, name: Nova Scotia, parent: CA}
+  CA-NT: {level: province, name: Northwest Territories, parent: CA}
+  CA-NU: {level: province, name: Nunavut, parent: CA}
+  CA-ON: {level: province, name: Ontario, parent: CA}
+  CA-PE: {level: province, name: Prince Edward Island, parent: CA}
+  CA-QC: {level: province, name: Quebec, parent: CA}
+  CA-SK: {level: province, name: Saskatchewan, parent: CA}
+  CA-YT: {level: province, name: Yukon, parent: CA}
+  AKGD: {level: grid, name: ASCC Alaska Grid, parent: US}
+  AKMS: {level: grid, name: ASCC Miscellaneous, parent: US}
+  AZNM: {level: grid, name: WECC Southwest, parent: US}
+  CAMX: {level: grid, name: WECC California, parent: US}
+  ERCT: {level: grid, name: ERCOT All, parent: US}
+  FRCC: {level: grid, name: FRCC All, parent: US}
+  HIMS: {level: grid, name: HICC Miscellaneous, parent: US}
+  HIOA: {level: grid, name: HICC Oahu, parent: US}
+  MROE: {level: grid, name: MRO East, parent: US}
+  MROW: {level: grid, name: MRO West, parent: US}
+  NEWE: {level: grid, name: NPCC New England, parent: US}
+  NWPP: {level: grid, name: WECC Northwest, parent: US}
+  NYCW: {level: grid, name: NPCC NYC/Westchester, parent: US}
+  NYLI: {level: grid, name: NPCC Long Island, parent: US}
+  NYUP: {level: grid, name: NPCC Upstate NY, parent: US}
+  PRMS: {level: grid, name: Puerto Rico Miscellaneous, parent: US}
+  RFCE: {level: grid, name: RFC East, parent: US}
+  RFCM: {level: grid, name: RFC Michigan, parent: US}
+  RFCW: {level: grid, name: RFC West, parent: US}
+  RMPA: {level: grid, name: WECC Rockies, parent: US}
+  SPNO: {level: grid, name: SPP North, parent: US}
+  SPSO: {level: grid, name: SPP South, parent: US}
+  SRMV: {level: grid, name: SERC Mississippi Valley, parent: US}
+  SRMW: {level: grid, name: SERC Midwest, parent: US}
+  SRSO: {level: grid, name: SERC South, parent: US}
+  SRTV: {level: grid, name: SERC Tennessee Valley, parent: US}
+  SRVC: {level: grid, name: SERC Virginia/Carolina, parent: US}
+proxy_rules: {}
+country_aliases:
+  TR: [Turkey, Turkiye, Türkiye]
+  DK: [Danmark, Danimarka, Dänemark]
+  ES: [España, Ispanya, İspanya, Spanien]
+  FR: [France, Fransa, Frankreich]
+  GB: [UK, Britain, Great Britain, United Kingdom, Birleşik Krallık]
+  NL: [Holland, Netherlands, Nederland, Hollanda, Niederlande]

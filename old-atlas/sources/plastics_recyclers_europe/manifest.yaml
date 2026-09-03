@@ -1,0 +1,73 @@
+code: PLASTICS_RECYCLERS_EUROPE
+name: Plastics Recyclers Europe Impact Assessment 2015
+publisher: Plastics Recyclers Europe AISBL
+region: EU28
+status: active
+health: healthy
+license:
+  name: Public PRE report; external reuse rights not stated
+  url: https://www.plasticsrecyclers.eu/publications/
+  commercial_use: false
+  redistribution: false
+  modification: false
+  attribution_required: true
+  api_distribution: false
+  raw_data_distribution: false
+  restrictions: >-
+    PRE makes the impact-assessment report publicly downloadable but does not state
+    an open commercial, redistribution, derivative, hosted-API, or raw-data licence.
+    External distribution requires publisher approval. Atlas preserves model-derived
+    values and uncertainty/proxy semantics; it does not present the 2012-baseline
+    assessment as a current European recycling average.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: audited_pdf
+  schedule: "35 9 * * 1"
+  timeout_seconds: 300
+  max_attempts: 4
+location:
+  landing_page: https://www.plasticsrecyclers.eu/publications/
+  download_url: https://www.plasticsrecyclers.eu/wp-content/uploads/2022/10/increased-eu-plastics-recycling-targets.pdf
+change_detection:
+  strategies:
+    - sha256
+adapter:
+  class_path: sources.plastics_recyclers_europe.adapter.PlasticsRecyclersEuropeAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: versioned_database
+  preferred_asset: official PRE Increased EU Plastics Recycling Targets impact-assessment PDF
+  master_page: https://www.plasticsrecyclers.eu/publications/
+  snapshot_endpoints:
+    impact_assessment: https://www.plasticsrecyclers.eu/wp-content/uploads/2022/10/increased-eu-plastics-recycling-targets.pdf
+  snapshot_parameters:
+    dataset_version: "2015-05-29"
+    publication_date: "2015-05-29"
+    model_baseline_year: "2012"
+    scenario_end_year: "2025"
+    recycled_resin_results: "8"
+    calculation_parameters: "17"
+  schemas:
+    - name: pre_impact_assessment_2015
+      parser_version: 0.1.0
+      file_format: audited_pdf_tables
+quality:
+  minimum_expected_rows: 25
+  minimum_expected_factors: 8
+  maximum_row_count_change_ratio: 0.10
+coverage:
+  - {level: region, code: EU28, name: European Union 28}
+data_types:
+  - lca_result
+  - calculation_parameter
+use_contexts:
+  - PRODUCT_CARBON
+  - LCA
+  - CORPORATE_CARBON
+  - SCOPE3
+  - SUPPLY_CHAIN
+  - WASTE
+standards:
+  - Life Cycle Inventory (LCI)
+  - EU-28 plastics recycling impact-assessment model

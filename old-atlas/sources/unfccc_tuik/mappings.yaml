@@ -1,0 +1,8 @@
+version: 0.2.0
+
+sectors:
+  "1": atlas.energy
+  "2": atlas.industrial_processes
+  "3": atlas.agriculture
+  "4": atlas.agriculture.land_use
+  "5": atlas.waste

@@ -1,0 +1,100 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cleture-atlas"
+version = "0.1.0"
+description = "Environmental data ingestion, normalization, versioning, provenance, quality, and matching infrastructure."
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+dependencies = [
+  "alembic>=1.14,<2",
+  "boto3>=1.35,<2",
+  "beautifulsoup4>=4.12,<5",
+  "croniter>=6.0,<7",
+  "fastexcel>=0.12,<1",
+  "fastapi>=0.115,<1",
+  "httpx>=0.28,<1",
+  "openpyxl>=3.1,<4",
+  "openai>=1.100,<3",
+  "pint>=0.24,<1",
+  "polars>=1.17,<2",
+  "pyarrow>=18,<22",
+  "psycopg[binary]>=3.2,<4",
+  "pydantic>=2.10,<3",
+  "pydantic-settings>=2.7,<3",
+  "pyyaml>=6.0,<7",
+  "redis>=5.2,<7",
+  "sqlalchemy[asyncio]>=2.0,<3",
+  "structlog>=24.4,<26",
+  "typer>=0.15,<1",
+  "uvicorn[standard]>=0.34,<1",
+  "pycountry>=24.6,<25",
+  "pdfplumber>=0.11,<1",
+  "lingua-language-detector>=2.0,<3",
+  "unidecode>=1.3,<2",
+]
+
+[project.optional-dependencies]
+processing = [
+  "beautifulsoup4>=4.12,<5",
+  "duckdb>=1.1,<2",
+  "fastexcel>=0.12,<1",
+  "lxml>=5.3,<6",
+  "openpyxl>=3.1,<4",
+  "pyarrow>=18,<22",
+]
+browser = ["playwright>=1.49,<2"]
+translation = [
+  "argostranslate>=1.9,<2",
+]
+
+[dependency-groups]
+dev = [
+  "boto3-stubs[s3]>=1.35,<2",
+  "mypy>=1.14,<2",
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.25,<1",
+  "ruff>=0.9,<1",
+  "types-pyyaml>=6.0,<7",
+  "types-croniter>=6.0,<7",
+  "types-openpyxl>=3.1,<4",
+]
+
+[project.scripts]
+atlas-api = "apps.api.main:run"
+atlas-worker = "apps.worker.main:run"
+atlas-dispatcher = "apps.dispatcher.main:run"
+atlas-scheduler = "apps.scheduler.main:run"
+atlas-intelligence-rebuild = "apps.intelligence.main:run"
+atlas-intelligence-check = "apps.intelligence.main:run_check"
+atlas-intelligence-translate = "apps.intelligence.main:run_translate"
+atlas-recommendation-rebuild = "apps.recommendation.main:run"
+atlas-recommendation-check = "apps.recommendation.main:run_check"
+atlas-recommendation-ensure = "apps.recommendation.main:run_ensure"
+atlas-sectors-rebuild = "apps.sectors.main:run"
+atlas-sectors-check = "apps.sectors.main:run_check"
+atlas-sectors-ensure = "apps.sectors.main:run_ensure"
+atlas-readiness-check = "apps.readiness.main:run"
+atlas-official-snapshots-check = "apps.snapshots.main:run"
+
+[tool.hatch.build.targets.wheel]
+packages = ["atlas", "apps", "sources"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]

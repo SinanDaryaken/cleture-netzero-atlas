@@ -1,0 +1,21 @@
+version: 0.1.1
+taxonomy:
+  Cement: atlas.material.cement
+  Fertilisers: atlas.material.fertiliser
+  Iron and steel: atlas.material.metals.iron_steel
+  Iron & Steel: atlas.material.metals.iron_steel
+  Aluminium: atlas.material.metals.aluminium
+  Hydrogen: atlas.energy.hydrogen
+country_aliases:
+  Brunei: BN
+  Congo, Democratic Republic of: CD
+  Ivory Coast: CI
+  Korea, Republic of (South Korea): KR
+  New Caledonia and dependencies: NC
+  North Korea (Democratic People's Republic of Korea): KP
+markup_schedule:
+  Cement: {2026: "10%", 2027: "20%", 2028_onward: "30%"}
+  Fertilisers: {2026_onward: "1%"}
+  Iron and steel: {2026: "10%", 2027: "20%", 2028_onward: "30%"}
+  Aluminium: {2026: "10%", 2027: "20%", 2028_onward: "30%"}
+  Hydrogen: {2026: "10%", 2027: "20%", 2028_onward: "30%"}

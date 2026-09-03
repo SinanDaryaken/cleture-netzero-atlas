@@ -1,0 +1,81 @@
+code: ETKB
+name: Türkiye Electricity Generation and Consumption-Point Emission Factors
+publisher: T.C. Enerji ve Tabii Kaynaklar Bakanlığı, EVÇED
+country: TR
+region: null
+status: active
+health: healthy
+license:
+  name: ETKB website and annual PDF terms - all rights reserved
+  url: https://enerji.gov.tr/evced-cevre-ve-iklim-elektrik-uretim-tuketim-emisyon-faktorleri
+  commercial_use: null
+  redistribution: null
+  modification: null
+  attribution_required: true
+  api_distribution: null
+  raw_data_distribution: false
+  restrictions: >-
+    The ministry website states that all rights are reserved, and the annual information
+    forms provide a no-warranty notice without an explicit open-data licence. Local
+    reference use preserves attribution; commercial, API, modified, and raw
+    redistribution require separate written permission.
+  reviewed_at: 2026-08-28
+ingestion:
+  source_type: audited_annual_pdf
+  schedule: "5 8 * * 1"
+  timeout_seconds: 600
+  max_attempts: 4
+location:
+  landing_page: https://enerji.gov.tr/evced-cevre-ve-iklim-elektrik-uretim-tuketim-emisyon-faktorleri
+  download_url: https://enerji.gov.tr/Media/Dizin/EVCED/tr/%C3%87evreVe%C4%B0klim/%C4%B0klimDe%C4%9Fi%C5%9Fikli%C4%9Fi/EmisyonFaktorleri/2023_Turkiye_Elektrik_UretimiveElektrik_Tuketim_Noktasi_Emisyon_Faktorleri.pdf
+change_detection:
+  strategies: [pdf_sha256, calculation_year, calculation_revision]
+adapter:
+  class_path: sources.etkb.adapter.EtkbAdapter
+  parser_version: 0.1.0
+  mapping_version: 0.1.0
+history:
+  strategy: yearly_release
+  start_year: 2020
+  end_year: 2023
+  preferred_asset: official annual PDF information form
+  master_page: https://enerji.gov.tr/evced-cevre-ve-iklim-elektrik-uretim-tuketim-emisyon-faktorleri
+  release_pages:
+    2020: https://enerji.gov.tr/Media/Dizin/EVCED/tr/%C3%87evreVe%C4%B0klim/%C4%B0klimDe%C4%9Fi%C5%9Fikli%C4%9Fi/EmisyonFaktorleri/2020_Uretim_Tuketim_EF.pdf
+    2021: https://enerji.gov.tr/Media/Dizin/EVCED/tr/%C3%87evreVe%C4%B0klim/%C4%B0klimDe%C4%9Fi%C5%9Fikli%C4%9Fi/EmisyonFaktorleri/TEUVETN_Emisyon_Fakt%C3%B6rleri_Bilgi_Formu.pdf
+    2022: https://enerji.gov.tr/Media/Dizin/EVCED/tr/%C3%87evreVe%C4%B0klim/%C4%B0klimDe%C4%9Fi%C5%9Fikli%C4%9Fi/EmisyonFaktorleri/2022_Uretim_Tuketim_EF.pdf
+    2023: https://enerji.gov.tr/Media/Dizin/EVCED/tr/%C3%87evreVe%C4%B0klim/%C4%B0klimDe%C4%9Fi%C5%9Fikli%C4%9Fi/EmisyonFaktorleri/2023_Turkiye_Elektrik_UretimiveElektrik_Tuketim_Noktasi_Emisyon_Faktorleri.pdf
+  schemas:
+    - name: etkb_evced_frm_042_rev_01_pdf
+      parser_version: 0.1.0
+      file_format: pdf
+      start_year: 2020
+      end_year: 2023
+  release_expectations:
+    2020: {minimum_expected_rows: 10, minimum_expected_factors: 20}
+    2021: {minimum_expected_rows: 10, minimum_expected_factors: 20}
+    2022: {minimum_expected_rows: 10, minimum_expected_factors: 20}
+    2023: {minimum_expected_rows: 10, minimum_expected_factors: 20}
+quality:
+  minimum_expected_rows: 10
+  minimum_expected_factors: 20
+  expected_table_factor_counts:
+    national_generation: 2
+    fuel_generation: 14
+    consumption_point: 4
+  maximum_row_count_change_ratio: 0.10
+coverage:
+  - {level: country, code: TR, name: Türkiye}
+data_types:
+  - emission_factor
+use_contexts:
+  - PRODUCT_CARBON
+  - CORPORATE_CARBON
+  - SCOPE_1
+  - SCOPE_2
+  - ENERGY
+  - ELECTRICITY
+standards:
+  - IEA Emission Factors 2021 database documentation
+  - TEİAŞ electricity generation, consumption and loss statistics
+  - Türkiye National Greenhouse Gas Inventory CRF
