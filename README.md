@@ -32,6 +32,38 @@ değerler Git'e eklenmez.
 `old-atlas` yalnızca analiz ve kontrollü taşıma için referans snapshot'tır. Yeni
 uygulamanın çalışma zamanı veya mimari kaynağı değildir.
 
+## ADEME pilotu
+
+İlk source pilotu ADEME Base Carbone'dur. Kaynağın güncel release metadata'sı veri
+indirilmeden ve persist edilmeden incelenebilir:
+
+```bash
+php artisan atlas:source:inspect ADEME
+```
+
+Komut dataset kimliği, finalized durumu, dosya kimliği, satır sayısı ve açık lisans
+sözleşmesini fail-closed doğrular. Raw acquisition, parse, normalization ve candidate
+package aşamaları [roadmap](docs/roadmap.md) içinde ayrı kapılar olarak izlenir.
+Acquired release ve normalize öncesi gerçek veri profili
+[ADEME source inventory](docs/sources/ademe.md) içinde bulunur.
+
+Coğrafya eşlemesi Atlas içinde sahiplenilmez. Ülke/il/ilçe eşlemesi Logi canonical
+kimliklerine dayanacaktır; mevcut entegrasyon sınırı
+[ADR-001](docs/decisions/ADR-001-logi-geography-boundary.md) içinde açıklanmıştır.
+
+Doğrulanan release'in orijinal dosyası MD5 ve SHA-256 kontrolünden geçirilerek
+content-addressed biçimde `atlas-raw` alanına alınabilir:
+
+```bash
+php artisan migrate
+php artisan atlas:source:acquire ADEME
+```
+
+Acquisition komutu yalnız Atlas çalışma DB'sindeki source/release/run/raw asset
+kayıtlarını ve MinIO raw nesnesini oluşturur. Parse, normalize, candidate veya
+canonical publish işlemi yapmaz; aynı release yeniden çalıştırıldığında mevcut raw
+nesneyi döndürür.
+
 ## Backlog
 
 Public, kayıtsız ve snapshot'sız hesaplama arayüzü ayrı bir geliştirme hattıdır:
