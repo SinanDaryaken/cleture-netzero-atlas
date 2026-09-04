@@ -304,13 +304,13 @@ final class AdemeCsvParser implements SourceParsingAdapter
      */
     private function readHeaders(mixed $stream): array
     {
-        $rawHeaders = fgetcsv($stream, null, ';', '"', '');
+        $rawHeaderLine = fgets($stream);
 
-        if (! is_array($rawHeaders) || $rawHeaders === []) {
+        if (! is_string($rawHeaderLine) || $rawHeaderLine === '') {
             throw new SourceContractViolation('ADEME Base Carbone header is missing.');
         }
 
-        $rawHeaders[0] = $this->stripUtf8Bom((string) $rawHeaders[0]);
+        $rawHeaders = str_getcsv($this->stripUtf8Bom($rawHeaderLine), ';', '"', '');
         $sourceEncoding = $this->detectSourceEncoding($rawHeaders);
         $headers = $this->convertFields($rawHeaders, $sourceEncoding, 1);
 

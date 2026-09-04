@@ -9,7 +9,7 @@
 - [x] Portal metadata değişikliklerinden etkilenmeyen release revision üret.
 - [x] Veri indirmeden ve persist etmeden inceleme komutu sun.
 - [x] Başarı, lisans değişimi ve bilinmeyen source davranışlarının testlerini yaz.
-- [ ] Yazılan testleri kullanıcı talep ettiğinde çalıştır ve sonucu geçici dosyaya yaz.
+- [x] Yazılan testleri kullanıcı talep ettiğinde çalıştır ve sonucu geçici dosyaya yaz.
 
 ### Aşama 2 — Immutable raw acquisition
 
@@ -18,7 +18,7 @@
 - [x] Dosyayı content-addressed key ile `atlas-raw` bucket'ına yaz.
 - [x] Aynı release ve checksum için DB unique constraint ile idempotency sağla.
 - [x] Acquisition başarı, checksum hatası ve idempotency testlerini yaz.
-- [ ] Yazılan testleri kullanıcı talep ettiğinde çalıştır ve sonucu geçici dosyaya yaz.
+- [x] Yazılan testleri kullanıcı talep ettiğinde çalıştır ve sonucu geçici dosyaya yaz.
 
 ### Aşama 3 — Parse ve source inventory
 
@@ -29,7 +29,7 @@
   decimal değerlerini fail-closed ele al.
 - [x] Content-addressed NDJSON parsed artifact'i `atlas-processing` içinde üret.
 - [x] Parser, persistence, failure ve idempotency testlerini yaz.
-- [ ] Yazılan testleri kullanıcı talep ettiğinde çalıştır ve sonucu geçici dosyaya yaz.
+- [x] Yazılan testleri kullanıcı talep ettiğinde çalıştır ve sonucu geçici dosyaya yaz.
 
 ### Aşama 4 — Mapping ve normalization candidate
 
