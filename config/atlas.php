@@ -1,6 +1,12 @@
 <?php
 
 return [
+    'contracts' => [
+        'candidate_manifest_path' => base_path(
+            'resources/contracts/netzero-admin/candidate-v1/contract-manifest.json',
+        ),
+    ],
+
     'storage' => [
         'raw_disk' => env('ATLAS_RAW_DISK', 'atlas_raw'),
         'processing_disk' => env('ATLAS_PROCESSING_DISK', 'atlas_processing'),

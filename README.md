@@ -50,6 +50,10 @@ Acquired release ve normalize öncesi gerçek veri profili
 Coğrafya eşlemesi Atlas içinde sahiplenilmez. Ülke/il/ilçe eşlemesi Logi canonical
 kimliklerine dayanacaktır; mevcut entegrasyon sınırı
 [ADR-001](docs/decisions/ADR-001-logi-geography-boundary.md) içinde açıklanmıştır.
+ADEME'ye özgü normalization ile bütün kaynakların kullanacağı ortak candidate package
+altyapısının sorumluluk ayrımı ve pinlenmiş NetZeroAdmin sözleşme kapısı
+[ADR-003](docs/decisions/ADR-003-normalization-and-candidate-contract-boundary.md)
+içinde tanımlanmıştır.
 
 Doğrulanan release'in orijinal dosyası MD5 ve SHA-256 kontrolünden geçirilerek
 content-addressed biçimde `atlas-raw` alanına alınabilir:

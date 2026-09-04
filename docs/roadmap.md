@@ -33,14 +33,24 @@
 
 ### Aşama 4 — Mapping ve normalization candidate
 
+- [x] Source-specific normalizer ile source-agnostic candidate/package sınırını
+  mimari karar olarak sabitle.
+- [x] NetZeroAdmin'ın commitlenmiş package ve entity V1 şemalarını provenance ve
+  SHA-256 doğrulamasıyla pinle.
+- [x] Eksik relationships/findings/source-diff record sözleşmeleri için package
+  üretimini fail-closed kapat.
 - [ ] Canonical unit snapshot/lookup sözleşmesini NetZeroAdmin ile tanımla.
 - [ ] Canonical geography lookup sözleşmesini Logi ile tanımla.
+- [ ] ADEME `SourceNormalizationAdapter` ve registry'sini oluştur.
+- [ ] ADEME `Elément` ana candidate ve `Poste` decomposition modelini üret.
 - [ ] Taxonomy mapping proposal ve insan review kaydını oluştur.
 - [ ] Negatif değerleri yalnız işaretine göre avoided-emission olarak işaretleme.
 - [ ] Lifecycle decomposition ve gaz bileşenlerini ayrı observation olarak koru.
 
 ### Aşama 5 — Validation, diff ve candidate package
 
+- [ ] NetZeroAdmin'da relationships/findings/source-diff record şemalarını
+  sürümle ve Atlas contract snapshot'ına ekle.
 - [ ] Quality, license, geography, unit, temporal ve provenance kapılarını uygula.
 - [ ] Field-level release diff üret.
 - [ ] Sürümlü manifest ve immutable candidate package üret.

@@ -1,0 +1,40 @@
+{
+  "snapshot_version": "1.0.0",
+  "owner": "cleture-netzero-admin",
+  "upstream_repository": "cleture-netzero-admin",
+  "upstream_commit": "f190d8cb02001fcb5ea1c8cf169dee611f195622",
+  "captured_at": "2026-09-04",
+  "contracts": [
+    {
+      "name": "candidate_package_manifest",
+      "version": "1.0.0",
+      "path": "candidate-package-v1.schema.json",
+      "schema_id": "urn:netzeroatlas:schema:candidate-package-manifest:1",
+      "sha256": "ff34503c1a738c70c7241da5dd780a522cd0c1dd89283791a67ff3ab6c7fc368",
+      "upstream_sha256": "72d2e265e6af503839228239477bd0206e250692b3a50cf3241f27adafa06d29",
+      "upstream_git_blob": "309f571a6961757a9bba944e08507234e0cb1412",
+      "upstream_path": "ai/codex/architecture/atlas-candidate-package-v1.schema.json"
+    },
+    {
+      "name": "candidate_entity_record",
+      "version": "1.0.0",
+      "path": "candidate-entity-v1.schema.json",
+      "schema_id": "urn:netzeroatlas:schema:candidate-entity:1",
+      "sha256": "13efa0854bdd1b8633487ef0883de67f5ca7866e00cd0f70a64d5499093ba08b",
+      "upstream_sha256": "619c8deec820c5927780bf367b468b13fbd37a6949c8f629b0ab3a179055c580",
+      "upstream_git_blob": "5d99d851626944729211216e520f0860ea31fd6d",
+      "upstream_path": "ai/codex/architecture/atlas-candidate-entity-v1.schema.json"
+    }
+  ],
+  "required_archive_members": [
+    "entities.ndjson",
+    "relationships.ndjson",
+    "findings.ndjson",
+    "source-diff.ndjson"
+  ],
+  "missing_package_record_contracts": [
+    "candidate_relationship_record",
+    "candidate_finding_record",
+    "candidate_source_diff_record"
+  ]
+}
