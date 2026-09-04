@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Application\Candidate\SourceNormalizerRegistry;
 use App\Application\Contracts\CandidateContractRegistry;
 use App\Application\Contracts\IngestionLedger;
 use App\Application\Contracts\ParsingLedger;
@@ -13,6 +14,7 @@ use App\Application\Ingestion\SourceParserRegistry;
 use App\Infrastructure\Contracts\PinnedCandidateContractRegistry;
 use App\Infrastructure\Persistence\EloquentIngestionLedger;
 use App\Infrastructure\Persistence\EloquentParsingLedger;
+use App\Infrastructure\Sources\Ademe\AdemeCandidateNormalizer;
 use App\Infrastructure\Sources\Ademe\AdemeCsvParser;
 use App\Infrastructure\Sources\Ademe\AdemeSourceAdapter;
 use App\Infrastructure\Storage\LaravelProcessingArtifactStorage;
@@ -72,6 +74,12 @@ final class AtlasServiceProvider extends ServiceProvider
         $this->app->singleton(SourceParserRegistry::class, function ($app): SourceParserRegistry {
             return new SourceParserRegistry([
                 $app->make(AdemeCsvParser::class),
+            ]);
+        });
+
+        $this->app->singleton(SourceNormalizerRegistry::class, function ($app): SourceNormalizerRegistry {
+            return new SourceNormalizerRegistry([
+                $app->make(AdemeCandidateNormalizer::class),
             ]);
         });
     }

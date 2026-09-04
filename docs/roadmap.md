@@ -41,11 +41,13 @@
   üretimini fail-closed kapat.
 - [ ] Canonical unit snapshot/lookup sözleşmesini NetZeroAdmin ile tanımla.
 - [ ] Canonical geography lookup sözleşmesini Logi ile tanımla.
-- [ ] ADEME `SourceNormalizationAdapter` ve registry'sini oluştur.
-- [ ] ADEME `Elément` ana candidate ve `Poste` decomposition modelini üret.
+- [x] ADEME `SourceNormalizationAdapter` ve registry'sini oluştur.
+- [x] ADEME `Elément` ana candidate ve `Poste` decomposition modelini üret.
+- [ ] Parsed artifact'ten normalization input stream'i ve idempotent çalışma
+  kayıtlarını oluştur.
 - [ ] Taxonomy mapping proposal ve insan review kaydını oluştur.
-- [ ] Negatif değerleri yalnız işaretine göre avoided-emission olarak işaretleme.
-- [ ] Lifecycle decomposition ve gaz bileşenlerini ayrı observation olarak koru.
+- [x] Negatif değerleri yalnız işaretine göre avoided-emission olarak işaretleme.
+- [x] Lifecycle decomposition ve gaz bileşenlerini ayrı component olarak koru.
 
 ### Aşama 5 — Validation, diff ve candidate package
 

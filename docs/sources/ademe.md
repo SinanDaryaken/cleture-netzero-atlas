@@ -87,3 +87,19 @@ birden fazla `Poste` decomposition satırı aynı ID'yi bilinçli olarak paylaş
 kontrolü bu nedenle yalnız `Valide générique` veya `Valide spécifique` durumundaki
 `Facteur d'émission` türü `Elément` satırlarında uygulanır. Parsed katman normalization,
 geography/unit mapping veya canonical publish yapmaz.
+
+## ADEME normalization çekirdeği
+
+Normalizer version `1.0.0`, yalnız ADEME `base-carboner` parsed observation
+sözleşmesini kabul eder. Her geçerli factor `Elément` satırı source-neutral candidate
+draft üretir; aynı element ID'li geçerli `Poste` satırları lifecycle component ve
+ayrı provenance/evidence kaydı olarak adaya bağlanır. Source total, standart gaz
+alanları ve ek gaz alanları decimal string olarak korunur; exponent açılımı dahil
+canonical decimal dönüşümünde binary float kullanılmaz.
+
+Unit, taxonomy, intended-use ve geography değerleri canonical snapshot olmadan
+eşlenmiş sayılmaz. Özgün source değeriyle `unresolved` proposal üretilir ve target
+`null` kalır. Negatif total aynen korunur, `source_unspecified` intended use değerini
+değiştirmez ve metodoloji review bulgusu üretir. Bu çekirdek henüz DB normalization
+run'ı veya candidate package oluşturmaz; sıradaki kapı parsed artifact streaming,
+idempotent ledger ve immutable normalized artifact'tir.
