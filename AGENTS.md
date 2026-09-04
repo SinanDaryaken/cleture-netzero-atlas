@@ -7,8 +7,9 @@
 - Atlas'ın görevi kaynak keşfi, fetch, immutable raw saklama, parse, normalize,
   canonical kavramlara eşleme, kalite/lisans doğrulama, sürüm karşılaştırma ve
   review'a hazır candidate dataset üretmektir.
-- Canonical emisyon katalogları, birimler, formüller, belirsizlik kuralları ve
-  publish kayıtlarının sahibi `cleture-netzero-admin` merkezi veritabanıdır.
+- Canonical emisyon katalogları, ülke/il/ilçe referans coğrafyaları, birimler,
+  formüller, belirsizlik kuralları ve publish kayıtlarının sahibi
+  `cleture-netzero-admin` merkezi veritabanıdır.
 - Atlas çalışma sırasında `moduler_netzero` merkezi DB'sini kullanmaz. Kendi
   çalışma DB'si ve object storage alanı yalnız ingestion run, raw asset, parsed
   observation, mapping kararı, validation sonucu ve candidate package için kullanılır.
@@ -107,9 +108,12 @@
 - `cleture-netzero-admin` control plane'dir: canonical katalog ve migration sahibi,
   candidate inceleme/diff, birim-formül-belirsizlik yönetimi, review ve publish burada
   bulunur. Ağır source parse veya tenant hesaplama web request'i içinde çalışmaz.
-- `Logi` ülke/il/ilçe ve kara-hava-deniz route/mesafe bilgisinin canonical sahibidir.
-  Atlas yalnız kaynak coğrafyasını canonical Logi kimliğine eşlemek için Logi'yi
-  kullanabilir; kullanıcı route hesabı ve route-point saklama Atlas'a eklenmez.
+- `cleture-netzero-admin` ülke/il/ilçe referans coğrafya kataloğunun canonical
+  sahibidir. Atlas bu katalog için merkezi DB'ye bağlanmaz; yalnız NetZeroAdmin'ın
+  sürümlü ve hash'li snapshot/lookup sözleşmesini kullanabilir.
+- `Logi` kara-hava-deniz route/mesafe bilgisinin sahibidir. Kullanıcı route hesabı ve
+  route-point saklama Atlas'a eklenmez; Logi'nin route kanıtı referans coğrafya
+  kataloğu sahipliği anlamına gelmez.
 - Production tenant hesabının execution ve persistence sahibi calculation worker'dır.
   Worker published calculation bundle'ı kullanır ve sonuç ile immutable snapshot'ı
   yalnız ilgili tenant DB'ye yazar.

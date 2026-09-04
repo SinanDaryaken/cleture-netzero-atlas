@@ -65,8 +65,9 @@ sürümlü olarak tanımlı değildir.
   kullanılmaz ve formül sonucu Atlas içinde yeniden hesaplanmaz.
 - Negatif değer yalnız işaretinden dolayı avoided-emission sayılmaz. Source
   metodolojisi kanıtlamıyorsa review finding üretilir.
-- Unit ve geography eşlemesi yalnız sürümlü NetZeroAdmin ve Logi snapshot'larına karşı
-  proposal üretir; Atlas canonical katalog sahibi olmaz.
+- Unit ve geography eşlemesi yalnız sürümlü NetZeroAdmin snapshot'larına karşı proposal
+  üretir; Atlas canonical katalog sahibi olmaz. Logi yalnız route/mesafe kanıtının
+  sahibidir.
 
 ## Sonuçlar
 

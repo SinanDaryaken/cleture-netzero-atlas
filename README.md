@@ -47,9 +47,11 @@ package aşamaları [roadmap](docs/roadmap.md) içinde ayrı kapılar olarak izl
 Acquired release ve normalize öncesi gerçek veri profili
 [ADEME source inventory](docs/sources/ademe.md) içinde bulunur.
 
-Coğrafya eşlemesi Atlas içinde sahiplenilmez. Ülke/il/ilçe eşlemesi Logi canonical
-kimliklerine dayanacaktır; mevcut entegrasyon sınırı
-[ADR-001](docs/decisions/ADR-001-logi-geography-boundary.md) içinde açıklanmıştır.
+Coğrafya eşlemesi Atlas içinde sahiplenilmez. Ülke/il/ilçe canonical kataloğunun
+sahibi NetZeroAdmin, route/mesafe bilgisinin sahibi Logi'dir. Atlas merkezi DB'ye
+bağlanmadan NetZeroAdmin'ın sürümlü ve hash'li geography snapshot'ını kullanacaktır;
+mevcut entegrasyon sınırı
+[ADR-001](docs/decisions/ADR-001-geography-ownership-boundary.md) içinde açıklanmıştır.
 ADEME'ye özgü normalization ile bütün kaynakların kullanacağı ortak candidate package
 altyapısının sorumluluk ayrımı ve pinlenmiş NetZeroAdmin sözleşme kapısı
 [ADR-003](docs/decisions/ADR-003-normalization-and-candidate-contract-boundary.md)

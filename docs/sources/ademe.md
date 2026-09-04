@@ -61,7 +61,8 @@ coğrafyalar insan review'ına bırakılmalıdır.
 - 6,518 geçerli factor element yeniden üretilemezse parse tamamlanmış sayılmaz.
 - 69 source unit label dönüştürülmeden önce özgün biçimiyle envantere alınır.
 - 290 negatif değer yalnız işaretine bakılarak avoided-emission sayılmaz.
-- 168 dış ülke kaydı Logi canonical ID olmadan publish-eligible olamaz.
+- 168 dış ülke kaydı NetZeroAdmin canonical geography ID ve snapshot kanıtı olmadan
+  publish-eligible olamaz.
 
 ## Parsed observation sözleşmesi
 

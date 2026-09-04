@@ -1,4 +1,4 @@
-# ADR-001: Logi coğrafya sahipliği ve Atlas eşleme sınırı
+# ADR-001: Canonical coğrafya sahipliği ve Atlas eşleme sınırı
 
 - Durum: Kabul edildi
 - Tarih: 2026-09-03
@@ -12,7 +12,7 @@ coğrafya kataloğunun sahibi değildir.
 `cleture-logi` repository'sinin mevcut migration ve API sözleşmesinde yalnız
 `air_ports` ve `sea_ports` domain'leri vardır. Bu kayıtlar ISO 3166-1 alpha-2 ülke
 kodu taşır; ülke, il ve ilçe için stable canonical kimlik veya versioned lookup API
-sunulmaz.
+sunulmaz. Logi'nin sorumluluğu route/mesafe bilgisiyle sınırlıdır.
 
 Yerel PostgreSQL incelemesinde ülke/il/ilçe verisinin `base_netzero` veritabanında
 bulunduğu görülmüştür. Atlas'ın bu veritabanını çalışma zamanında sorgulaması ürün
@@ -30,22 +30,23 @@ değildir.
   eşlemesi için bağlanmayacak.
 - ADEME source discovery, raw acquisition ve parse işleri coğrafya servisinden
   bağımsız ilerleyecek.
-- Coğrafya normalizasyonu `source label -> Logi canonical geography id` biçiminde
-  sürümlü bir resolver sözleşmesine bağlanacak.
-- Logi canonical ülke/il/ilçe lookup veya versioned snapshot sunana kadar yalnız
+- Coğrafya normalizasyonu `source label -> NetZeroAdmin canonical geography id`
+  biçiminde sürümlü bir resolver sözleşmesine bağlanacak.
+- NetZeroAdmin canonical ülke/il/ilçe lookup veya versioned snapshot sunana kadar yalnız
   açık kaynak semantiğine sahip `GLOBAL` ve `EUROPE` gibi değerler sınıflandırılacak;
   ülke eşlemesi gerektiren kayıtlar silinmeden `review_required` kalacak.
-- Logi verisinin Atlas'a kopyalanması kalıcı çözüm değildir. Gerekirse Atlas yalnız
-  eşleme anında kullanılan Logi kimliği, katalog sürümü ve kanıtı saklar.
+- NetZeroAdmin verisinin Atlas'a kalıcı kopyalanması veya merkezi DB'nin doğrudan
+  sorgulanması çözüm değildir. Atlas yalnız eşleme anında kullanılan canonical kimliği,
+  katalog sürümünü, snapshot hash'ini ve kanıtı saklar.
 
 ## Sonuçlar
 
 - ADEME pilotinin ilk dilimi coğrafya bağımlılığı olmadan release metadata'sını
   doğrulayabilir.
-- Ülke eşlemesinin tamamlanması için Logi'ye stable country/province/district
-  kimlikleri ve ISO/name lookup sözleşmesi eklenmesi gerekir.
-- Mevcut `base_netzero` verisi Logi'yi başlangıçta beslemek için ayrı, kontrollü ve
-  kullanıcı tarafından onaylanmış bir migration işi olarak değerlendirilebilir.
+- Ülke eşlemesinin tamamlanması için NetZeroAdmin'ın stable country/province/district
+  kimliklerini versioned snapshot/lookup sözleşmesiyle sunması gerekir.
+- Logi route/mesafe kanıtı üretmeye devam eder; bu kanıt Atlas geography catalog
+  eşlemesinden ve NetZeroAdmin referans katalog sahipliğinden ayrıdır.
 
 ## 2026-09-04 ek bulgu
 
@@ -55,15 +56,16 @@ code, Province değişmez Country parent'ı ve District değişmez Province pare
 üç katalog UUIDv7, active lifecycle ve SoftDelete semantiğine sahiptir. Tabloların boş
 başlaması bilinçli karardır ve kataloglar için public/internal JSON API tanımlanmamıştır.
 
-Bu yapı Atlas'ın ihtiyaç duyduğu canonical kimlikler için güçlü bir adaydır, ancak
-mevcut candidate package V1 sözleşmesi geography owner alanını hâlâ `Logi` sabitine
-bağlamakta ve entity target alanını `logi_canonical_id` olarak adlandırmaktadır.
-Dolayısıyla yalnız tabloların varlığıyla sahiplik otomatik değiştirilmez. NetZeroAdmin
-ve Logi arasında sahibi açıkça supersede eden karar ile versioned snapshot/lookup
-sözleşmesi çıkana kadar Atlas:
+Canonical ülke/il/ilçe sahibi NetZeroAdmin olarak kesinleştirilmiştir. Ancak mevcut
+candidate package V1 sözleşmesi geography owner alanını hâlâ `Logi` sabitine bağlamakta
+ve entity target alanını `logi_canonical_id` olarak adlandırmaktadır. Bu pinlenmiş
+sözleşme Atlas tarafından tek taraflı değiştirilmez. NetZeroAdmin yeni sürümlü entity
+şeması ve geography snapshot/lookup sözleşmesi yayımlayana kadar Atlas:
 
 - `moduler_netzero` veritabanına doğrudan bağlanmaz;
 - boş katalogdan sahte version/hash üretmez;
 - ADEME coğrafyalarını raw label ve `unresolved` target ile korur;
 - ileride gelecek snapshot'ın UUID, entity level, parent zinciri, active/deleted durumu,
-  ISO alias kanıtı, katalog version ve SHA-256 bilgisini taşımasını bekler.
+  ISO alias kanıtı, katalog version ve SHA-256 bilgisini taşımasını bekler;
+- yeni entity şemasında Logi'ye özel target kimliği yerine NetZeroAdmin canonical
+  geography kimliğini taşıyan, sahibi açık bir alan bekler.

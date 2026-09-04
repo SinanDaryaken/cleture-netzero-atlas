@@ -40,7 +40,7 @@
 - [x] Eksik relationships/findings/source-diff record sözleşmeleri için package
   üretimini fail-closed kapat.
 - [ ] Canonical unit snapshot/lookup sözleşmesini NetZeroAdmin ile tanımla.
-- [ ] Canonical geography lookup sözleşmesini Logi ile tanımla.
+- [ ] Canonical geography snapshot/lookup sözleşmesini NetZeroAdmin ile tanımla.
 - [x] ADEME `SourceNormalizationAdapter` ve registry'sini oluştur.
 - [x] ADEME `Elément` ana candidate ve `Poste` decomposition modelini üret.
 - [x] Parsed artifact'ten normalization input stream'i ve idempotent çalışma
