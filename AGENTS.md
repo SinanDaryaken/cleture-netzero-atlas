@@ -34,6 +34,25 @@
 - Büyük kod değişikliklerinden sonra index'in watcher tarafından yenilendiğini doğrula;
   gerekiyorsa açıkça re-index et.
 
+## Dış görev kabulü ve geri bildirim
+
+- Başka bir agent veya modülden gelen iş doğrudan geliştirmeye alınmaz. Önce isteğin
+  amacı, kapsamı, veri ve sözleşme sahipliği, Atlas mimari sınırları, bağımlılıkları,
+  kabul ölçütleri ve sunulan kanıtlar analiz edilir.
+- İş ancak Atlas'ın sorumluluk alanındaysa, gerekli upstream sözleşmeler ve girdiler
+  yeterliyse ve bu sözleşmedeki mimari kurallarla çelişmiyorsa uygun kabul edilir;
+  uygun bulunan iş analiz sonucuna göre geliştirilir.
+- Eksik veya uygunsuz bir iş için Atlas içinde geçici çözüm üretilmez ve başka modülün
+  sorumluluğu üstlenilmez. Tespit edilen eksikler, gerekçeleri, beklenen sözleşme veya
+  davranış ve yeniden değerlendirme için gerekli kanıtlarla birlikte işi gönderen
+  agente geri bildirilir.
+- Geri bildirim bilgilendirme ve iş tanımı niteliğindedir; gönderen agente doğrudan
+  çalıştırma ya da uygulama talimatı verilmez. Gönderen agent kendi analizini yapar,
+  geliştirdiği modülde gerekli düzeltmeyi gerçekleştirir ve güncellenmiş iş ile
+  kanıtları yeniden Atlas'a iletir.
+- Yeniden iletilen iş önceki karara dayanılarak otomatik kabul edilmez; aynı uygunluk
+  kapısından tekrar geçirilir.
+
 ## Laravel çalışma ortamı
 
 - Uygulama koduna başlamadan önce proje PHP/Composer sürümlerini doğrula ve kurulu
