@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistence\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class RawAssetRecord extends Model
 {
@@ -32,5 +33,10 @@ final class RawAssetRecord extends Model
             'file_size' => 'integer',
             'downloaded_at' => 'immutable_datetime',
         ];
+    }
+
+    public function sourceRelease(): BelongsTo
+    {
+        return $this->belongsTo(SourceReleaseRecord::class, 'source_release_id');
     }
 }

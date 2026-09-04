@@ -3,6 +3,7 @@
 return [
     'storage' => [
         'raw_disk' => env('ATLAS_RAW_DISK', 'atlas_raw'),
+        'processing_disk' => env('ATLAS_PROCESSING_DISK', 'atlas_processing'),
     ],
 
     'http' => [

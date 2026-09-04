@@ -22,11 +22,14 @@
 
 ### Aşama 3 — Parse ve source inventory
 
-- [ ] 68 kolonluk CSV sözleşmesini versiyonla.
-- [ ] UTF-8 BOM ve CP1252 fallback davranışını uygula.
-- [ ] Bütün Elément/Poste/archive/source-data satırlarını kayıpsız sakla.
-- [ ] Duplicate ID, fazla kolon ve geçersiz decimal değerlerini fail-closed ele al.
-- [ ] Parsed artifact'i `atlas-processing` içinde üret.
+- [x] 67 kolonluk CSV sözleşmesini versiyonla ve SHA-256 fingerprint ile sabitle.
+- [x] UTF-8 BOM ve Windows-1252/CP1252 fallback davranışını uygula.
+- [x] Bütün Elément/Poste/archive/source-data satırlarını kayıpsız sakla.
+- [x] Duplicate geçerli factor ID, kolon kayması, satır sayısı farkı ve geçersiz
+  decimal değerlerini fail-closed ele al.
+- [x] Content-addressed NDJSON parsed artifact'i `atlas-processing` içinde üret.
+- [x] Parser, persistence, failure ve idempotency testlerini yaz.
+- [ ] Yazılan testleri kullanıcı talep ettiğinde çalıştır ve sonucu geçici dosyaya yaz.
 
 ### Aşama 4 — Mapping ve normalization candidate
 

@@ -62,3 +62,28 @@ coğrafyalar insan review'ına bırakılmalıdır.
 - 69 source unit label dönüştürülmeden önce özgün biçimiyle envantere alınır.
 - 290 negatif değer yalnız işaretine bakılarak avoided-emission sayılmaz.
 - 168 dış ülke kaydı Logi canonical ID olmadan publish-eligible olamaz.
+
+## Parsed observation sözleşmesi
+
+- Parser version: `1.0.0`
+- Schema version: `ademe.base-carbone.v23.6`
+- Kaynak encoding: resmî snapshot için `Windows-1252`; UTF-8 ve UTF-8 BOM da kabul edilir.
+- Artifact formatı: UTF-8 NDJSON
+- Parsed row count: `18,616`
+- Parsed artifact size: `43,842,388` bytes
+- Parsed artifact SHA-256: `3f5369f9af3fdc3ff219aeff22f158b7baa61b2d948dc6ff64fdd1e6021e975d`
+- Parsed artifact object: `atlas-processing/sources/ademe/releases/824d7d24c0220aac7605076016d355cc1f853468dc41a5573ea37dcd63f40b8e/parsed/1.0.0/3f5369f9af3fdc3ff219aeff22f158b7baa61b2d948dc6ff64fdd1e6021e975d.ndjson`
+- Çalışma DB kapsamı: her kaynak kaydı için source record number, `Type Ligne`, element
+  ID/type/status, row SHA-256 ve 67 özgün alan değeri
+- İdempotency sınırı: raw asset ID + parser version
+
+Gerçek V23.6 snapshot doğrulamasında parsed observation dağılımı 12.817 `Elément`,
+5.799 `Poste`, 6.518 valid factor element, 3.282 valid factor post, 7.171 archived
+kayıt ve 1.878 source-data kaydıdır. İkinci parse çağrısı aynı artifact'i kullanmış;
+artifact, observation veya ingestion run sayısını artırmamıştır.
+
+Element ID yalnız başına satır anahtarı değildir: aynı factor'ın `Elément` toplamı ve
+birden fazla `Poste` decomposition satırı aynı ID'yi bilinçli olarak paylaşır. Duplicate
+kontrolü bu nedenle yalnız `Valide générique` veya `Valide spécifique` durumundaki
+`Facteur d'émission` türü `Elément` satırlarında uygulanır. Parsed katman normalization,
+geography/unit mapping veya canonical publish yapmaz.

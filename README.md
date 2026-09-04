@@ -64,6 +64,23 @@ kayıtlarını ve MinIO raw nesnesini oluşturur. Parse, normalize, candidate ve
 canonical publish işlemi yapmaz; aynı release yeniden çalıştırıldığında mevcut raw
 nesneyi döndürür.
 
+Acquired raw release, source'a özel ve sürümlü parser sözleşmesiyle kayıpsız parsed
+observation'lara dönüştürülebilir:
+
+```bash
+php artisan atlas:source:parse ADEME
+```
+
+ADEME V23.6 parser'ı noktalı virgülle ayrılmış 67 kolonun adını ve sırasını SHA-256
+fingerprint ile doğrular; UTF-8 BOM'u kabul eder ve resmî Windows-1252 exportu için
+açık fallback uygular. Bütün `Elément`, `Poste`, archived ve source-data kayıtları
+özgün alan değerleri korunarak Atlas çalışma DB'sine ve content-addressed NDJSON
+artifact olarak `atlas-processing` alanına yazılır. Şema kayması, satır sayısı farkı,
+geçersiz decimal ve duplicate geçerli factor `Elément` kimliği işlemi fail-closed
+sonlandırır. Aynı raw checksum ve parser sürümü yeniden çalıştırıldığında mevcut
+parsed artifact kullanılır. Ayrıntılı sözleşme [ADR-002](docs/decisions/ADR-002-ademe-parsed-observation-contract.md)
+içinde açıklanmıştır.
+
 ## Backlog
 
 Public, kayıtsız ve snapshot'sız hesaplama arayüzü ayrı bir geliştirme hattıdır:
