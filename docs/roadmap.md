@@ -53,6 +53,9 @@
 
 - [ ] NetZeroAdmin'da relationships/findings/source-diff record şemalarını
   sürümle ve Atlas contract snapshot'ına ekle.
+- [x] Source-agnostic RFC 8785 canonical JSON ve candidate `record_sha256`
+  üreticisini oluştur.
+- [x] Final candidate entity'yi pinned JSON Schema'ya karşı doğrula.
 - [ ] Quality, license, geography, unit, temporal ve provenance kapılarını uygula.
 - [ ] Field-level release diff üret.
 - [ ] Sürümlü manifest ve immutable candidate package üret.

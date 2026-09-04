@@ -85,7 +85,7 @@ final readonly class CandidateEntityDraft
             'relationships' => $this->relationships,
             'evidence' => $this->evidence,
             'provenance' => $this->provenance,
-            'extensions' => $this->extensions,
+            'extensions' => (object) $this->extensions,
         ];
     }
 }

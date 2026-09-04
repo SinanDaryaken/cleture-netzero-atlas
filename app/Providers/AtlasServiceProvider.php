@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Application\Candidate\SourceNormalizerRegistry;
 use App\Application\Contracts\CandidateContractRegistry;
 use App\Application\Contracts\CandidateDraftWriter;
+use App\Application\Contracts\CandidateSchemaValidator;
+use App\Application\Contracts\CanonicalJson;
 use App\Application\Contracts\IngestionLedger;
 use App\Application\Contracts\NormalizationLedger;
 use App\Application\Contracts\NormalizedArtifactStorage;
@@ -16,6 +18,8 @@ use App\Application\Contracts\RawAssetStreamReader;
 use App\Application\Ingestion\SourceAdapterRegistry;
 use App\Application\Ingestion\SourceParserRegistry;
 use App\Infrastructure\Candidate\NdjsonCandidateDraftWriter;
+use App\Infrastructure\Candidate\Rfc8785CanonicalJson;
+use App\Infrastructure\Contracts\OpisCandidateSchemaValidator;
 use App\Infrastructure\Contracts\PinnedCandidateContractRegistry;
 use App\Infrastructure\Persistence\EloquentIngestionLedger;
 use App\Infrastructure\Persistence\EloquentNormalizationLedger;
@@ -47,6 +51,8 @@ final class AtlasServiceProvider extends ServiceProvider
         $this->app->bind(NormalizationLedger::class, EloquentNormalizationLedger::class);
         $this->app->bind(ParsingLedger::class, EloquentParsingLedger::class);
         $this->app->bind(CandidateDraftWriter::class, NdjsonCandidateDraftWriter::class);
+        $this->app->bind(CandidateSchemaValidator::class, OpisCandidateSchemaValidator::class);
+        $this->app->bind(CanonicalJson::class, Rfc8785CanonicalJson::class);
         $this->app->bind(ParsedObservationReader::class, LaravelParsedObservationReader::class);
         $this->app->bind(RawAssetStreamReader::class, LaravelRawAssetStreamReader::class);
 

@@ -48,6 +48,13 @@ sürümlü olarak tanımlı değildir.
 - Normalization run ve bulguları Atlas çalışma DB'sinde idempotent kaydedilir. Final
   `record_sha256`, archive member'ları ve package manifest yalnız ortak package builder
   tarafından üretilecektir.
+- Ortak candidate entity finalizer, `record_sha256` alanı bulunmayan kaydı RFC 8785
+  kurallarıyla canonicalize edip SHA-256 üretir; ardından hash alanını ekleyerek final
+  kaydı tekrar canonicalize eder. Candidate JSON içinde binary float ve I-JSON güvenli
+  integer aralığını aşan sayı fail-closed reddedilir; ölçümler decimal string kalır.
+- Final entity, yazılmadan önce manifest tarafından hash'i doğrulanmış pinned entity
+  JSON Schema'sına karşı Opis JSON Schema ile doğrulanır. Schema çözümleme yalnız yerel
+  JSON Pointer referanslarına izin verir; uzak veya değişebilir `$ref` kabul edilmez.
 
 ## ADEME candidate ilkeleri
 

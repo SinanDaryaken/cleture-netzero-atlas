@@ -46,3 +46,24 @@ değildir.
   kimlikleri ve ISO/name lookup sözleşmesi eklenmesi gerekir.
 - Mevcut `base_netzero` verisi Logi'yi başlangıçta beslemek için ayrı, kontrollü ve
   kullanıcı tarafından onaylanmış bir migration işi olarak değerlendirilebilir.
+
+## 2026-09-04 ek bulgu
+
+NetZeroAdmin repository'sinde `countries`, `country_translations`, `provinces` ve
+`districts` migration/model/admin ekranları tamamlanmıştır. Country ISO2/ISO3/numeric
+code, Province değişmez Country parent'ı ve District değişmez Province parent'ı taşır;
+üç katalog UUIDv7, active lifecycle ve SoftDelete semantiğine sahiptir. Tabloların boş
+başlaması bilinçli karardır ve kataloglar için public/internal JSON API tanımlanmamıştır.
+
+Bu yapı Atlas'ın ihtiyaç duyduğu canonical kimlikler için güçlü bir adaydır, ancak
+mevcut candidate package V1 sözleşmesi geography owner alanını hâlâ `Logi` sabitine
+bağlamakta ve entity target alanını `logi_canonical_id` olarak adlandırmaktadır.
+Dolayısıyla yalnız tabloların varlığıyla sahiplik otomatik değiştirilmez. NetZeroAdmin
+ve Logi arasında sahibi açıkça supersede eden karar ile versioned snapshot/lookup
+sözleşmesi çıkana kadar Atlas:
+
+- `moduler_netzero` veritabanına doğrudan bağlanmaz;
+- boş katalogdan sahte version/hash üretmez;
+- ADEME coğrafyalarını raw label ve `unresolved` target ile korur;
+- ileride gelecek snapshot'ın UUID, entity level, parent zinciri, active/deleted durumu,
+  ISO alias kanıtı, katalog version ve SHA-256 bilgisini taşımasını bekler.
