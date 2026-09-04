@@ -43,7 +43,7 @@
 - [ ] Canonical geography lookup sözleşmesini Logi ile tanımla.
 - [x] ADEME `SourceNormalizationAdapter` ve registry'sini oluştur.
 - [x] ADEME `Elément` ana candidate ve `Poste` decomposition modelini üret.
-- [ ] Parsed artifact'ten normalization input stream'i ve idempotent çalışma
+- [x] Parsed artifact'ten normalization input stream'i ve idempotent çalışma
   kayıtlarını oluştur.
 - [ ] Taxonomy mapping proposal ve insan review kaydını oluştur.
 - [x] Negatif değerleri yalnız işaretine göre avoided-emission olarak işaretleme.

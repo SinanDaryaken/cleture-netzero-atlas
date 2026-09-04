@@ -42,6 +42,12 @@ sürümlü olarak tanımlı değildir.
   kapı aşılmaz.
 - Kaynaktan çözülemeyen unit, geography veya taxonomy değeri elenmez ve canonical
   varsayımla doldurulmaz; provenance ile unresolved/ambiguous proposal olarak tutulur.
+- Normalization ara çıktısı source-neutral, unhashed candidate draft NDJSON'dır. Parsed
+  artifact okuma sırasında satır sayısı ve SHA-256 yeniden doğrulanır; draft artifact
+  normalizer ve candidate entity schema kimliğiyle content-addressed saklanır.
+- Normalization run ve bulguları Atlas çalışma DB'sinde idempotent kaydedilir. Final
+  `record_sha256`, archive member'ları ve package manifest yalnız ortak package builder
+  tarafından üretilecektir.
 
 ## ADEME candidate ilkeleri
 

@@ -85,6 +85,22 @@ sonlandırır. Aynı raw checksum ve parser sürümü yeniden çalıştırıldı
 parsed artifact kullanılır. Ayrıntılı sözleşme [ADR-002](docs/decisions/ADR-002-ademe-parsed-observation-contract.md)
 içinde açıklanmıştır.
 
+Latest parsed artifact, ADEME'ye özel normalizer ile source-neutral candidate draft'a
+dönüştürülebilir:
+
+```bash
+php artisan migrate
+php artisan atlas:source:normalize ADEME
+```
+
+Komut parsed artifact'in satır sayısını ve SHA-256 değerini yeniden doğrular. Geçerli
+`Elément` satırlarını candidate draft, ilişkili `Poste` ve gaz değerlerini component,
+negatif toplamları ise review finding olarak üretir. Unit, taxonomy, intended-use ve
+geography eşlemeleri canonical snapshot gelene kadar `unresolved` kalır. Draft NDJSON
+content-addressed olarak `atlas-processing` alanına yazılır; run ve finding kayıtları
+Atlas çalışma DB'sinde tutulur. Bu çıktı henüz `record_sha256` eklenmiş candidate package
+değildir ve Admin'e gönderilmez.
+
 ## Backlog
 
 Public, kayıtsız ve snapshot'sız hesaplama arayüzü ayrı bir geliştirme hattıdır:

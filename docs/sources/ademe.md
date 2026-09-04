@@ -100,6 +100,14 @@ canonical decimal dönüşümünde binary float kullanılmaz.
 Unit, taxonomy, intended-use ve geography değerleri canonical snapshot olmadan
 eşlenmiş sayılmaz. Özgün source değeriyle `unresolved` proposal üretilir ve target
 `null` kalır. Negatif total aynen korunur, `source_unspecified` intended use değerini
-değiştirmez ve metodoloji review bulgusu üretir. Bu çekirdek henüz DB normalization
-run'ı veya candidate package oluşturmaz; sıradaki kapı parsed artifact streaming,
-idempotent ledger ve immutable normalized artifact'tir.
+değiştirmez ve metodoloji review bulgusu üretir.
+
+`atlas:source:normalize ADEME` komutu latest parsed artifact'i object storage'dan
+stream eder ve tamamını tüketirken beklenen satır sayısı ile SHA-256 değerini tekrar
+doğrular. Normalization kimliği parsed artifact SHA-256, normalizer version ve pinned
+candidate entity schema kimliğine bağlıdır. Aynı giriş tekrarlandığında yeni run,
+artifact veya finding oluşturulmaz. Draft NDJSON `atlas-processing` içinde
+content-addressed saklanır; normalized artifact metadata'sı ve review bulguları Atlas
+çalışma DB'sine yazılır. Draft satırları package builder'ın RFC 8785 canonicalization
+ve `record_sha256` adımından önceki ara sözleşmedir; candidate package veya Admin
+teslimatı değildir.

@@ -74,7 +74,6 @@ final class AdemeCandidateNormalizer implements SourceNormalizationAdapter
             }
         }
 
-        $candidates = [];
         $findings = [];
         $attachedPosts = 0;
         $negativeTotals = 0;
@@ -84,8 +83,7 @@ final class AdemeCandidateNormalizer implements SourceNormalizationAdapter
         foreach ($elements as $elementId => $element) {
             $posts = $postsByElement[$elementId] ?? [];
             $attachedPosts += count($posts);
-            [$candidate, $candidateFindings] = $this->candidate($element, $posts, $context);
-            $candidates[] = $candidate;
+            $candidateFindings = $this->candidateFindings($element, $context);
 
             foreach ($candidateFindings as $finding) {
                 $findings[] = $finding;
@@ -100,30 +98,35 @@ final class AdemeCandidateNormalizer implements SourceNormalizationAdapter
             }
         }
 
+        $candidates = (function () use ($elements, $postsByElement, $context): \Generator {
+            foreach ($elements as $elementId => $element) {
+                yield $this->candidate($element, $postsByElement[$elementId] ?? [], $context);
+            }
+        })();
+
         return new SourceNormalizationResult(
             candidates: $candidates,
             findings: $findings,
             metrics: [
                 'input_observations' => $inputCount,
-                'candidate_entities' => count($candidates),
+                'candidate_entities' => count($elements),
                 'attached_post_observations' => $attachedPosts,
                 'negative_totals_requiring_review' => $negativeTotals,
                 'missing_primary_values' => $missingTotals,
                 'missing_source_units' => $missingUnits,
-                'skipped_non_candidate_observations' => $inputCount - count($candidates) - $attachedPosts,
+                'skipped_non_candidate_observations' => $inputCount - count($elements) - $attachedPosts,
             ],
         );
     }
 
     /**
      * @param  list<ParsedObservation>  $posts
-     * @return array{CandidateEntityDraft, list<NormalizationFinding>}
      */
     private function candidate(
         ParsedObservation $element,
         array $posts,
         NormalizationContext $context,
-    ): array {
+    ): CandidateEntityDraft {
         $logicalKey = "ademe:{$context->datasetId}:{$element->sourceRecordId}";
         $candidateKey = "{$logicalKey}:release:{$context->releaseVersion}";
         $variantKey = $logicalKey.':variant:'.substr(hash('sha256', implode('|', [
@@ -142,38 +145,6 @@ final class AdemeCandidateNormalizer implements SourceNormalizationAdapter
         $geographyProposalKey = "{$candidateKey}:geography:market";
         $total = $this->decimal($this->field($element, 'Total poste non décomposé'));
         $unit = $this->nullableField($element, 'Unité français');
-        $findings = [];
-
-        if ($total !== null && str_starts_with($total, '-')) {
-            $findings[] = new NormalizationFinding(
-                code: 'negative_total_requires_methodology_review',
-                severity: 'review',
-                candidateKey: $candidateKey,
-                message: 'Negative ADEME total was preserved without assigning avoided-emission semantics.',
-                context: ['source_row' => $element->sourceRow, 'source_value' => $total],
-            );
-        }
-
-        if ($total === null) {
-            $findings[] = new NormalizationFinding(
-                code: 'primary_value_not_reported',
-                severity: 'blocking',
-                candidateKey: $candidateKey,
-                message: 'ADEME candidate has no reported primary quantity.',
-                context: ['source_row' => $element->sourceRow],
-            );
-        }
-
-        if ($unit === null) {
-            $findings[] = new NormalizationFinding(
-                code: 'source_unit_not_reported',
-                severity: 'blocking',
-                candidateKey: $candidateKey,
-                message: 'ADEME candidate has no reported source unit.',
-                context: ['source_row' => $element->sourceRow],
-            );
-        }
-
         $primaryQuantity = $this->quantity($total, $unit, $unitProposalKey, [$provenanceKey]);
         $components = [[
             'component_key' => $primaryComponentKey,
@@ -239,7 +210,7 @@ final class AdemeCandidateNormalizer implements SourceNormalizationAdapter
         $taxonomyCode = $this->nullableField($element, 'Code de la catégorie') ?? 'not_reported';
         $geography = $this->geographyLabel($element);
 
-        return [new CandidateEntityDraft(
+        return new CandidateEntityDraft(
             schemaVersion: self::CANDIDATE_SCHEMA_VERSION,
             candidateKey: $candidateKey,
             logicalKey: $logicalKey,
@@ -280,7 +251,49 @@ final class AdemeCandidateNormalizer implements SourceNormalizationAdapter
             evidence: $evidence,
             provenance: $provenance,
             extensions: [],
-        ), $findings];
+        );
+    }
+
+    /** @return list<NormalizationFinding> */
+    private function candidateFindings(
+        ParsedObservation $element,
+        NormalizationContext $context,
+    ): array {
+        $candidateKey = "ademe:{$context->datasetId}:{$element->sourceRecordId}:release:{$context->releaseVersion}";
+        $total = $this->decimal($this->field($element, 'Total poste non décomposé'));
+        $findings = [];
+
+        if ($total !== null && str_starts_with($total, '-')) {
+            $findings[] = new NormalizationFinding(
+                code: 'negative_total_requires_methodology_review',
+                severity: 'review',
+                candidateKey: $candidateKey,
+                message: 'Negative ADEME total was preserved without assigning avoided-emission semantics.',
+                context: ['source_row' => $element->sourceRow, 'source_value' => $total],
+            );
+        }
+
+        if ($total === null) {
+            $findings[] = new NormalizationFinding(
+                code: 'primary_value_not_reported',
+                severity: 'blocking',
+                candidateKey: $candidateKey,
+                message: 'ADEME candidate has no reported primary quantity.',
+                context: ['source_row' => $element->sourceRow],
+            );
+        }
+
+        if ($this->nullableField($element, 'Unité français') === null) {
+            $findings[] = new NormalizationFinding(
+                code: 'source_unit_not_reported',
+                severity: 'blocking',
+                candidateKey: $candidateKey,
+                message: 'ADEME candidate has no reported source unit.',
+                context: ['source_row' => $element->sourceRow],
+            );
+        }
+
+        return $findings;
     }
 
     private function assertContext(NormalizationContext $context): void

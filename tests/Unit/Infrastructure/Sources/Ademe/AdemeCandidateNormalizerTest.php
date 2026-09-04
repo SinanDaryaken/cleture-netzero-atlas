@@ -34,9 +34,10 @@ final class AdemeCandidateNormalizerTest extends TestCase
         ]);
 
         $result = (new AdemeCandidateNormalizer)->normalize([$element, $post], $this->context());
-        $record = $result->candidates[0]->toUnhashedRecord();
+        $candidates = iterator_to_array($result->candidates, false);
+        $record = $candidates[0]->toUnhashedRecord();
 
-        $this->assertCount(1, $result->candidates);
+        $this->assertCount(1, $candidates);
         $this->assertSame([], $result->findings);
         $this->assertSame('1.25', $record['primary_quantity']['value']);
         $this->assertSame('source_unspecified', $record['intended_use'][0]);
@@ -72,9 +73,10 @@ final class AdemeCandidateNormalizerTest extends TestCase
             [$negative, $archived, $sourceData],
             $this->context(),
         );
-        $record = $result->candidates[0]->toUnhashedRecord();
+        $candidates = iterator_to_array($result->candidates, false);
+        $record = $candidates[0]->toUnhashedRecord();
 
-        $this->assertCount(1, $result->candidates);
+        $this->assertCount(1, $candidates);
         $this->assertSame('-2.5', $record['primary_quantity']['value']);
         $this->assertSame(['source_unspecified'], $record['intended_use']);
         $this->assertSame('negative_total_requires_methodology_review', $result->findings[0]->code);

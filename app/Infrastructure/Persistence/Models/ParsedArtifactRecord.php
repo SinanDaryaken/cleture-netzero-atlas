@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistence\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 final class ParsedArtifactRecord extends Model
 {
@@ -33,5 +34,15 @@ final class ParsedArtifactRecord extends Model
             'row_count' => 'integer',
             'file_size' => 'integer',
         ];
+    }
+
+    public function sourceRelease(): BelongsTo
+    {
+        return $this->belongsTo(SourceReleaseRecord::class, 'source_release_id');
+    }
+
+    public function rawAsset(): BelongsTo
+    {
+        return $this->belongsTo(RawAssetRecord::class, 'raw_asset_id');
     }
 }
