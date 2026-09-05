@@ -149,7 +149,7 @@ final readonly class CompareCandidateReleases
             $operation = $hasAfter && $hasBefore ? 'replace' : ($hasAfter ? 'add' : 'remove');
             $changes[] = [
                 'json_pointer' => $pointer,
-                'domain' => $ruleset->domainFor($pointer),
+                'domain' => $ruleset->domainFor($pointer, ($hasAfter ? $after : $before)->record),
                 'operation' => $operation,
                 'before' => $hasBefore
                     ? ['presence' => 'present', 'value' => $beforeProjection[$pointer]]
@@ -184,7 +184,7 @@ final readonly class CompareCandidateReleases
         ksort($projection, SORT_STRING);
 
         foreach (array_keys($projection) as $pointer) {
-            $ruleset->domainFor($pointer);
+            $ruleset->domainFor($pointer, $entity->record);
         }
 
         return $projection;
@@ -225,7 +225,7 @@ final readonly class CompareCandidateReleases
         }
 
         $projection[$pointer] = is_string($value)
-            ? str_replace($candidateKey, $ruleset->candidateKeyToken, $value)
+            ? $ruleset->normalizeReference($pointer, $value, $candidateKey)
             : $value;
     }
 

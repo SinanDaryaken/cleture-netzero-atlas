@@ -7,6 +7,13 @@ use DateTimeImmutable;
 
 final readonly class CandidatePackageContext
 {
+    public function withIdentity(string $packageId, string $producerRunId, DateTimeImmutable $generatedAt): self
+    {
+        return new self($packageId, $this->sourceReleaseId, $this->source, $this->release, $this->rawAssets,
+            $this->pipeline, $this->catalogSnapshots, $this->license, $this->entityCounts, $this->previousPackageId,
+            $this->sourceDiffSummary, $generatedAt, $producerRunId, $this->storageProfile, $this->extensions);
+    }
+
     /**
      * @param  array<string, mixed>  $source
      * @param  array<string, mixed>  $release

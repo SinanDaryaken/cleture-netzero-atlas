@@ -45,7 +45,8 @@
 - [x] ADEME `Elément` ana candidate ve `Poste` decomposition modelini üret.
 - [x] Parsed artifact'ten normalization input stream'i ve idempotent çalışma
   kayıtlarını oluştur.
-- [ ] Taxonomy mapping proposal ve insan review kaydını oluştur.
+- [x] Taxonomy source proposal'ını unresolved hedefle koru.
+- [ ] Admin taxonomy snapshot sözleşmesi sonrası canonical resolution; insan review kaydı Admin'e aittir.
 - [x] Negatif değerleri yalnız işaretine göre avoided-emission olarak işaretleme.
 - [x] Lifecycle decomposition ve gaz bileşenlerini ayrı component olarak koru.
 
@@ -66,7 +67,12 @@
   üreticisini oluştur.
 - [x] V2 policy'ye uygun sıfır byte/sıfır kayıt `relationships.ndjson` member üret.
 - [x] `findings.ndjson` ve first-release/source `source-diff.ndjson` member'larını üret.
-- [ ] Quality, license, geography, unit, temporal ve provenance kapılarını uygula.
+- [x] Yerel quality, license evidence, geography/unit hedef, temporal, referans ve provenance kapılarını uygula.
+- [x] Validation findings/receipt ledger'ını ekle; receipt olmadan paket assembly'yi kapat.
+- [x] Sabit candidate build komutu, doğrulanmış önceki paket okuyucu ve disk tabanlı diff ekle.
+- [x] Diff V2 domain/reference düzeltmesini V1 byte'larını koruyarak sürümle.
+- [x] Eşzamanlı retry kimliğini sabitle; ortak ZIP / farklı manifest senaryosunu destekle.
+- [ ] Owner sözleşmeleri sonrası compound dimension/applicability, taxonomy/intended-use ve formula uygunluğunu doğrula.
 - [x] Hash-pinned ve source-agnostic ruleset ile field-level release diff üret.
 - [x] Dört member'ı sabit sırada içeren deterministik ZIP ve V2 sidecar manifest üret.
 - [x] Candidate package ile manifesti content-addressed storage'a immutable yaz ve
@@ -80,3 +86,6 @@
 - [ ] ADEME license terms snapshot girdilerini teslim al ve doğrula.
 - [ ] NetZeroAdmin V2 intake rollout ve Worker durable staging writer hazır olduğunda
   canlı teslimi koordineli aç; V1'e downgrade etme.
+
+2026-09-05: Admin ve Worker'a yalnız BEKLEYEN günlük kaydı bildirildi; geliştirmeye
+başlama talimatı verilmedi. [Güncel durum ve devam sırası](CURRENT.md).

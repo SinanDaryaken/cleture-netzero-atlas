@@ -1,0 +1,33 @@
+{
+  "schema_version": "2.0.0",
+  "ruleset_version": "candidate-source-diff-v2",
+  "comparison_schema_version": "candidate-entity-v2-scalar-leaves-v2",
+  "candidate_key_token": "{candidate_key}",
+  "excluded_pointer_patterns": ["/candidate_key", "/record_sha256", "/schema_version", "/provenance/*/source_asset_key", "/provenance/*/source_asset_sha256", "/provenance/*/locator/file_path"],
+  "reference_pointer_patterns": ["/primary_component_key", "/components/*/component_key", "/components/*/methodology_ref", "/methodology/methodology_key", "/provenance/*/provenance_key", "/evidence/*/evidence_key", "/geography_proposals/*/proposal_key", "/canonical_mapping_proposals/*/proposal_key", "/reporting_applicability_proposals/*/proposal_key", "/relationships/*", "/primary_quantity/output_unit/mapping_proposal_key", "/primary_quantity/activity_unit/mapping_proposal_key", "/components/*/quantity/output_unit/mapping_proposal_key", "/components/*/quantity/activity_unit/mapping_proposal_key", "/source_taxonomy/*/provenance_refs/*", "/primary_quantity/provenance_refs/*", "/primary_quantity/basis_qualifiers/*/provenance_refs/*", "/components/*/provenance_refs/*", "/components/*/quantity/provenance_refs/*", "/components/*/quantity/basis_qualifiers/*/provenance_refs/*", "/temporal/provenance_refs/*", "/methodology/provenance_refs/*", "/evidence/*/provenance_refs/*", "/geography_proposals/*/provenance_refs/*", "/geography_proposals/*/evidence_refs/*", "/canonical_mapping_proposals/*/provenance_refs/*", "/canonical_mapping_proposals/*/evidence_refs/*", "/reporting_applicability_proposals/*/provenance_refs/*", "/reporting_applicability_proposals/*/evidence_refs/*"],
+  "mapping_domains": {"source": "identity", "dataset": "identity", "material": "taxonomy", "logical_factor": "identity", "unit": "unit", "taxonomy": "taxonomy", "methodology": "methodology", "intended_use": "applicability"},
+  "domain_prefixes": [
+    {"prefix": "/logical_key", "domain": "identity"},
+    {"prefix": "/variant_key", "domain": "identity"},
+    {"prefix": "/entity_type", "domain": "identity"},
+    {"prefix": "/value_kind", "domain": "value"},
+    {"prefix": "/primary_component_key", "domain": "identity"},
+    {"prefix": "/primary_quantity", "domain": "value"},
+    {"prefix": "/primary_quantity/output_unit", "domain": "unit"},
+    {"prefix": "/primary_quantity/activity_unit", "domain": "unit"},
+    {"prefix": "/components", "domain": "value"},
+    {"prefix": "/components/*/quantity/output_unit", "domain": "unit"},
+    {"prefix": "/components/*/quantity/activity_unit", "domain": "unit"},
+    {"prefix": "/localized_texts", "domain": "identity"},
+    {"prefix": "/intended_use", "domain": "applicability"},
+    {"prefix": "/source_taxonomy", "domain": "taxonomy"},
+    {"prefix": "/temporal", "domain": "temporal"},
+    {"prefix": "/methodology", "domain": "methodology"},
+    {"prefix": "/geography_proposals", "domain": "geography"},
+    {"prefix": "/reporting_applicability_proposals", "domain": "applicability"},
+    {"prefix": "/relationships", "domain": "identity"},
+    {"prefix": "/evidence", "domain": "provenance"},
+    {"prefix": "/provenance", "domain": "provenance"},
+    {"prefix": "/extensions", "domain": "extension"}
+  ]
+}

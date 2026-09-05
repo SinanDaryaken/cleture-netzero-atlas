@@ -33,6 +33,8 @@ final readonly class CandidateDiffRuleset
         public string $candidateKeyToken,
         public array $excludedPointerPatterns,
         public array $domainPrefixes,
+        public array $referencePointerPatterns = [],
+        public array $mappingDomains = [],
     ) {
         if ($this->schemaVersion === '' || $this->rulesetVersion === '' || $this->comparisonSchemaVersion === '') {
             throw new CandidateContractViolation('Candidate diff ruleset identity cannot be empty.');
@@ -49,6 +51,16 @@ final readonly class CandidateDiffRuleset
 
         foreach ($this->excludedPointerPatterns as $pattern) {
             $this->assertPointer($pattern, true);
+        }
+
+        foreach ($this->referencePointerPatterns as $pattern) {
+            $this->assertPointer($pattern, true);
+        }
+
+        foreach ($this->mappingDomains as $domain) {
+            if (! in_array($domain, self::DOMAINS, true)) {
+                throw new CandidateContractViolation('Invalid mapping diff domain.');
+            }
         }
 
         foreach ($this->domainPrefixes as $rule) {
@@ -92,14 +104,21 @@ final readonly class CandidateDiffRuleset
         return false;
     }
 
-    public function domainFor(string $pointer): string
+    public function domainFor(string $pointer, array $record = []): string
     {
+        if ($this->mappingDomains !== [] && preg_match('#^/canonical_mapping_proposals/(\d+)(?:/|$)#', $pointer, $matches)) {
+            $domain = $record['canonical_mapping_proposals'][(int) $matches[1]]['domain'] ?? null;
+
+            return $this->mappingDomains[$domain ?? '']
+                ?? throw new CandidateContractViolation('Unknown mapping proposal domain in source diff.');
+        }
+
         $match = null;
 
         foreach ($this->domainPrefixes as $rule) {
             $prefix = $rule['prefix'];
 
-            if (($pointer === $prefix || str_starts_with($pointer, $prefix.'/'))
+            if (preg_match('#^'.str_replace('\\*', '[^/]+', preg_quote($prefix, '#')).'(?:/|$)#', $pointer)
                 && ($match === null || strlen($prefix) > strlen($match['prefix']))
             ) {
                 $match = $rule;
@@ -111,6 +130,23 @@ final readonly class CandidateDiffRuleset
         }
 
         return $match['domain'];
+    }
+
+    public function normalizeReference(string $pointer, string $value, string $candidateKey): string
+    {
+        if ($this->referencePointerPatterns === []) {
+            return str_replace($candidateKey, $this->candidateKeyToken, $value);
+        }
+
+        foreach ($this->referencePointerPatterns as $pattern) {
+            if (preg_match('#^'.str_replace('\\*', '[^/]+', preg_quote($pattern, '#')).'$#', $pointer)) {
+                if ($value === $candidateKey || str_starts_with($value, $candidateKey.':')) {
+                    return $this->candidateKeyToken.substr($value, strlen($candidateKey));
+                }
+            }
+        }
+
+        return $value;
     }
 
     private function assertPointer(string $pointer, bool $allowWildcard): void

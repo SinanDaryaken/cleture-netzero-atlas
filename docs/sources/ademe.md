@@ -118,3 +118,13 @@ content-addressed saklanır; normalized artifact metadata'sı ve review bulgular
 çalışma DB'sine yazılır. Draft satırları package builder'ın RFC 8785 canonicalization
 ve `record_sha256` adımından önceki ara sözleşmedir; candidate package veya Admin
 teslimatı değildir.
+
+## 2026-09-05 — Candidate build hazırlığı
+
+Source-neutral validation, license evidence consumer, önceki paket diff'i ve kalıcı
+review package pipeline'ı eklendi; `atlas:candidate:build` açık normalized artifact
+kimliğiyle çalışır. ADEME'ye özel ikinci paket motoru oluşturulmadı. Gerçek ADEME
+package build veya Admin teslimi bu fazda yapılmadı: exact katalog provision ve
+source'a bağlı gerçek lisans kanıtı girdileri bekleniyor. Katalogdaki basit unit
+tanımlarından ADEME compound factor dimension/applicability sonucu türetilmez.
+Blocking/unresolved sonuçlar gizlenmez. Devam kapıları [CURRENT](../CURRENT.md) içindedir.

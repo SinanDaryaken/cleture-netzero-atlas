@@ -3,8 +3,10 @@
 namespace Tests\Unit\Application\Candidate;
 
 use App\Application\Candidate\BuildCandidatePackage;
+use App\Application\Contracts\CandidatePackageIdentityLedger;
 use App\Domain\Candidate\CandidateArchiveMember;
 use App\Domain\Candidate\CandidatePackageContext;
+use App\Domain\Candidate\CandidateValidationReceipt;
 use App\Infrastructure\Candidate\Rfc8785CanonicalJson;
 use App\Infrastructure\Contracts\OpisCandidateSchemaValidator;
 use App\Infrastructure\Contracts\PinnedCandidateContractRegistry;
@@ -24,8 +26,8 @@ final class BuildCandidatePackageTest extends TestCase
         ];
         $builder = $this->builder();
 
-        $first = $builder->handle($this->context(), array_reverse($members));
-        $second = $builder->handle($this->context(), $members);
+        $first = $builder->handle($this->context(), array_reverse($members), $this->receipt($members));
+        $second = $builder->handle($this->context(), $members, $this->receipt($members));
 
         try {
             $zip = new ZipArchive;
@@ -70,6 +72,13 @@ final class BuildCandidatePackageTest extends TestCase
             contracts: $contracts,
             schemaValidator: new OpisCandidateSchemaValidator($contracts),
             canonicalJson: new Rfc8785CanonicalJson,
+            identities: new class implements CandidatePackageIdentityLedger
+            {
+                public function reserve(string $idempotencyKey, CandidatePackageContext $context): CandidatePackageContext
+                {
+                    return $context;
+                }
+            },
         );
     }
 
@@ -138,6 +147,15 @@ final class BuildCandidatePackageTest extends TestCase
             producerRunId: 'run-1',
             storageProfile: 'atlas_candidates',
         );
+    }
+
+    private function receipt(array $members): CandidateValidationReceipt
+    {
+        $context = $this->context();
+
+        return new CandidateValidationReceipt(str_repeat('a', 64), $members[0]->sha256, $members[2]->sha256,
+            $context->pipeline['validation_ruleset_version'], $context->pipeline['validation_ruleset_sha256'],
+            $context->catalogSnapshots, $context->license, $context->rawAssets, 1, ['clean' => 1], false);
     }
 
     private function member(string $path, string $contents, int $recordCount): CandidateArchiveMember

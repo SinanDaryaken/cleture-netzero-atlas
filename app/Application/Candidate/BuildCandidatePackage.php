@@ -3,6 +3,7 @@
 namespace App\Application\Candidate;
 
 use App\Application\Contracts\CandidateContractRegistry;
+use App\Application\Contracts\CandidatePackageIdentityLedger;
 use App\Application\Contracts\CandidateSchemaValidator;
 use App\Application\Contracts\CanonicalJson;
 use App\Domain\Candidate\CandidateArchiveMember;
@@ -10,6 +11,7 @@ use App\Domain\Candidate\CandidateContract;
 use App\Domain\Candidate\CandidatePackageArtifact;
 use App\Domain\Candidate\CandidatePackageBuild;
 use App\Domain\Candidate\CandidatePackageContext;
+use App\Domain\Candidate\CandidateValidationReceipt;
 use App\Domain\Candidate\Exceptions\CandidateContractViolation;
 use RuntimeException;
 use Throwable;
@@ -30,13 +32,15 @@ final readonly class BuildCandidatePackage
         private CandidateContractRegistry $contracts,
         private CandidateSchemaValidator $schemaValidator,
         private CanonicalJson $canonicalJson,
+        private CandidatePackageIdentityLedger $identities,
     ) {}
 
     /** @param iterable<CandidateArchiveMember> $members */
-    public function handle(CandidatePackageContext $context, iterable $members): CandidatePackageBuild
+    public function handle(CandidatePackageContext $context, iterable $members, CandidateValidationReceipt $validation): CandidatePackageBuild
     {
         $this->contracts->assertPackageBuildReady();
         $membersByPath = $this->indexMembers($members);
+        $validation->assertPackage($context, $membersByPath);
         $entities = $membersByPath['entities.ndjson'];
         $sourceDiff = $membersByPath['source-diff.ndjson'];
 
@@ -46,6 +50,10 @@ final readonly class BuildCandidatePackage
 
         if (array_sum($context->sourceDiffSummary) !== $sourceDiff->recordCount) {
             throw new CandidateContractViolation('Candidate package source diff summary does not match its member.');
+        }
+
+        if ($entities->recordCount !== $context->sourceDiffSummary['added'] + $context->sourceDiffSummary['changed'] + $context->sourceDiffSummary['unchanged']) {
+            throw new CandidateContractViolation('Source diff does not cover all current entities.');
         }
 
         $artifact = $this->archive($membersByPath);
@@ -68,11 +76,20 @@ final readonly class BuildCandidatePackage
             'artifact_sha256' => $artifact->sha256,
             'members' => $memberManifest,
             'previous_package_id' => $context->previousPackageId,
+            'storage_profile' => $context->storageProfile,
+            'extensions' => (object) $context->extensions,
         ];
+        $idempotencyKey = 'sha256:'.hash('sha256', $this->canonicalJson->encode($identity));
+        try {
+            $context = $this->identities->reserve($idempotencyKey, $context);
+        } catch (Throwable $exception) {
+            unlink($artifact->temporaryPath);
+            throw $exception;
+        }
         $manifest = [
             'schema_version' => $schemaVersion,
             'package_id' => $context->packageId,
-            'idempotency_key' => 'sha256:'.hash('sha256', $this->canonicalJson->encode($identity)),
+            'idempotency_key' => $idempotencyKey,
             'mode' => 'full_snapshot',
             'source' => $context->source,
             'release' => $context->release,
@@ -165,6 +182,10 @@ final readonly class BuildCandidatePackage
 
         try {
             foreach (self::MEMBER_ORDER as $path) {
+                $member = $members[$path];
+                if (filesize($member->temporaryPath) !== $member->sizeBytes || ! hash_equals($member->sha256, hash_file('sha256', $member->temporaryPath))) {
+                    throw new CandidateContractViolation('Member bytes changed after validation.');
+                }
                 if (! $zip->addFile($members[$path]->temporaryPath, $path)
                     || ! $zip->setCompressionName($path, ZipArchive::CM_STORE)
                     || ! $zip->setMtimeName($path, self::ARCHIVE_TIMESTAMP)

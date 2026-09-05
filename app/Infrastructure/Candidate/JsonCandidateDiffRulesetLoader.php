@@ -39,6 +39,18 @@ final readonly class JsonCandidateDiffRulesetLoader implements CandidateDiffRule
         }
 
         $keys = array_keys($rules);
+        $v2 = ($rules['schema_version'] ?? null) === '2.0.0';
+        if ($v2) {
+            if (! is_array($rules['reference_pointer_patterns'] ?? null)
+                || ($rules['reference_pointer_patterns'] ?? []) === []
+                || ! is_array($rules['mapping_domains'] ?? null)
+                || ($rules['mapping_domains'] ?? []) === []) {
+                throw new CandidateContractViolation('Candidate diff V2 ruleset policy is incomplete.');
+            }
+            $keys = array_diff($keys, ['reference_pointer_patterns', 'mapping_domains']);
+        } elseif (($rules['schema_version'] ?? null) !== '1.0.0') {
+            throw new CandidateContractViolation('Unsupported candidate diff ruleset schema.');
+        }
         sort($keys, SORT_STRING);
 
         if ($keys !== [
@@ -67,6 +79,8 @@ final readonly class JsonCandidateDiffRulesetLoader implements CandidateDiffRule
             candidateKeyToken: $rules['candidate_key_token'],
             excludedPointerPatterns: array_values($rules['excluded_pointer_patterns']),
             domainPrefixes: array_values($rules['domain_prefixes']),
+            referencePointerPatterns: $rules['reference_pointer_patterns'] ?? [],
+            mappingDomains: $rules['mapping_domains'] ?? [],
         );
     }
 }

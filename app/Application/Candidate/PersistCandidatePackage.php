@@ -19,6 +19,7 @@ final readonly class PersistCandidatePackage
         CandidatePackageContext $context,
         CandidatePackageBuild $package,
     ): RegisteredCandidatePackage {
+        $context = $context->withIdentity($package->manifest['package_id'], $package->manifest['producer_run_id'], new \DateTimeImmutable($package->manifest['generated_at']));
         $stored = $this->storage->store($package);
 
         return $this->ledger->register($context, $package, $stored);

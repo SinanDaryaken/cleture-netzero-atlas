@@ -7,6 +7,7 @@ use App\Application\Contracts\CandidateRecordMemberWriter;
 use App\Application\Contracts\CanonicalJson;
 use App\Domain\Candidate\CandidateArchiveMember;
 use App\Domain\Candidate\CandidateContract;
+use App\Domain\Candidate\CandidateFinding;
 use App\Domain\Candidate\CandidateRecordMember;
 use App\Domain\Candidate\Exceptions\CandidateContractViolation;
 use App\Domain\Candidate\NormalizationFinding;
@@ -19,7 +20,7 @@ final readonly class BuildCandidateFindingMember
         private CanonicalJson $canonicalJson,
     ) {}
 
-    /** @param iterable<NormalizationFinding> $findings */
+    /** @param iterable<NormalizationFinding|CandidateFinding> $findings */
     public function handle(iterable $findings): CandidateArchiveMember
     {
         $schemaVersion = $this->contracts->get(CandidateContract::FindingRecord)->version;
@@ -31,13 +32,13 @@ final readonly class BuildCandidateFindingMember
     }
 
     /**
-     * @param  iterable<NormalizationFinding>  $findings
+     * @param  iterable<NormalizationFinding|CandidateFinding>  $findings
      * @return \Generator<int, array<string, mixed>>
      */
     private function records(iterable $findings, string $schemaVersion): \Generator
     {
         foreach ($findings as $finding) {
-            if (! $finding instanceof NormalizationFinding) {
+            if (! $finding instanceof NormalizationFinding && ! $finding instanceof CandidateFinding) {
                 throw new CandidateContractViolation('Finding member received an invalid finding.');
             }
 
@@ -46,9 +47,9 @@ final readonly class BuildCandidateFindingMember
                 'candidate_key' => $finding->candidateKey,
                 'code' => $finding->code,
                 'severity' => $finding->severity,
-                'json_pointer' => null,
+                'json_pointer' => $finding instanceof CandidateFinding ? $finding->jsonPointer : null,
                 'message' => $finding->message,
-                'evidence_refs' => [],
+                'evidence_refs' => $finding instanceof CandidateFinding ? $finding->evidenceRefs : [],
                 'context' => (object) $finding->context,
             ];
 

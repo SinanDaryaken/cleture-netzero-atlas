@@ -3,25 +3,33 @@
 namespace App\Providers;
 
 use App\Application\Candidate\SourceNormalizerRegistry;
+use App\Application\Contracts\CandidateBuildRepository;
 use App\Application\Contracts\CandidateContractRegistry;
 use App\Application\Contracts\CandidateDiffRulesetLoader;
 use App\Application\Contracts\CandidateDraftReader;
 use App\Application\Contracts\CandidateDraftWriter;
 use App\Application\Contracts\CandidateEntityMemberWriter;
+use App\Application\Contracts\CandidateEntityReader;
+use App\Application\Contracts\CandidateMappingPolicyLoader;
+use App\Application\Contracts\CandidatePackageIdentityLedger;
 use App\Application\Contracts\CandidatePackageLedger;
 use App\Application\Contracts\CandidatePackageStorage;
 use App\Application\Contracts\CandidateRecordMemberWriter;
+use App\Application\Contracts\CandidateReleaseComparison;
 use App\Application\Contracts\CandidateSchemaValidator;
+use App\Application\Contracts\CandidateValidationRulesetLoader;
 use App\Application\Contracts\CanonicalJson;
 use App\Application\Contracts\CatalogContractRegistry;
 use App\Application\Contracts\CatalogSchemaValidator;
 use App\Application\Contracts\CatalogSnapshotLoader;
 use App\Application\Contracts\GeographyCatalogResolver;
 use App\Application\Contracts\IngestionLedger;
+use App\Application\Contracts\LicenseSnapshotLoader;
 use App\Application\Contracts\NormalizationLedger;
 use App\Application\Contracts\NormalizedArtifactStorage;
 use App\Application\Contracts\ParsedObservationReader;
 use App\Application\Contracts\ParsingLedger;
+use App\Application\Contracts\PreviousCandidatePackageReader;
 use App\Application\Contracts\ProcessingArtifactStorage;
 use App\Application\Contracts\RawAssetStorage;
 use App\Application\Contracts\RawAssetStreamReader;
@@ -29,12 +37,18 @@ use App\Application\Contracts\UnitCatalogResolver;
 use App\Application\Ingestion\SourceAdapterRegistry;
 use App\Application\Ingestion\SourceParserRegistry;
 use App\Domain\Catalog\CatalogSnapshotIntegrity;
+use App\Infrastructure\Candidate\DiskCandidateReleaseComparison;
 use App\Infrastructure\Candidate\JsonCandidateDiffRulesetLoader;
+use App\Infrastructure\Candidate\JsonCandidateValidationRulesetLoader;
 use App\Infrastructure\Candidate\LaravelCandidateDraftReader;
+use App\Infrastructure\Candidate\LaravelLicenseSnapshotLoader;
 use App\Infrastructure\Candidate\NdjsonCandidateDraftWriter;
 use App\Infrastructure\Candidate\NdjsonCandidateEntityMemberWriter;
 use App\Infrastructure\Candidate\NdjsonCandidateRecordMemberWriter;
+use App\Infrastructure\Candidate\PinnedCandidateMappingPolicy;
 use App\Infrastructure\Candidate\Rfc8785CanonicalJson;
+use App\Infrastructure\Candidate\StoredPreviousCandidatePackageReader;
+use App\Infrastructure\Candidate\VerifiedCandidateEntityReader;
 use App\Infrastructure\Catalog\LaravelCatalogSnapshotLoader;
 use App\Infrastructure\Catalog\SnapshotGeographyCatalogResolver;
 use App\Infrastructure\Catalog\SnapshotUnitCatalogResolver;
@@ -42,6 +56,8 @@ use App\Infrastructure\Contracts\OpisCandidateSchemaValidator;
 use App\Infrastructure\Contracts\OpisCatalogSchemaValidator;
 use App\Infrastructure\Contracts\PinnedCandidateContractRegistry;
 use App\Infrastructure\Contracts\PinnedCatalogContractRegistry;
+use App\Infrastructure\Persistence\EloquentCandidateBuildRepository;
+use App\Infrastructure\Persistence\EloquentCandidatePackageIdentityLedger;
 use App\Infrastructure\Persistence\EloquentCandidatePackageLedger;
 use App\Infrastructure\Persistence\EloquentIngestionLedger;
 use App\Infrastructure\Persistence\EloquentNormalizationLedger;
@@ -63,6 +79,19 @@ final class AtlasServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(CandidateMappingPolicyLoader::class, fn ($app) => $app->make(PinnedCandidateMappingPolicy::class));
+        $this->app->bind(CandidateEntityReader::class, VerifiedCandidateEntityReader::class);
+        $this->app->bind(CandidateReleaseComparison::class, DiskCandidateReleaseComparison::class);
+        $this->app->bind(PreviousCandidatePackageReader::class, StoredPreviousCandidatePackageReader::class);
+        $this->app->bind(CandidatePackageIdentityLedger::class, EloquentCandidatePackageIdentityLedger::class);
+        $this->app->singleton(CandidateValidationRulesetLoader::class,
+            fn () => new JsonCandidateValidationRulesetLoader(config('atlas.rulesets.candidate_validation.path'), config('atlas.rulesets.candidate_validation.sha256')));
+        $this->app->singleton(PinnedCandidateMappingPolicy::class,
+            fn () => new PinnedCandidateMappingPolicy(config('atlas.rulesets.candidate_mapping.path'), config('atlas.rulesets.candidate_mapping.sha256')));
+        $this->app->bind(LicenseSnapshotLoader::class,
+            fn ($app) => new LaravelLicenseSnapshotLoader($app->make(FilesystemManager::class), config('atlas.storage.processing_disk')));
+        $this->app->bind(CandidateBuildRepository::class,
+            fn ($app) => new EloquentCandidateBuildRepository($app->make(CanonicalJson::class), $app->make(FilesystemManager::class), config('atlas.storage.processing_disk')));
         $this->app->singleton(
             CandidateContractRegistry::class,
             fn (): CandidateContractRegistry => new PinnedCandidateContractRegistry(

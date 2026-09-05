@@ -9,6 +9,8 @@ Atlas canonical katalogları doğrudan yayımlamaz, tenant veritabanlarına bağ
 ve production hesap sonucu saklamaz. Candidate paketlerin review ve publish sahibi
 `cleture-netzero-admin` uygulamasıdır.
 
+Oturum devam noktası ve bekleyen proje bağımlılıkları: [Güncel durum](docs/CURRENT.md).
+
 ## Yerel altyapı
 
 - PostgreSQL: ortak `laravel-dev-postgres` servisi, `atlas_netzero` veritabanı
@@ -119,6 +121,20 @@ geography eşlemeleri canonical snapshot gelene kadar `unresolved` kalır. Draft
 content-addressed olarak `atlas-processing` alanına yazılır; run ve finding kayıtları
 Atlas çalışma DB'sinde tutulur. Bu çıktı henüz `record_sha256` eklenmiş candidate package
 değildir ve Admin'e gönderilmez.
+
+## Doğrulanmış candidate paket üretimi
+
+```bash
+php artisan migrate
+php artisan atlas:candidate:build /absolute/path/build-plan.json
+```
+
+Sabit akış: normalized artifact → pinlenmiş katalog/lisans kanıtı → entity ve
+semantic validation → kalıcı findings/receipt → doğrulanmış önceki paketle diff →
+immutable ZIP/manifest ve idempotent ledger. Komut Admin'e gönderim yapmaz.
+Plan, lisans kanıtı ve hata davranışı [candidate build işletim notunda](docs/candidate-build.md),
+kararlar [ADR-007](docs/decisions/ADR-007-validation-and-fixed-candidate-build.md) içindedir.
+Katalog payload'ı veya lisans kanıtı yoksa varsayılan eşleme/lisans üretilmez.
 
 ## Backlog
 

@@ -51,14 +51,22 @@ return [
     ],
 
     'rulesets' => [
+        'candidate_validation' => [
+            'path' => base_path(env('ATLAS_CANDIDATE_VALIDATION_RULESET_PATH', 'resources/rules/candidate/validation-v1.json')),
+            'sha256' => env('ATLAS_CANDIDATE_VALIDATION_RULESET_SHA256', '87f81981deda1e56d809b333133c7f338a8fd0acd3e780fb7cc4c6f1c249fc4c'),
+        ],
+        'candidate_mapping' => [
+            'path' => base_path(env('ATLAS_CANDIDATE_MAPPING_RULESET_PATH', 'resources/rules/candidate/mapping-v1.json')),
+            'sha256' => env('ATLAS_CANDIDATE_MAPPING_RULESET_SHA256', '4ee5673b66b8160f49c165c2e59384c53f9ceb7cf0550480e7b63a1e919405ba'),
+        ],
         'candidate_diff' => [
             'path' => base_path(env(
                 'ATLAS_CANDIDATE_DIFF_RULESET_PATH',
-                'resources/rules/candidate/source-diff-v1.json',
+                'resources/rules/candidate/source-diff-v2.json',
             )),
             'sha256' => env(
                 'ATLAS_CANDIDATE_DIFF_RULESET_SHA256',
-                'ec6976b14a1a761f5bc0b143db216ec13605e522b6bdab3d7f99646a9546b740',
+                '46970a2946ac109b4f641b02e320a5375d8f0cd6135199603ea4a3dcf34aa303',
             ),
         ],
     ],
