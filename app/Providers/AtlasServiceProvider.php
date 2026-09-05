@@ -8,6 +8,8 @@ use App\Application\Contracts\CandidateDiffRulesetLoader;
 use App\Application\Contracts\CandidateDraftReader;
 use App\Application\Contracts\CandidateDraftWriter;
 use App\Application\Contracts\CandidateEntityMemberWriter;
+use App\Application\Contracts\CandidatePackageLedger;
+use App\Application\Contracts\CandidatePackageStorage;
 use App\Application\Contracts\CandidateRecordMemberWriter;
 use App\Application\Contracts\CandidateSchemaValidator;
 use App\Application\Contracts\CanonicalJson;
@@ -40,12 +42,14 @@ use App\Infrastructure\Contracts\OpisCandidateSchemaValidator;
 use App\Infrastructure\Contracts\OpisCatalogSchemaValidator;
 use App\Infrastructure\Contracts\PinnedCandidateContractRegistry;
 use App\Infrastructure\Contracts\PinnedCatalogContractRegistry;
+use App\Infrastructure\Persistence\EloquentCandidatePackageLedger;
 use App\Infrastructure\Persistence\EloquentIngestionLedger;
 use App\Infrastructure\Persistence\EloquentNormalizationLedger;
 use App\Infrastructure\Persistence\EloquentParsingLedger;
 use App\Infrastructure\Sources\Ademe\AdemeCandidateNormalizer;
 use App\Infrastructure\Sources\Ademe\AdemeCsvParser;
 use App\Infrastructure\Sources\Ademe\AdemeSourceAdapter;
+use App\Infrastructure\Storage\LaravelCandidatePackageStorage;
 use App\Infrastructure\Storage\LaravelNormalizedArtifactStorage;
 use App\Infrastructure\Storage\LaravelParsedObservationReader;
 use App\Infrastructure\Storage\LaravelProcessingArtifactStorage;
@@ -79,6 +83,7 @@ final class AtlasServiceProvider extends ServiceProvider
         $this->app->bind(CandidateDraftWriter::class, NdjsonCandidateDraftWriter::class);
         $this->app->bind(CandidateDraftReader::class, LaravelCandidateDraftReader::class);
         $this->app->bind(CandidateEntityMemberWriter::class, NdjsonCandidateEntityMemberWriter::class);
+        $this->app->bind(CandidatePackageLedger::class, EloquentCandidatePackageLedger::class);
         $this->app->bind(CandidateRecordMemberWriter::class, NdjsonCandidateRecordMemberWriter::class);
         $this->app->bind(CandidateSchemaValidator::class, OpisCandidateSchemaValidator::class);
         $this->app->bind(CanonicalJson::class, Rfc8785CanonicalJson::class);
@@ -87,6 +92,14 @@ final class AtlasServiceProvider extends ServiceProvider
         $this->app->bind(UnitCatalogResolver::class, SnapshotUnitCatalogResolver::class);
         $this->app->bind(ParsedObservationReader::class, LaravelParsedObservationReader::class);
         $this->app->bind(RawAssetStreamReader::class, LaravelRawAssetStreamReader::class);
+
+        $this->app->singleton(
+            CandidatePackageStorage::class,
+            fn ($app): CandidatePackageStorage => new LaravelCandidatePackageStorage(
+                filesystems: $app->make(FilesystemManager::class),
+                disk: config('atlas.storage.candidate_disk'),
+            ),
+        );
 
         $this->app->singleton(
             CandidateDiffRulesetLoader::class,

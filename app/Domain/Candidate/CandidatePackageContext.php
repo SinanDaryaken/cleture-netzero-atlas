@@ -20,6 +20,7 @@ final readonly class CandidatePackageContext
      */
     public function __construct(
         public string $packageId,
+        public string $sourceReleaseId,
         public array $source,
         public array $release,
         public array $rawAssets,
@@ -34,7 +35,11 @@ final readonly class CandidatePackageContext
         public string $storageProfile,
         public array $extensions = [],
     ) {
-        if ($this->packageId === '' || $this->producerRunId === '' || $this->storageProfile === '') {
+        if ($this->packageId === ''
+            || $this->sourceReleaseId === ''
+            || $this->producerRunId === ''
+            || $this->storageProfile === ''
+        ) {
             throw new CandidateContractViolation('Candidate package context identity cannot be empty.');
         }
 

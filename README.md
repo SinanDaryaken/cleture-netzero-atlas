@@ -69,6 +69,10 @@ tanımlanmıştır. Release karşılaştırması source adına bağlı koşul ç
 JSON ruleset'i kullanır. Package ZIP'i dört contracted member'ı sabit sırada ve sabit
 metadata ile içerir, artifact SHA-256 değerinden content-addressed object key türetir ve
 sidecar manifesti yazmadan önce pinned NetZeroAdmin V2 şemasına karşı doğrular.
+Package ZIP ve manifestinin immutable storage ile idempotent ledger sınırı
+[ADR-006](docs/decisions/ADR-006-immutable-candidate-package-storage.md) içinde
+tanımlanmıştır. Archive ve manifest ayrı content-addressed nesnelerdir; var olan
+nesneler boyut ve SHA-256 doğrulaması yapılmadan yeniden kullanılmaz.
 
 Doğrulanan release'in orijinal dosyası MD5 ve SHA-256 kontrolünden geçirilerek
 content-addressed biçimde `atlas-raw` alanına alınabilir:

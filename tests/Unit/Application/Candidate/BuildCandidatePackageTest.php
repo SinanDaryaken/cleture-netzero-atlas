@@ -77,6 +77,7 @@ final class BuildCandidatePackageTest extends TestCase
     {
         return new CandidatePackageContext(
             packageId: '018f0c1a-7b2c-7def-8abc-1234567890ab',
+            sourceReleaseId: '018f0c1a-7b2c-7def-8abc-1234567890ac',
             source: [
                 'code' => 'TEST_SOURCE',
                 'dataset_id' => 'dataset-1',

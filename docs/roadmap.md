@@ -69,7 +69,7 @@
 - [ ] Quality, license, geography, unit, temporal ve provenance kapılarını uygula.
 - [x] Hash-pinned ve source-agnostic ruleset ile field-level release diff üret.
 - [x] Dört member'ı sabit sırada içeren deterministik ZIP ve V2 sidecar manifest üret.
-- [ ] Candidate package ile manifesti content-addressed storage'a immutable yaz ve
+- [x] Candidate package ile manifesti content-addressed storage'a immutable yaz ve
   idempotent package ledger kaydını oluştur.
 - [ ] Paketi NetZeroAdmin staging sınırına teslim et; canonical publish yapma.
 

@@ -19,6 +19,7 @@ return [
     'storage' => [
         'raw_disk' => env('ATLAS_RAW_DISK', 'atlas_raw'),
         'processing_disk' => env('ATLAS_PROCESSING_DISK', 'atlas_processing'),
+        'candidate_disk' => env('ATLAS_CANDIDATES_DISK', 'atlas_candidates'),
         'catalog_disk' => env('ATLAS_CATALOG_DISK', 'atlas_catalogs'),
     ],
 
