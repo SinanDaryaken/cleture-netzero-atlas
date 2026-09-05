@@ -63,6 +63,13 @@ tanımlanmıştır. Contract/schema dosyaları repository'de pinlidir; gerçek k
 payload'ları repository'ye gömülmez ve `atlas_catalogs` runtime storage üzerinden exact
 descriptor/payload hash'leriyle tüketilir. Bu hazırlık canlı V2 intake yetkisi vermez.
 
+Source-agnostic findings, release diff ve candidate archive/manifest assembly kuralları
+[ADR-005](docs/decisions/ADR-005-source-diff-and-package-assembly.md) içinde
+tanımlanmıştır. Release karşılaştırması source adına bağlı koşul çalıştırmaz; hash-pinned
+JSON ruleset'i kullanır. Package ZIP'i dört contracted member'ı sabit sırada ve sabit
+metadata ile içerir, artifact SHA-256 değerinden content-addressed object key türetir ve
+sidecar manifesti yazmadan önce pinned NetZeroAdmin V2 şemasına karşı doğrular.
+
 Doğrulanan release'in orijinal dosyası MD5 ve SHA-256 kontrolünden geçirilerek
 content-addressed biçimde `atlas-raw` alanına alınabilir:
 

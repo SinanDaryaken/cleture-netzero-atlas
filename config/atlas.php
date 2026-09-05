@@ -49,6 +49,19 @@ return [
         ],
     ],
 
+    'rulesets' => [
+        'candidate_diff' => [
+            'path' => base_path(env(
+                'ATLAS_CANDIDATE_DIFF_RULESET_PATH',
+                'resources/rules/candidate/source-diff-v1.json',
+            )),
+            'sha256' => env(
+                'ATLAS_CANDIDATE_DIFF_RULESET_SHA256',
+                'ec6976b14a1a761f5bc0b143db216ec13605e522b6bdab3d7f99646a9546b740',
+            ),
+        ],
+    ],
+
     'http' => [
         'connect_timeout_seconds' => (int) env('ATLAS_HTTP_CONNECT_TIMEOUT_SECONDS', 10),
         'timeout_seconds' => (int) env('ATLAS_HTTP_TIMEOUT_SECONDS', 30),

@@ -65,10 +65,12 @@
 - [x] Doğrulanmış normalized artifact'ten deterministik V2 `entities.ndjson` member
   üreticisini oluştur.
 - [x] V2 policy'ye uygun sıfır byte/sıfır kayıt `relationships.ndjson` member üret.
-- [ ] `findings.ndjson` ve first-release/source `source-diff.ndjson` member'larını üret.
+- [x] `findings.ndjson` ve first-release/source `source-diff.ndjson` member'larını üret.
 - [ ] Quality, license, geography, unit, temporal ve provenance kapılarını uygula.
-- [ ] Field-level release diff üret.
-- [ ] Sürümlü manifest ve immutable candidate package üret.
+- [x] Hash-pinned ve source-agnostic ruleset ile field-level release diff üret.
+- [x] Dört member'ı sabit sırada içeren deterministik ZIP ve V2 sidecar manifest üret.
+- [ ] Candidate package ile manifesti content-addressed storage'a immutable yaz ve
+  idempotent package ledger kaydını oluştur.
 - [ ] Paketi NetZeroAdmin staging sınırına teslim et; canonical publish yapma.
 
 ### Dış koordinasyon kapıları

@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Application\Candidate\SourceNormalizerRegistry;
 use App\Application\Contracts\CandidateContractRegistry;
+use App\Application\Contracts\CandidateDiffRulesetLoader;
 use App\Application\Contracts\CandidateDraftReader;
 use App\Application\Contracts\CandidateDraftWriter;
 use App\Application\Contracts\CandidateEntityMemberWriter;
+use App\Application\Contracts\CandidateRecordMemberWriter;
 use App\Application\Contracts\CandidateSchemaValidator;
 use App\Application\Contracts\CanonicalJson;
 use App\Application\Contracts\CatalogContractRegistry;
@@ -25,9 +27,11 @@ use App\Application\Contracts\UnitCatalogResolver;
 use App\Application\Ingestion\SourceAdapterRegistry;
 use App\Application\Ingestion\SourceParserRegistry;
 use App\Domain\Catalog\CatalogSnapshotIntegrity;
+use App\Infrastructure\Candidate\JsonCandidateDiffRulesetLoader;
 use App\Infrastructure\Candidate\LaravelCandidateDraftReader;
 use App\Infrastructure\Candidate\NdjsonCandidateDraftWriter;
 use App\Infrastructure\Candidate\NdjsonCandidateEntityMemberWriter;
+use App\Infrastructure\Candidate\NdjsonCandidateRecordMemberWriter;
 use App\Infrastructure\Candidate\Rfc8785CanonicalJson;
 use App\Infrastructure\Catalog\LaravelCatalogSnapshotLoader;
 use App\Infrastructure\Catalog\SnapshotGeographyCatalogResolver;
@@ -75,6 +79,7 @@ final class AtlasServiceProvider extends ServiceProvider
         $this->app->bind(CandidateDraftWriter::class, NdjsonCandidateDraftWriter::class);
         $this->app->bind(CandidateDraftReader::class, LaravelCandidateDraftReader::class);
         $this->app->bind(CandidateEntityMemberWriter::class, NdjsonCandidateEntityMemberWriter::class);
+        $this->app->bind(CandidateRecordMemberWriter::class, NdjsonCandidateRecordMemberWriter::class);
         $this->app->bind(CandidateSchemaValidator::class, OpisCandidateSchemaValidator::class);
         $this->app->bind(CanonicalJson::class, Rfc8785CanonicalJson::class);
         $this->app->bind(CatalogSchemaValidator::class, OpisCatalogSchemaValidator::class);
@@ -82,6 +87,14 @@ final class AtlasServiceProvider extends ServiceProvider
         $this->app->bind(UnitCatalogResolver::class, SnapshotUnitCatalogResolver::class);
         $this->app->bind(ParsedObservationReader::class, LaravelParsedObservationReader::class);
         $this->app->bind(RawAssetStreamReader::class, LaravelRawAssetStreamReader::class);
+
+        $this->app->singleton(
+            CandidateDiffRulesetLoader::class,
+            fn (): CandidateDiffRulesetLoader => new JsonCandidateDiffRulesetLoader(
+                path: config('atlas.rulesets.candidate_diff.path'),
+                expectedSha256: config('atlas.rulesets.candidate_diff.sha256'),
+            ),
+        );
 
         $this->app->singleton(RawAssetStorage::class, function ($app): RawAssetStorage {
             return new LaravelRawAssetStorage(

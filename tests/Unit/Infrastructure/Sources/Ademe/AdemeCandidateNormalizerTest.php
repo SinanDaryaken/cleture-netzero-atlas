@@ -52,7 +52,8 @@ final class AdemeCandidateNormalizerTest extends TestCase
         $this->assertSame('CH4_fossil', $record['components'][4]['gas_code']);
         $this->assertCount(2, $record['evidence']);
         $this->assertCount(2, $record['provenance']);
-        $this->assertSame((object) [], $record['extensions']);
+        $this->assertInstanceOf(\stdClass::class, $record['extensions']);
+        $this->assertSame([], get_object_vars($record['extensions']));
         $this->assertArrayNotHasKey('record_sha256', $record);
         $this->assertSame(1, $result->metrics['attached_post_observations']);
     }

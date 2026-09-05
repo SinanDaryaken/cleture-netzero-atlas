@@ -77,8 +77,10 @@ normalizer'ına sahip olur. Paket protokolü düzeyinde ise tek bir ortak motor 
 İlk normalization uygulaması ADEME'ye özeldir; ortaya çıkan domain kayıtları ve paket
 altyapısı sonraki kaynaklar tarafından tekrar kullanılabilir.
 
-V2 member record şemaları ve sürümlü unit/geography snapshot girişleri artık teslim
-edilmiştir. Kalan package kapıları ADEME license terms snapshot, finding/source-diff
-member üretimi ve tam manifest/archive assembly'dir. Canlı teslim ayrıca NetZeroAdmin
-V2 intake rollout ve Worker durable staging koordinasyonunu bekler. Bu kapılar ADEME
-normalizer'ın source-derived ve unresolved candidate üretmesine engel değildir.
+V2 member record şemaları ve sürümlü unit/geography snapshot girişleri teslim edilmiş;
+finding/source-diff member üretimi ile deterministik manifest/archive assembly
+tamamlanmıştır. Kalan package kapıları validation orkestrasyonu, ADEME license terms
+snapshot, immutable package persistence/ledger ve canlı teslimdir. Canlı teslim ayrıca
+NetZeroAdmin V2 intake rollout ve Worker durable staging koordinasyonunu bekler. Bu
+kapılar ADEME normalizer'ın source-derived ve unresolved candidate üretmesine engel
+değildir.
