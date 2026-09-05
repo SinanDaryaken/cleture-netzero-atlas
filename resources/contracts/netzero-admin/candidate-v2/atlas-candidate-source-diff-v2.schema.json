@@ -1,0 +1,490 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroatlas:schema:candidate-source-diff:2",
+  "title": "NetZeroAtlas Advisory Source Diff V2",
+  "description": "One Atlas source-observation diff line from source-diff.ndjson. It is advisory evidence and never replaces the Admin candidate or publication diff.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "diff_key",
+    "logical_key",
+    "variant_key",
+    "candidate_key",
+    "previous_candidate_key",
+    "classification",
+    "before_comparison_sha256",
+    "after_comparison_sha256",
+    "comparison_schema_version",
+    "diff_ruleset_version",
+    "changes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "diff_key": {
+      "$ref": "#/$defs/key"
+    },
+    "logical_key": {
+      "$ref": "#/$defs/key"
+    },
+    "variant_key": {
+      "$ref": "#/$defs/key"
+    },
+    "candidate_key": {
+      "$ref": "#/$defs/nullableKey"
+    },
+    "previous_candidate_key": {
+      "$ref": "#/$defs/nullableKey"
+    },
+    "classification": {
+      "enum": [
+        "added",
+        "changed",
+        "unchanged",
+        "removed"
+      ]
+    },
+    "before_comparison_sha256": {
+      "$ref": "#/$defs/nullableSha256"
+    },
+    "after_comparison_sha256": {
+      "$ref": "#/$defs/nullableSha256"
+    },
+    "comparison_schema_version": {
+      "$ref": "#/$defs/nonEmptyVersion"
+    },
+    "diff_ruleset_version": {
+      "$ref": "#/$defs/nonEmptyVersion"
+    },
+    "changes": {
+      "type": "array",
+      "maxItems": 512,
+      "items": {
+        "$ref": "#/$defs/fieldChange"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "added"
+          }
+        },
+        "required": [
+          "classification"
+        ]
+      },
+      "then": {
+        "properties": {
+          "candidate_key": {
+            "$ref": "#/$defs/key"
+          },
+          "previous_candidate_key": {
+            "type": "null"
+          },
+          "before_comparison_sha256": {
+            "type": "null"
+          },
+          "after_comparison_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "changes": {
+            "minItems": 1,
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/fieldChange"
+                },
+                {
+                  "properties": {
+                    "operation": {
+                      "const": "add"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "changed"
+          }
+        },
+        "required": [
+          "classification"
+        ]
+      },
+      "then": {
+        "properties": {
+          "candidate_key": {
+            "$ref": "#/$defs/key"
+          },
+          "previous_candidate_key": {
+            "$ref": "#/$defs/key"
+          },
+          "before_comparison_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "after_comparison_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "changes": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "unchanged"
+          }
+        },
+        "required": [
+          "classification"
+        ]
+      },
+      "then": {
+        "properties": {
+          "candidate_key": {
+            "$ref": "#/$defs/key"
+          },
+          "previous_candidate_key": {
+            "$ref": "#/$defs/key"
+          },
+          "before_comparison_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "after_comparison_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "changes": {
+            "maxItems": 0
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "const": "removed"
+          }
+        },
+        "required": [
+          "classification"
+        ]
+      },
+      "then": {
+        "properties": {
+          "candidate_key": {
+            "type": "null"
+          },
+          "previous_candidate_key": {
+            "$ref": "#/$defs/key"
+          },
+          "before_comparison_sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "after_comparison_sha256": {
+            "type": "null"
+          },
+          "changes": {
+            "minItems": 1,
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/fieldChange"
+                },
+                {
+                  "properties": {
+                    "operation": {
+                      "const": "remove"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "nullableSha256": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/sha256"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "nullableKey": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/key"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nonEmptyVersion": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+    },
+    "jsonPointer": {
+      "type": "string",
+      "maxLength": 2048,
+      "pattern": "^(?:|/(?:[^~/]|~0|~1)*)$|^/(?:[^~/]|~0|~1)*(?:/(?:[^~/]|~0|~1)*)*$"
+    },
+    "scalar": {
+      "oneOf": [
+        {
+          "type": "string",
+          "maxLength": 10000
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fieldValue": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "presence"
+          ],
+          "properties": {
+            "presence": {
+              "const": "absent"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "presence",
+            "value"
+          ],
+          "properties": {
+            "presence": {
+              "const": "present"
+            },
+            "value": {
+              "$ref": "#/$defs/scalar"
+            }
+          }
+        }
+      ]
+    },
+    "fieldChange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "json_pointer",
+        "domain",
+        "operation",
+        "before",
+        "after",
+        "provenance_refs"
+      ],
+      "properties": {
+        "json_pointer": {
+          "$ref": "#/$defs/jsonPointer"
+        },
+        "domain": {
+          "enum": [
+            "identity",
+            "value",
+            "unit",
+            "geography",
+            "temporal",
+            "methodology",
+            "license",
+            "taxonomy",
+            "applicability",
+            "quality",
+            "provenance",
+            "extension"
+          ]
+        },
+        "operation": {
+          "enum": [
+            "add",
+            "remove",
+            "replace"
+          ]
+        },
+        "before": {
+          "$ref": "#/$defs/fieldValue"
+        },
+        "after": {
+          "$ref": "#/$defs/fieldValue"
+        },
+        "provenance_refs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/key"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "add"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "before": {
+                "type": "object",
+                "required": [
+                  "presence"
+                ],
+                "properties": {
+                  "presence": {
+                    "const": "absent"
+                  }
+                }
+              },
+              "after": {
+                "type": "object",
+                "required": [
+                  "presence",
+                  "value"
+                ],
+                "properties": {
+                  "presence": {
+                    "const": "present"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "remove"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "before": {
+                "type": "object",
+                "required": [
+                  "presence",
+                  "value"
+                ],
+                "properties": {
+                  "presence": {
+                    "const": "present"
+                  }
+                }
+              },
+              "after": {
+                "type": "object",
+                "required": [
+                  "presence"
+                ],
+                "properties": {
+                  "presence": {
+                    "const": "absent"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operation": {
+                "const": "replace"
+              }
+            },
+            "required": [
+              "operation"
+            ]
+          },
+          "then": {
+            "properties": {
+              "before": {
+                "type": "object",
+                "required": [
+                  "presence",
+                  "value"
+                ],
+                "properties": {
+                  "presence": {
+                    "const": "present"
+                  }
+                }
+              },
+              "after": {
+                "type": "object",
+                "required": [
+                  "presence",
+                  "value"
+                ],
+                "properties": {
+                  "presence": {
+                    "const": "present"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -14,11 +14,13 @@ final readonly class NormalizationContext
         public string $rawAssetKey,
         public string $rawAssetSha256,
         public string $parserVersion,
+        public string $candidateSchemaVersion,
         public DateTimeImmutable $retrievedAt,
         public ?DateTimeImmutable $sourcePublishedAt = null,
     ) {
         if ($this->sourceCode === '' || $this->datasetId === '' || $this->releaseVersion === ''
             || $this->rawAssetKey === '' || $this->parserVersion === ''
+            || preg_match('/^\d+\.\d+\.\d+$/', $this->candidateSchemaVersion) !== 1
         ) {
             throw new InvalidArgumentException('Normalization context identity cannot be empty.');
         }

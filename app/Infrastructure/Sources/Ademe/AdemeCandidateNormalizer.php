@@ -17,8 +17,6 @@ final class AdemeCandidateNormalizer implements SourceNormalizationAdapter
 {
     public const NORMALIZER_VERSION = '1.0.0';
 
-    private const CANDIDATE_SCHEMA_VERSION = '1.0.0';
-
     private const VALID_FACTOR_STATUSES = [
         'Valide générique',
         'Valide spécifique',
@@ -211,7 +209,7 @@ final class AdemeCandidateNormalizer implements SourceNormalizationAdapter
         $geography = $this->geographyLabel($element);
 
         return new CandidateEntityDraft(
-            schemaVersion: self::CANDIDATE_SCHEMA_VERSION,
+            schemaVersion: $context->candidateSchemaVersion,
             candidateKey: $candidateKey,
             logicalKey: $logicalKey,
             variantKey: $variantKey,

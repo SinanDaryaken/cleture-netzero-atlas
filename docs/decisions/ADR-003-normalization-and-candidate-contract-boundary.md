@@ -16,8 +16,9 @@ NetZeroAdmin candidate package ve entity JSON şemalarının canonical sahibidir
 paketin deterministik üretilebilmesi için Atlas'ın çalışırken uzak bir repository
 veya değişebilir dokümana bakmaması; kullandığı sözleşme kopyasının commit, blob ve
 SHA-256 kimliklerini taşıması gerekir. Mevcut upstream sözleşmede
-`relationships.ndjson`, `findings.ndjson` ve `source-diff.ndjson` satır şemaları henüz
-sürümlü olarak tanımlı değildir.
+`relationships.ndjson`, `findings.ndjson` ve `source-diff.ndjson` satır şemaları ilk
+V1 snapshot'ında sürümlü olarak tanımlı değildi. Bu eksik 2026-09-05 tarihli ayrı V2
+snapshot ile giderilmiştir; V1 byte'ları tarihsel uyumluluk için korunur.
 
 ## Karar
 
@@ -38,8 +39,8 @@ sürümlü olarak tanımlı değildir.
 - Contract registry dosyayı kullanmadan önce local hash ve schema kimliğini doğrular.
   Eksik bir sözleşme veya hash sapması fail-closed kabul edilir.
 - Dört member için kayıt sözleşmeleri tamamlanmadan ortak package builder üretime
-  açılmaz. Boş NDJSON member oluşturarak veya Atlas'ın kendi şemasını icat ederek bu
-  kapı aşılmaz.
+  açılmaz. Bu kapı V2 sözleşmeleriyle açılmıştır; V2 relationship member upstream
+  policy gereği bulunur fakat sıfır byte/sıfır kayıt kalır.
 - Kaynaktan çözülemeyen unit, geography veya taxonomy değeri elenmez ve canonical
   varsayımla doldurulmaz; provenance ile unresolved/ambiguous proposal olarak tutulur.
 - Normalization ara çıktısı source-neutral, unhashed candidate draft NDJSON'dır. Parsed
@@ -76,7 +77,8 @@ normalizer'ına sahip olur. Paket protokolü düzeyinde ise tek bir ortak motor 
 İlk normalization uygulaması ADEME'ye özeldir; ortaya çıkan domain kayıtları ve paket
 altyapısı sonraki kaynaklar tarafından tekrar kullanılabilir.
 
-Package builder geliştirmesi; üç eksik member record şeması, sürümlü unit/geography
-snapshot girişleri ve lisans terms snapshot sözleşmesi tamamlanana kadar bloke kalır.
-Bu eksikler ADEME normalizer'ın source-derived ve unresolved candidate üretmesine
-engel değildir, fakat review'a teslim edilebilir tam paketin kabul kapısıdır.
+V2 member record şemaları ve sürümlü unit/geography snapshot girişleri artık teslim
+edilmiştir. Kalan package kapıları ADEME license terms snapshot, finding/source-diff
+member üretimi ve tam manifest/archive assembly'dir. Canlı teslim ayrıca NetZeroAdmin
+V2 intake rollout ve Worker durable staging koordinasyonunu bekler. Bu kapılar ADEME
+normalizer'ın source-derived ve unresolved candidate üretmesine engel değildir.

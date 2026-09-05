@@ -1,0 +1,94 @@
+{
+  "snapshot_version": "2.0.0",
+  "owner": "cleture-netzero-admin",
+  "upstream_repository": "cleture-netzero-admin",
+  "upstream_commit": "37a30fae4f68cbea24a981d4e975463a856ac0ee",
+  "captured_at": "2026-09-05",
+  "upstream_manifest": {
+    "path": "atlas-candidate-contract-v2.manifest.json",
+    "sha256": "1990bcdfe11133e0448d64af07d6790ccec594ffae8089b8615effc45d43f1fc",
+    "upstream_git_blob": "6a1f477378fbf14cd7d511514f8be84b2cfcc43e",
+    "upstream_path": "ai/codex/architecture/atlas-candidate-contract-v2.manifest.json"
+  },
+  "contracts": [
+    {
+      "name": "candidate_package_manifest",
+      "version": "2.0.0",
+      "path": "atlas-candidate-package-v2.schema.json",
+      "schema_id": "urn:netzeroatlas:schema:candidate-package-manifest:2",
+      "sha256": "f275e75d05dabff8380a8593697a4458eddbfd8bd082d85808cf1277b2f368b8",
+      "upstream_sha256": "f275e75d05dabff8380a8593697a4458eddbfd8bd082d85808cf1277b2f368b8",
+      "upstream_git_blob": "306d6a0f842375910caabf2c69f9812d83384b9c",
+      "upstream_path": "ai/codex/architecture/atlas-candidate-package-v2.schema.json"
+    },
+    {
+      "name": "candidate_entity_record",
+      "version": "2.0.0",
+      "path": "atlas-candidate-entity-v2.schema.json",
+      "schema_id": "urn:netzeroatlas:schema:candidate-entity:2",
+      "sha256": "20abcfad4b4d559de2a347fafa3640e83bbc5aeedf36e0053862346f00cb48a7",
+      "upstream_sha256": "20abcfad4b4d559de2a347fafa3640e83bbc5aeedf36e0053862346f00cb48a7",
+      "upstream_git_blob": "6694c9925e008e28de153c60265288f4add2ddac",
+      "upstream_path": "ai/codex/architecture/atlas-candidate-entity-v2.schema.json"
+    },
+    {
+      "name": "candidate_relationship_record",
+      "version": "2.0.0",
+      "path": "atlas-candidate-relationship-v2.schema.json",
+      "schema_id": "urn:netzeroatlas:schema:candidate-relationship:2",
+      "sha256": "795974257dbfec63f7dee331e8aae7d4e0bd9f8262a2a38b1a6c08fb34f73f42",
+      "upstream_sha256": "795974257dbfec63f7dee331e8aae7d4e0bd9f8262a2a38b1a6c08fb34f73f42",
+      "upstream_git_blob": "3856c6bb7f51f07d7aa422db846dc18e997bbffc",
+      "upstream_path": "ai/codex/architecture/atlas-candidate-relationship-v2.schema.json"
+    },
+    {
+      "name": "candidate_finding_record",
+      "version": "2.0.0",
+      "path": "atlas-candidate-finding-v2.schema.json",
+      "schema_id": "urn:netzeroatlas:schema:candidate-finding:2",
+      "sha256": "c5e65f62b73c28482353c1061f826545389fd9d07ecf4acd912555b213e18292",
+      "upstream_sha256": "c5e65f62b73c28482353c1061f826545389fd9d07ecf4acd912555b213e18292",
+      "upstream_git_blob": "f853aadbabacab355f3fde1b8e3498f6aa6b181e",
+      "upstream_path": "ai/codex/architecture/atlas-candidate-finding-v2.schema.json"
+    },
+    {
+      "name": "candidate_source_diff_record",
+      "version": "2.0.0",
+      "path": "atlas-candidate-source-diff-v2.schema.json",
+      "schema_id": "urn:netzeroatlas:schema:candidate-source-diff:2",
+      "sha256": "0e1999fa1b100ee5b0c88f331dd52aab4a5374d540fc8d3fb5393e60efd83437",
+      "upstream_sha256": "0e1999fa1b100ee5b0c88f331dd52aab4a5374d540fc8d3fb5393e60efd83437",
+      "upstream_git_blob": "b18439f34b452cb9f040981b4d54eb2d7fe3007a",
+      "upstream_path": "ai/codex/architecture/atlas-candidate-source-diff-v2.schema.json"
+    }
+  ],
+  "required_archive_members": [
+    "entities.ndjson",
+    "relationships.ndjson",
+    "findings.ndjson",
+    "source-diff.ndjson"
+  ],
+  "archive_members": [
+    {
+      "path": "entities.ndjson",
+      "contract": "candidate_entity_record",
+      "record_policy": "records_allowed"
+    },
+    {
+      "path": "relationships.ndjson",
+      "contract": "candidate_relationship_record",
+      "record_policy": "records_forbidden"
+    },
+    {
+      "path": "findings.ndjson",
+      "contract": "candidate_finding_record",
+      "record_policy": "records_allowed_or_empty"
+    },
+    {
+      "path": "source-diff.ndjson",
+      "contract": "candidate_source_diff_record",
+      "record_policy": "records_allowed_or_empty"
+    }
+  ],
+  "missing_package_record_contracts": []
+}

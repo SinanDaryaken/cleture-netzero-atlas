@@ -46,6 +46,12 @@ final readonly class NdjsonCandidateDraftWriter implements CandidateDraftWriter
                     throw new SourceContractViolation('Normalization produced an invalid candidate entity draft.');
                 }
 
+                if ($candidate->schemaVersion !== $entityContract->version) {
+                    throw new SourceContractViolation(
+                        'Normalization candidate schema version does not match the selected entity contract.',
+                    );
+                }
+
                 $line = $this->encode($candidate->toUnhashedRecord())."\n";
 
                 if (fwrite($output, $line) !== strlen($line)) {

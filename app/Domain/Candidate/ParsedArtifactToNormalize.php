@@ -41,7 +41,7 @@ final readonly class ParsedArtifactToNormalize
         }
     }
 
-    public function context(): NormalizationContext
+    public function context(string $candidateSchemaVersion): NormalizationContext
     {
         return new NormalizationContext(
             sourceCode: $this->sourceCode,
@@ -50,6 +50,7 @@ final readonly class ParsedArtifactToNormalize
             rawAssetKey: $this->rawAssetKey,
             rawAssetSha256: $this->rawAssetSha256,
             parserVersion: $this->parserVersion,
+            candidateSchemaVersion: $candidateSchemaVersion,
             retrievedAt: $this->retrievedAt,
             sourcePublishedAt: $this->sourcePublishedAt,
         );

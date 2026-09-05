@@ -56,6 +56,16 @@ final class PinnedCandidateContractRegistry implements CandidateContractRegistry
                 'Candidate package build is blocked by missing record contracts: '.implode(', ', $missing).'.',
             );
         }
+
+        foreach (CandidateContract::cases() as $contract) {
+            $this->get($contract);
+        }
+
+        $manifest = $this->manifest();
+
+        if (($manifest['snapshot_version'] ?? null) === '2.0.0') {
+            $this->assertV2ArchivePolicy($manifest);
+        }
     }
 
     /**
@@ -80,7 +90,7 @@ final class PinnedCandidateContractRegistry implements CandidateContractRegistry
         }
 
         if (! is_array($manifest)
-            || ($manifest['snapshot_version'] ?? null) !== '1.0.0'
+            || ! in_array($manifest['snapshot_version'] ?? null, ['1.0.0', '2.0.0'], true)
             || ($manifest['owner'] ?? null) !== 'cleture-netzero-admin'
             || ! is_string($manifest['upstream_repository'] ?? null)
             || ! preg_match('/^[a-f0-9]{40,64}$/', $manifest['upstream_commit'] ?? '')
@@ -89,7 +99,110 @@ final class PinnedCandidateContractRegistry implements CandidateContractRegistry
             throw new CandidateContractViolation('Pinned candidate contract manifest identity is invalid.');
         }
 
+        if ($manifest['snapshot_version'] === '2.0.0') {
+            $this->assertUpstreamManifest($manifest);
+        }
+
         return $this->manifest = $manifest;
+    }
+
+    /** @param array<string, mixed> $manifest */
+    private function assertUpstreamManifest(array $manifest): void
+    {
+        $identity = $manifest['upstream_manifest'] ?? null;
+
+        if (! is_array($identity)
+            || ! is_string($identity['path'] ?? null)
+            || basename($identity['path']) !== $identity['path']
+            || ! preg_match('/^[a-f0-9]{64}$/', $identity['sha256'] ?? '')
+            || ! preg_match('/^[a-f0-9]{40,64}$/', $identity['upstream_git_blob'] ?? '')
+            || ! is_string($identity['upstream_path'] ?? null)
+        ) {
+            throw new CandidateContractViolation('Pinned candidate V2 upstream manifest identity is invalid.');
+        }
+
+        $contents = @file_get_contents(dirname($this->manifestPath).DIRECTORY_SEPARATOR.$identity['path']);
+
+        if (! is_string($contents) || ! hash_equals($identity['sha256'], hash('sha256', $contents))) {
+            throw new CandidateContractViolation('Pinned candidate V2 upstream manifest failed integrity validation.');
+        }
+
+        try {
+            $upstream = json_decode($contents, true, flags: JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw new CandidateContractViolation(
+                'Pinned candidate V2 upstream manifest is not valid JSON.',
+                previous: $exception,
+            );
+        }
+
+        if (! is_array($upstream)
+            || ($upstream['snapshot_version'] ?? null) !== '2.0.0'
+            || ($upstream['owner_repository'] ?? null) !== $manifest['upstream_repository']
+            || ! is_array($upstream['contracts'] ?? null)
+            || count($upstream['contracts']) !== count(CandidateContract::cases())
+            || count($manifest['contracts']) !== count(CandidateContract::cases())
+            || ($upstream['archive_members'] ?? null) !== ($manifest['archive_members'] ?? null)
+        ) {
+            throw new CandidateContractViolation('Pinned candidate V2 upstream manifest contract is invalid.');
+        }
+
+        $localContracts = [];
+
+        foreach ($manifest['contracts'] as $entry) {
+            if (is_array($entry) && is_string($entry['name'] ?? null)) {
+                $localContracts[$entry['name']] = $entry;
+            }
+        }
+
+        foreach ($upstream['contracts'] as $entry) {
+            $name = is_array($entry) ? ($entry['name'] ?? null) : null;
+            $local = is_string($name) ? ($localContracts[$name] ?? null) : null;
+
+            if (! is_array($entry)
+                || ! is_array($local)
+                || ($local['version'] ?? null) !== ($entry['version'] ?? null)
+                || ($local['path'] ?? null) !== ($entry['path'] ?? null)
+                || ($local['schema_id'] ?? null) !== ($entry['schema_id'] ?? null)
+                || ($local['sha256'] ?? null) !== ($entry['sha256'] ?? null)
+                || ($local['upstream_sha256'] ?? null) !== ($entry['sha256'] ?? null)
+            ) {
+                throw new CandidateContractViolation('Pinned candidate V2 schemas diverge from the upstream manifest.');
+            }
+        }
+    }
+
+    /** @param array<string, mixed> $manifest */
+    private function assertV2ArchivePolicy(array $manifest): void
+    {
+        $members = $manifest['archive_members'] ?? null;
+
+        if (! is_array($members) || count($members) !== 4) {
+            throw new CandidateContractViolation('Pinned candidate V2 archive policy is invalid.');
+        }
+
+        $policies = [];
+
+        foreach ($members as $member) {
+            if (! is_array($member)
+                || ! is_string($member['path'] ?? null)
+                || ! is_string($member['contract'] ?? null)
+                || ! is_string($member['record_policy'] ?? null)
+            ) {
+                throw new CandidateContractViolation('Pinned candidate V2 archive policy is invalid.');
+            }
+
+            $policies[$member['path']] = [$member['contract'], $member['record_policy']];
+        }
+
+        if ($policies !== [
+            'entities.ndjson' => ['candidate_entity_record', 'records_allowed'],
+            'relationships.ndjson' => ['candidate_relationship_record', 'records_forbidden'],
+            'findings.ndjson' => ['candidate_finding_record', 'records_allowed_or_empty'],
+            'source-diff.ndjson' => ['candidate_source_diff_record', 'records_allowed_or_empty'],
+        ]) {
+            throw new CandidateContractViolation('Pinned candidate V2 archive policy is invalid.');
+        }
     }
 
     /**

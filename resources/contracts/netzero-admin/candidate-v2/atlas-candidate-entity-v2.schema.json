@@ -1,0 +1,1514 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroatlas:schema:candidate-entity:2",
+  "title": "NetZeroAtlas Emission Factor Candidate Entity V2",
+  "description": "One source-agnostic emission-factor candidate line from entities.ndjson.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "candidate_key",
+    "logical_key",
+    "variant_key",
+    "record_sha256",
+    "entity_type",
+    "value_kind",
+    "intended_use",
+    "localized_texts",
+    "source_taxonomy",
+    "primary_component_key",
+    "primary_quantity",
+    "components",
+    "temporal",
+    "methodology",
+    "geography_proposals",
+    "canonical_mapping_proposals",
+    "reporting_applicability_proposals",
+    "relationships",
+    "evidence",
+    "provenance",
+    "extensions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "candidate_key": {
+      "$ref": "#/$defs/key"
+    },
+    "logical_key": {
+      "$ref": "#/$defs/key"
+    },
+    "variant_key": {
+      "$ref": "#/$defs/key"
+    },
+    "record_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "entity_type": {
+      "const": "emission_factor"
+    },
+    "value_kind": {
+      "$ref": "#/$defs/valueKind"
+    },
+    "intended_use": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/entityCode"
+      }
+    },
+    "localized_texts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/localizedText"
+      }
+    },
+    "source_taxonomy": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/sourceTaxonomy"
+      }
+    },
+    "primary_component_key": {
+      "$ref": "#/$defs/key"
+    },
+    "primary_quantity": {
+      "$ref": "#/$defs/quantity"
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/component"
+      }
+    },
+    "temporal": {
+      "$ref": "#/$defs/temporal"
+    },
+    "methodology": {
+      "$ref": "#/$defs/methodology"
+    },
+    "geography_proposals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/geographyProposal"
+      }
+    },
+    "canonical_mapping_proposals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/mappingProposal"
+      }
+    },
+    "reporting_applicability_proposals": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/applicabilityProposal"
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/key"
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/evidence"
+      }
+    },
+    "provenance": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/provenance"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "maxProperties": 1,
+      "patternProperties": {
+        "^[A-Z][A-Z0-9_-]{1,63}$": {
+          "$ref": "#/$defs/extensionEnvelope"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "jsonPointer": {
+      "type": "string",
+      "pattern": "^(?:|/(?:[^~/]|~0|~1)*)$|^/(?:[^~/]|~0|~1)*(?:/(?:[^~/]|~0|~1)*)*$",
+      "maxLength": 2048
+    },
+    "entityCode": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(?:[.-][a-z0-9_]+)*$",
+      "maxLength": 128
+    },
+    "scalarCode": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_.:-]*$",
+      "maxLength": 255
+    },
+    "canonicalDecimal": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^(?:0|-?(?:(?:[1-9][0-9]*)(?:\\.[0-9]*[1-9])?|0\\.[0-9]*[1-9]))$"
+    },
+    "confidence": {
+      "oneOf": [
+        {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^(?:0(?:\\.[0-9]*[1-9])?|1)$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "valueKind": {
+      "enum": [
+        "co2e_total",
+        "gas_emission_factor",
+        "characterization_factor",
+        "calculation_parameter"
+      ]
+    },
+    "localizedText": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "locale",
+        "label",
+        "description"
+      ],
+      "properties": {
+        "locale": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 35,
+          "pattern": "^[A-Za-z]{2,8}(?:-[A-Za-z0-9]{1,8})*$"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "description": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 10000
+        }
+      }
+    },
+    "sourceTaxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scheme",
+        "code",
+        "label",
+        "path",
+        "provenance_refs"
+      ],
+      "properties": {
+        "scheme": {
+          "$ref": "#/$defs/key"
+        },
+        "code": {
+          "$ref": "#/$defs/key"
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 1000
+        },
+        "path": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "label"
+            ],
+            "properties": {
+              "code": {
+                "$ref": "#/$defs/key"
+              },
+              "label": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "maxLength": 1000
+              }
+            }
+          }
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      }
+    },
+    "unitReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_code",
+        "raw_label",
+        "mapping_proposal_key"
+      ],
+      "properties": {
+        "raw_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 255
+        },
+        "raw_label": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 1000
+        },
+        "mapping_proposal_key": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/key"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "basisQualifier": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "value_kind",
+        "value",
+        "provenance_refs"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/entityCode"
+        },
+        "value_kind": {
+          "enum": [
+            "code",
+            "text",
+            "integer",
+            "decimal",
+            "boolean"
+          ]
+        },
+        "value": {},
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value_kind": {
+                "const": "code"
+              }
+            },
+            "required": [
+              "value_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/scalarCode"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_kind": {
+                "const": "text"
+              }
+            },
+            "required": [
+              "value_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string",
+                "maxLength": 10000
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_kind": {
+                "const": "integer"
+              }
+            },
+            "required": [
+              "value_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_kind": {
+                "const": "decimal"
+              }
+            },
+            "required": [
+              "value_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/canonicalDecimal"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "value_kind": {
+                "const": "boolean"
+              }
+            },
+            "required": [
+              "value_kind"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "quantity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "value_state",
+        "value",
+        "value_reason_code",
+        "source_precision",
+        "output_unit",
+        "activity_unit",
+        "basis_qualifiers",
+        "provenance_refs"
+      ],
+      "properties": {
+        "value_state": {
+          "enum": [
+            "known",
+            "unknown",
+            "not_reported",
+            "not_applicable"
+          ]
+        },
+        "value": {},
+        "value_reason_code": {},
+        "source_precision": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 100
+        },
+        "output_unit": {
+          "$ref": "#/$defs/unitReference"
+        },
+        "activity_unit": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/unitReference"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basis_qualifiers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/basisQualifier"
+          }
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "value_state": {
+                "const": "known"
+              }
+            },
+            "required": [
+              "value_state"
+            ]
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "$ref": "#/$defs/canonicalDecimal"
+              },
+              "value_reason_code": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "value_reason_code": {
+                "$ref": "#/$defs/entityCode"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "component": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "component_key",
+        "value_kind",
+        "basis",
+        "gas_code",
+        "quantity",
+        "methodology_ref",
+        "provenance_refs"
+      ],
+      "properties": {
+        "component_key": {
+          "$ref": "#/$defs/key"
+        },
+        "value_kind": {
+          "$ref": "#/$defs/valueKind"
+        },
+        "basis": {
+          "$ref": "#/$defs/entityCode"
+        },
+        "gas_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 128
+        },
+        "quantity": {
+          "$ref": "#/$defs/quantity"
+        },
+        "methodology_ref": {
+          "$ref": "#/$defs/key"
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      }
+    },
+    "temporal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_period",
+        "validity",
+        "source_published_at",
+        "retrieved_at",
+        "provenance_refs"
+      ],
+      "properties": {
+        "reference_period": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "year",
+            "start",
+            "end",
+            "label"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "year",
+                "date_range",
+                "label",
+                "unknown"
+              ]
+            },
+            "year": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1000,
+              "maximum": 9999
+            },
+            "start": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "end": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "label": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 255
+            }
+          }
+        },
+        "validity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "valid_from",
+            "valid_to"
+          ],
+          "properties": {
+            "valid_from": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "valid_to": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "source_published_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      }
+    },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "methodology_key",
+        "methodology_code",
+        "methodology_version",
+        "boundary_code",
+        "lifecycle_stage_codes",
+        "scenario_code",
+        "gwp",
+        "formula_or_recipe_ref",
+        "provenance_refs"
+      ],
+      "properties": {
+        "methodology_key": {
+          "$ref": "#/$defs/key"
+        },
+        "methodology_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 255
+        },
+        "methodology_version": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 255
+        },
+        "boundary_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 255
+        },
+        "lifecycle_stage_codes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/entityCode"
+          }
+        },
+        "scenario_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 255
+        },
+        "gwp": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "assessment",
+                "version",
+                "time_horizon_years"
+              ],
+              "properties": {
+                "assessment": {
+                  "$ref": "#/$defs/nonEmptyString"
+                },
+                "version": {
+                  "$ref": "#/$defs/nonEmptyString"
+                },
+                "time_horizon_years": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "formula_or_recipe_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 512
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      }
+    },
+    "geographyProposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_key",
+        "role",
+        "raw_code",
+        "raw_label",
+        "status",
+        "target",
+        "confidence",
+        "evidence_refs",
+        "provenance_refs"
+      ],
+      "properties": {
+        "proposal_key": {
+          "$ref": "#/$defs/key"
+        },
+        "role": {
+          "enum": [
+            "origin",
+            "market",
+            "calculation_applicability"
+          ]
+        },
+        "raw_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 255
+        },
+        "raw_label": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 1000
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "ambiguous",
+            "unresolved",
+            "not_applicable"
+          ]
+        },
+        "target": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "owner",
+                "canonical_geography_id",
+                "entity_level",
+                "catalog_version",
+                "catalog_sha256"
+              ],
+              "properties": {
+                "owner": {
+                  "const": "NetZeroAdmin"
+                },
+                "canonical_geography_id": {
+                  "$ref": "#/$defs/uuidV7"
+                },
+                "entity_level": {
+                  "$ref": "#/$defs/entityCode"
+                },
+                "catalog_version": {
+                  "$ref": "#/$defs/nonEmptyString"
+                },
+                "catalog_sha256": {
+                  "$ref": "#/$defs/sha256"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/keyReferences"
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      }
+    },
+    "mappingProposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_key",
+        "domain",
+        "source_value",
+        "status",
+        "target",
+        "confidence",
+        "ruleset_version",
+        "evidence_refs",
+        "provenance_refs"
+      ],
+      "properties": {
+        "proposal_key": {
+          "$ref": "#/$defs/key"
+        },
+        "domain": {
+          "enum": [
+            "source",
+            "dataset",
+            "material",
+            "logical_factor",
+            "unit",
+            "taxonomy",
+            "methodology",
+            "intended_use"
+          ]
+        },
+        "source_value": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 10000
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "ambiguous",
+            "unresolved",
+            "not_applicable"
+          ]
+        },
+        "target": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "catalog",
+                "canonical_id",
+                "catalog_version",
+                "catalog_sha256"
+              ],
+              "properties": {
+                "catalog": {
+                  "$ref": "#/$defs/entityCode"
+                },
+                "canonical_id": {
+                  "$ref": "#/$defs/key"
+                },
+                "catalog_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "maxLength": 255
+                },
+                "catalog_sha256": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/$defs/sha256"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "ruleset_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/keyReferences"
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      }
+    },
+    "applicabilityProposal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_key",
+        "effect",
+        "context",
+        "condition",
+        "status",
+        "confidence",
+        "ruleset_version",
+        "evidence_refs",
+        "provenance_refs"
+      ],
+      "properties": {
+        "proposal_key": {
+          "$ref": "#/$defs/key"
+        },
+        "effect": {
+          "enum": [
+            "allowed",
+            "recommended",
+            "conditional",
+            "prohibited"
+          ]
+        },
+        "context": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "protocol_id",
+            "scope_id",
+            "segment_id",
+            "category_id",
+            "consumption_type_id",
+            "material_id",
+            "context_snapshot_sha256"
+          ],
+          "properties": {
+            "protocol_id": {
+              "$ref": "#/$defs/nullableUuidV7"
+            },
+            "scope_id": {
+              "$ref": "#/$defs/nullableUuidV7"
+            },
+            "segment_id": {
+              "$ref": "#/$defs/nullableUuidV7"
+            },
+            "category_id": {
+              "$ref": "#/$defs/nullableUuidV7"
+            },
+            "consumption_type_id": {
+              "$ref": "#/$defs/nullableUuidV7"
+            },
+            "material_id": {
+              "$ref": "#/$defs/nullableUuidV7"
+            },
+            "context_snapshot_sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          },
+          "anyOf": [
+            {
+              "properties": {
+                "protocol_id": {
+                  "$ref": "#/$defs/uuidV7"
+                }
+              }
+            },
+            {
+              "properties": {
+                "scope_id": {
+                  "$ref": "#/$defs/uuidV7"
+                }
+              }
+            },
+            {
+              "properties": {
+                "segment_id": {
+                  "$ref": "#/$defs/uuidV7"
+                }
+              }
+            },
+            {
+              "properties": {
+                "category_id": {
+                  "$ref": "#/$defs/uuidV7"
+                }
+              }
+            },
+            {
+              "properties": {
+                "consumption_type_id": {
+                  "$ref": "#/$defs/uuidV7"
+                }
+              }
+            },
+            {
+              "properties": {
+                "material_id": {
+                  "$ref": "#/$defs/uuidV7"
+                }
+              }
+            }
+          ]
+        },
+        "condition": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "rule_code",
+                "rule_version",
+                "parameters"
+              ],
+              "properties": {
+                "rule_code": {
+                  "$ref": "#/$defs/entityCode"
+                },
+                "rule_version": {
+                  "$ref": "#/$defs/nonEmptyString"
+                },
+                "parameters": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "name",
+                      "value_kind",
+                      "value"
+                    ],
+                    "properties": {
+                      "name": {
+                        "$ref": "#/$defs/entityCode"
+                      },
+                      "value_kind": {
+                        "enum": [
+                          "code",
+                          "text",
+                          "integer",
+                          "decimal",
+                          "boolean"
+                        ]
+                      },
+                      "value": {}
+                    },
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "value_kind": {
+                              "const": "code"
+                            }
+                          },
+                          "required": [
+                            "value_kind"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "value": {
+                              "$ref": "#/$defs/scalarCode"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "value_kind": {
+                              "const": "text"
+                            }
+                          },
+                          "required": [
+                            "value_kind"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "value": {
+                              "type": "string",
+                              "maxLength": 10000
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "value_kind": {
+                              "const": "integer"
+                            }
+                          },
+                          "required": [
+                            "value_kind"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "value": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "value_kind": {
+                              "const": "decimal"
+                            }
+                          },
+                          "required": [
+                            "value_kind"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "value": {
+                              "$ref": "#/$defs/canonicalDecimal"
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "if": {
+                          "properties": {
+                            "value_kind": {
+                              "const": "boolean"
+                            }
+                          },
+                          "required": [
+                            "value_kind"
+                          ]
+                        },
+                        "then": {
+                          "properties": {
+                            "value": {
+                              "type": "boolean"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "ambiguous",
+            "unresolved"
+          ]
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "ruleset_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "evidence_refs": {
+          "$ref": "#/$defs/keyReferences"
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "effect": {
+                "const": "conditional"
+              }
+            },
+            "required": [
+              "effect"
+            ]
+          },
+          "then": {
+            "properties": {
+              "condition": {
+                "type": "object"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "condition": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "evidence_key",
+        "kind",
+        "summary",
+        "source_reference",
+        "provenance_refs"
+      ],
+      "properties": {
+        "evidence_key": {
+          "$ref": "#/$defs/key"
+        },
+        "kind": {
+          "$ref": "#/$defs/entityCode"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "source_reference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 2048
+        },
+        "provenance_refs": {
+          "$ref": "#/$defs/keyReferences"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provenance_key",
+        "field_pointers",
+        "source_asset_key",
+        "source_asset_sha256",
+        "locator",
+        "raw_value",
+        "transform_chain"
+      ],
+      "properties": {
+        "provenance_key": {
+          "$ref": "#/$defs/key"
+        },
+        "field_pointers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/jsonPointer"
+          }
+        },
+        "source_asset_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?![A-Za-z][A-Za-z0-9+.-]*://)[A-Za-z0-9._/-]+$"
+        },
+        "source_asset_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "locator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "file_path",
+            "sheet",
+            "table",
+            "row",
+            "column",
+            "cell",
+            "json_pointer",
+            "byte_start",
+            "byte_end"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "xlsx_cell",
+                "csv_cell",
+                "json_pointer",
+                "byte_range",
+                "document_field"
+              ]
+            },
+            "file_path": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?![A-Za-z][A-Za-z0-9+.-]*://)[A-Za-z0-9._/-]+$"
+            },
+            "sheet": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 255
+            },
+            "table": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 255
+            },
+            "row": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "column": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 1
+            },
+            "cell": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 32
+            },
+            "json_pointer": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 2048
+            },
+            "byte_start": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "byte_end": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "raw_value": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 10000
+        },
+        "transform_chain": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "operation",
+              "version"
+            ],
+            "properties": {
+              "operation": {
+                "$ref": "#/$defs/entityCode"
+              },
+              "version": {
+                "$ref": "#/$defs/nonEmptyString"
+              }
+            }
+          }
+        }
+      }
+    },
+    "keyReferences": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/key"
+      }
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "uuidV7": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "nullableUuidV7": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/uuidV7"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "extensionEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "schema_sha256",
+        "data"
+      ],
+      "properties": {
+        "schema_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "schema_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "key",
+              "value"
+            ],
+            "properties": {
+              "key": {
+                "$ref": "#/$defs/entityCode"
+              },
+              "value": {
+                "type": [
+                  "string",
+                  "integer",
+                  "boolean",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -95,6 +95,7 @@ final class AdemeCandidateNormalizerTest extends TestCase
             rawAssetKey: 'sources/ademe/raw.csv',
             rawAssetSha256: str_repeat('a', 64),
             parserVersion: '1.0.0',
+            candidateSchemaVersion: '1.0.0',
             retrievedAt: new DateTimeImmutable('2026-09-04T12:00:00+03:00'),
         );
 
@@ -135,6 +136,7 @@ final class AdemeCandidateNormalizerTest extends TestCase
             rawAssetKey: 'sources/ademe/raw/Base_Carbone_V23.6.csv',
             rawAssetSha256: str_repeat('a', 64),
             parserVersion: '1.0.0',
+            candidateSchemaVersion: '1.0.0',
             retrievedAt: new DateTimeImmutable('2026-09-04T12:00:00+03:00'),
             sourcePublishedAt: new DateTimeImmutable('2025-07-03T08:07:23Z'),
         );

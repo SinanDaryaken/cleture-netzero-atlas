@@ -1,0 +1,628 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroatlas:schema:candidate-package-manifest:2",
+  "title": "NetZeroAtlas Candidate Package Manifest V2",
+  "description": "Sidecar manifest for one immutable full-snapshot candidate archive.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "package_id",
+    "idempotency_key",
+    "mode",
+    "source",
+    "release",
+    "raw_assets",
+    "pipeline",
+    "catalog_snapshots",
+    "license",
+    "artifact",
+    "members",
+    "counts",
+    "previous_package_id",
+    "source_diff_summary",
+    "generated_at",
+    "producer_run_id",
+    "extensions"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "package_id": {
+      "$ref": "#/$defs/uuidV7"
+    },
+    "idempotency_key": {
+      "$ref": "#/$defs/idempotencyKey"
+    },
+    "mode": {
+      "const": "full_snapshot"
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "dataset_id",
+        "publisher"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/sourceCode"
+        },
+        "dataset_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "publisher": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "identifier",
+            "homepage"
+          ],
+          "properties": {
+            "name": {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            "identifier": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "homepage": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "uri",
+              "maxLength": 2048
+            }
+          }
+        }
+      }
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "revision_sha256",
+        "source_published_at"
+      ],
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "revision_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "source_published_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        }
+      }
+    },
+    "raw_assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "set_sha256",
+        "asset_count",
+        "assets"
+      ],
+      "properties": {
+        "set_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "asset_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "assets": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/rawAsset"
+          }
+        }
+      }
+    },
+    "pipeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parser_version",
+        "candidate_schema_version",
+        "parser_schema_fingerprint_sha256",
+        "normalizer_version",
+        "mapping_ruleset_version",
+        "mapping_ruleset_sha256",
+        "validation_ruleset_version",
+        "validation_ruleset_sha256",
+        "canonicalization_version"
+      ],
+      "properties": {
+        "parser_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "candidate_schema_version": {
+          "const": "2.0.0"
+        },
+        "parser_schema_fingerprint_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "normalizer_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "mapping_ruleset_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "mapping_ruleset_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "validation_ruleset_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "validation_ruleset_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "canonicalization_version": {
+          "const": "rfc8785-decimal-string-v1"
+        }
+      }
+    },
+    "catalog_snapshots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit",
+        "geography"
+      ],
+      "properties": {
+        "unit": {
+          "$ref": "#/$defs/catalogSnapshot"
+        },
+        "geography": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owner",
+            "version",
+            "sha256"
+          ],
+          "properties": {
+            "owner": {
+              "const": "NetZeroAdmin"
+            },
+            "version": {
+              "$ref": "#/$defs/nonEmptyString"
+            },
+            "sha256": {
+              "$ref": "#/$defs/sha256"
+            }
+          }
+        }
+      }
+    },
+    "license": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identifier",
+        "name",
+        "terms_sha256",
+        "attribution",
+        "source_uri",
+        "retrieved_at"
+      ],
+      "properties": {
+        "identifier": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "terms_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "attribution": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "source_uri": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "storage_profile",
+        "object_key",
+        "object_version_id",
+        "sha256",
+        "size_bytes",
+        "media_type"
+      ],
+      "properties": {
+        "storage_profile": {
+          "$ref": "#/$defs/entityCode"
+        },
+        "object_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^sha256/[a-f0-9]{64}\\.zip$"
+        },
+        "object_version_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "media_type": {
+          "const": "application/vnd.netzeroatlas.candidate-package+zip"
+        }
+      }
+    },
+    "members": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entities",
+        "relationships",
+        "findings",
+        "source_diff"
+      ],
+      "properties": {
+        "entities": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/archiveMember"
+            },
+            {
+              "properties": {
+                "path": {
+                  "const": "entities.ndjson"
+                }
+              }
+            }
+          ]
+        },
+        "relationships": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/archiveMember"
+            },
+            {
+              "properties": {
+                "path": {
+                  "const": "relationships.ndjson"
+                },
+                "size_bytes": {
+                  "const": 0
+                },
+                "record_count": {
+                  "const": 0
+                },
+                "sha256": {
+                  "const": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              }
+            }
+          ]
+        },
+        "findings": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/archiveMember"
+            },
+            {
+              "properties": {
+                "path": {
+                  "const": "findings.ndjson"
+                }
+              }
+            }
+          ]
+        },
+        "source_diff": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/archiveMember"
+            },
+            {
+              "properties": {
+                "path": {
+                  "const": "source-diff.ndjson"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entities",
+        "relationships",
+        "findings",
+        "source_diff",
+        "by_entity_type"
+      ],
+      "properties": {
+        "entities": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "relationships": {
+          "const": 0
+        },
+        "findings": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "source_diff": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "by_entity_type": {
+          "type": "object",
+          "minProperties": 1,
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*(?:\\.[a-z][a-z0-9_]*)*$": {
+              "$ref": "#/$defs/nonNegativeInteger"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "previous_package_id": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/uuidV7"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_diff_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "added",
+        "changed",
+        "unchanged",
+        "removed"
+      ],
+      "properties": {
+        "added": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "changed": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "unchanged": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "removed": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "producer_run_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "extensions": {
+      "type": "object",
+      "maxProperties": 1,
+      "patternProperties": {
+        "^[A-Z][A-Z0-9_-]{1,63}$": {
+          "$ref": "#/$defs/extensionEnvelope"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "uuidV7": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "sourceCode": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_-]{1,63}$"
+    },
+    "entityCode": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(?:[.-][a-z0-9_]+)*$",
+      "maxLength": 128
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255
+    },
+    "nonNegativeInteger": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "catalogSnapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "sha256"
+      ],
+      "properties": {
+        "version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "rawAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_key",
+        "sha256",
+        "size_bytes",
+        "media_type",
+        "source_uri",
+        "retrieved_at"
+      ],
+      "properties": {
+        "asset_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?![A-Za-z][A-Za-z0-9+.-]*://)[A-Za-z0-9._/-]+$"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "media_type": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "source_uri": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri",
+          "maxLength": 2048
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "archiveMember": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "sha256",
+        "size_bytes",
+        "record_count",
+        "media_type"
+      ],
+      "properties": {
+        "path": {
+          "enum": [
+            "entities.ndjson",
+            "relationships.ndjson",
+            "findings.ndjson",
+            "source-diff.ndjson"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "record_count": {
+          "$ref": "#/$defs/nonNegativeInteger"
+        },
+        "media_type": {
+          "const": "application/x-ndjson"
+        }
+      }
+    },
+    "extensionEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "schema_sha256",
+        "data"
+      ],
+      "properties": {
+        "schema_version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "schema_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "key",
+              "value"
+            ],
+            "properties": {
+              "key": {
+                "$ref": "#/$defs/entityCode"
+              },
+              "value": {
+                "type": [
+                  "string",
+                  "integer",
+                  "boolean",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

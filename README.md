@@ -57,6 +57,12 @@ altyapısının sorumluluk ayrımı ve pinlenmiş NetZeroAdmin sözleşme kapıs
 [ADR-003](docs/decisions/ADR-003-normalization-and-candidate-contract-boundary.md)
 içinde tanımlanmıştır.
 
+NetZeroAdmin candidate V2 ve immutable unit/geography snapshot consumer sınırı
+[ADR-004](docs/decisions/ADR-004-admin-v2-contract-and-catalog-snapshots.md) içinde
+tanımlanmıştır. Contract/schema dosyaları repository'de pinlidir; gerçek katalog
+payload'ları repository'ye gömülmez ve `atlas_catalogs` runtime storage üzerinden exact
+descriptor/payload hash'leriyle tüketilir. Bu hazırlık canlı V2 intake yetkisi vermez.
+
 Doğrulanan release'in orijinal dosyası MD5 ve SHA-256 kontrolünden geçirilerek
 content-addressed biçimde `atlas-raw` alanına alınabilir:
 

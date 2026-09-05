@@ -50,9 +50,9 @@ farkı, eski resmî ad veya politik/territorial belirsizlik içerir; örnekler
 `Netherlands Antilles`, `FYR of Macedonia`, `Chinese Taipei`, `DPR of Korea (north)`
 ve `Dem. Rep. of Congo` değerleridir.
 
-Bu sonuç fuzzy eşlemenin otomatik kabul için yeterli olmadığını gösterir. Logi lookup
-sözleşmesi ISO kodu, alias kanıtı ve katalog sürümü döndürmeli; belirsiz veya eski
-coğrafyalar insan review'ına bırakılmalıdır.
+Bu sonuç fuzzy eşlemenin otomatik kabul için yeterli olmadığını gösterir. NetZeroAdmin
+snapshot'ı canonical UUID, ISO kodu, kullanılabilir localized name kanıtı, version ve
+hash taşır; belirsiz veya eski coğrafyalar insan review'ına bırakılmalıdır.
 
 ## Parse aşaması kabul kriterleri
 
@@ -63,6 +63,12 @@ coğrafyalar insan review'ına bırakılmalıdır.
 - 290 negatif değer yalnız işaretine bakılarak avoided-emission sayılmaz.
 - 168 dış ülke kaydı NetZeroAdmin canonical geography ID ve snapshot kanıtı olmadan
   publish-eligible olamaz.
+- İlk NetZeroAdmin geography snapshot'ı 250 ülke ile yalnız Türkiye'nin 81 il/973
+  ilçesini kapsar. Exact ISO/name ile tekil eşleşmeyen ADEME label'ları unresolved veya
+  ambiguous kalır; source'a özel label ülke tahminiyle daraltılmaz.
+- İlk published unit snapshot yalnız `g` ve `kg` içerir. `kgCO2e/kWh` gibi ADEME
+  bileşik birimleri bu katalogdan türetilmez ve ek unit sözleşmesi gelene kadar
+  unresolved kalır.
 
 ## Parsed observation sözleşmesi
 

@@ -53,6 +53,7 @@ final class NormalizeSourceReleaseCommandTest extends TestCase
         Storage::disk('atlas_processing')->assertExists($artifact->object_key);
         $this->assertSame(1, $artifact->candidate_count);
         $this->assertSame(1, $artifact->finding_count);
+        $this->assertSame('2.0.0', $artifact->candidate_schema_version);
         $this->assertDatabaseHas('normalization_findings', [
             'code' => 'negative_total_requires_methodology_review',
             'severity' => 'review',
@@ -64,6 +65,7 @@ final class NormalizeSourceReleaseCommandTest extends TestCase
 
         $contents = Storage::disk('atlas_processing')->get($artifact->object_key);
         $record = json_decode(trim($contents), true, flags: JSON_THROW_ON_ERROR);
+        $this->assertSame('2.0.0', $record['schema_version']);
         $this->assertSame('-1.25', $record['primary_quantity']['value']);
         $this->assertSame('unresolved', $record['geography_proposals'][0]['status']);
         $this->assertArrayNotHasKey('record_sha256', $record);

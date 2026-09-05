@@ -47,6 +47,33 @@ final class OpisCandidateSchemaValidatorTest extends TestCase
         $validator->assertValid(CandidateContract::EntityRecord, $record);
     }
 
+    public function test_accepts_an_ademe_candidate_against_the_separate_v2_entity_contract(): void
+    {
+        $registry = new PinnedCandidateContractRegistry(
+            base_path('resources/contracts/netzero-admin/candidate-v2/contract-manifest.json'),
+        );
+        $validator = new OpisCandidateSchemaValidator($registry);
+        $builder = new BuildCanonicalCandidateEntity(new Rfc8785CanonicalJson, $validator);
+
+        $entity = $builder->handle($this->ademeDraft('2.0.0'));
+
+        $this->assertSame('2.0.0', $entity->record['schema_version']);
+        $this->assertSame($entity->recordSha256, $entity->record['record_sha256']);
+    }
+
+    public function test_v2_relationship_contract_rejects_every_standalone_record(): void
+    {
+        $registry = new PinnedCandidateContractRegistry(
+            base_path('resources/contracts/netzero-admin/candidate-v2/contract-manifest.json'),
+        );
+        $validator = new OpisCandidateSchemaValidator($registry);
+
+        $this->expectException(CandidateContractViolation::class);
+        $this->expectExceptionMessage('Candidate candidate_relationship_record failed JSON Schema validation');
+
+        $validator->assertValid(CandidateContract::RelationshipRecord, []);
+    }
+
     private function registry(): PinnedCandidateContractRegistry
     {
         return new PinnedCandidateContractRegistry(
@@ -54,7 +81,7 @@ final class OpisCandidateSchemaValidatorTest extends TestCase
         );
     }
 
-    private function ademeDraft(): CandidateEntityDraft
+    private function ademeDraft(string $candidateSchemaVersion = '1.0.0'): CandidateEntityDraft
     {
         $fields = array_replace(array_fill_keys(AdemeCsvParser::EXPECTED_HEADERS, ''), [
             'Type Ligne' => 'Elément',
@@ -84,6 +111,7 @@ final class OpisCandidateSchemaValidatorTest extends TestCase
             rawAssetKey: 'sources/ademe/raw/Base_Carbone_V23.6.csv',
             rawAssetSha256: str_repeat('a', 64),
             parserVersion: '1.0.0',
+            candidateSchemaVersion: $candidateSchemaVersion,
             retrievedAt: new DateTimeImmutable('2026-09-04T12:00:00Z'),
         );
         $result = (new AdemeCandidateNormalizer)->normalize([$observation], $context);

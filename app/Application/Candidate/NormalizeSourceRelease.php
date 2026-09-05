@@ -43,7 +43,7 @@ final readonly class NormalizeSourceRelease
         try {
             $result = $normalizer->normalize(
                 $this->observations->read($attempt->input),
-                $attempt->input->context(),
+                $attempt->input->context($entityContract->version),
             );
             $dataset = $this->writer->write(
                 result: $result,

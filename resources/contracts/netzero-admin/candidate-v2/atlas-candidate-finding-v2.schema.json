@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroatlas:schema:candidate-finding:2",
+  "title": "NetZeroAtlas Advisory Candidate Finding V2",
+  "description": "One bounded Atlas advisory finding line from findings.ndjson. Severity never authorizes, rejects, or publishes a candidate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "finding_key",
+    "candidate_key",
+    "code",
+    "severity",
+    "json_pointer",
+    "message",
+    "evidence_refs",
+    "context"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0.0"
+    },
+    "finding_key": {
+      "$ref": "#/$defs/key"
+    },
+    "candidate_key": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/key"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "code": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z][a-z0-9_]*(?:[.-][a-z0-9_]+)*$"
+    },
+    "severity": {
+      "enum": [
+        "warning",
+        "review",
+        "blocking"
+      ]
+    },
+    "json_pointer": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/jsonPointer"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "evidence_refs": {
+      "type": "array",
+      "maxItems": 128,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/key"
+      }
+    },
+    "context": {
+      "type": "object",
+      "maxProperties": 32,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]{0,63}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/scalar"
+      }
+    }
+  },
+  "$defs": {
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^\\x00-\\x1F\\x7F]+$"
+    },
+    "jsonPointer": {
+      "type": "string",
+      "maxLength": 2048,
+      "pattern": "^(?:|/(?:[^~/]|~0|~1)*)$|^/(?:[^~/]|~0|~1)*(?:/(?:[^~/]|~0|~1)*)*$"
+    },
+    "scalar": {
+      "oneOf": [
+        {
+          "type": "string",
+          "maxLength": 4000
+        },
+        {
+          "type": "integer"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

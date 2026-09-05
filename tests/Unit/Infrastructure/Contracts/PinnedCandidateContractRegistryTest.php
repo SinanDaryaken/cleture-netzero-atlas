@@ -3,6 +3,7 @@
 namespace Tests\Unit\Infrastructure\Contracts;
 
 use App\Domain\Candidate\CandidateContract;
+use App\Domain\Candidate\CandidateContractDocument;
 use App\Domain\Candidate\Exceptions\CandidateContractViolation;
 use App\Infrastructure\Contracts\PinnedCandidateContractRegistry;
 use Tests\TestCase;
@@ -22,6 +23,57 @@ final class PinnedCandidateContractRegistryTest extends TestCase
         $this->assertSame('f190d8cb02001fcb5ea1c8cf169dee611f195622', $document->upstreamCommit);
         $this->assertSame(hash('sha256', $document->contents), $document->sha256);
         $this->assertJson($document->contents);
+    }
+
+    public function test_loads_every_v2_contract_and_accepts_the_authoritative_archive_policy(): void
+    {
+        $registry = new PinnedCandidateContractRegistry(
+            base_path('resources/contracts/netzero-admin/candidate-v2/contract-manifest.json'),
+        );
+
+        $documents = array_map($registry->get(...), CandidateContract::cases());
+        $registry->assertPackageBuildReady();
+
+        $this->assertCount(5, $documents);
+        $this->assertSame(
+            CandidateContract::cases(),
+            array_map(
+                static fn (CandidateContractDocument $document): CandidateContract => $document->contract,
+                $documents,
+            ),
+        );
+        $this->assertSame(['2.0.0'], array_values(array_unique(array_column($documents, 'version'))));
+        $this->assertSame(
+            ['37a30fae4f68cbea24a981d4e975463a856ac0ee'],
+            array_values(array_unique(array_column($documents, 'upstreamCommit'))),
+        );
+    }
+
+    public function test_rejects_a_v2_snapshot_when_the_pinned_upstream_manifest_bytes_change(): void
+    {
+        $directory = $this->temporaryContractDirectory();
+
+        foreach (glob(base_path('resources/contracts/netzero-admin/candidate-v2/*')) ?: [] as $file) {
+            copy($file, $directory.'/'.basename($file));
+        }
+
+        file_put_contents(
+            $directory.'/atlas-candidate-contract-v2.manifest.json',
+            "{}\n",
+        );
+
+        try {
+            (new PinnedCandidateContractRegistry($directory.'/contract-manifest.json'))
+                ->get(CandidateContract::EntityRecord);
+            $this->fail('A modified upstream V2 manifest was accepted.');
+        } catch (CandidateContractViolation $exception) {
+            $this->assertSame(
+                'Pinned candidate V2 upstream manifest failed integrity validation.',
+                $exception->getMessage(),
+            );
+        } finally {
+            $this->removeTemporaryDirectory($directory);
+        }
     }
 
     public function test_fails_closed_when_a_pinned_schema_checksum_changes(): void

@@ -20,9 +20,9 @@ sınırını ve veri sahipliğini ihlal eder.
 
 ADEME V23.6 içindeki 142 farklı dış-ülke label çiftinin 127 tanesi mevcut
 `base_netzero.countries` İngilizce adıyla doğrudan eşleşmektedir. Kalan 15 label eski
-ülke adı, yazım farkı veya politik/territorial belirsizlik taşır. Bu veri Logi için
-iyi bir başlangıç kaynağıdır, fakat yalnız isim eşitliği canonical eşleme kanıtı
-değildir.
+ülke adı, yazım farkı veya politik/territorial belirsizlik taşır. Bu veri
+NetZeroAdmin mapping review için iyi bir başlangıç kanıtıdır, fakat yalnız isim
+eşitliği canonical eşleme kararı değildir.
 
 ## Karar
 
@@ -69,3 +69,12 @@ sözleşme Atlas tarafından tek taraflı değiştirilmez. NetZeroAdmin yeni sü
   ISO alias kanıtı, katalog version ve SHA-256 bilgisini taşımasını bekler;
 - yeni entity şemasında Logi'ye özel target kimliği yerine NetZeroAdmin canonical
   geography kimliğini taşıyan, sahibi açık bir alan bekler.
+
+## 2026-09-05 sözleşme teslimi
+
+Beklenen sahiplik değişimi candidate V2 entity/package şemaları ve immutable geography
+snapshot ile teslim edilmiştir. V2 target `owner=NetZeroAdmin`, UUIDv7
+`canonical_geography_id`, `entity_level`, `catalog_version` ve `catalog_sha256` taşır.
+İlk snapshot 250 ülke ile Türkiye'nin 81 il/973 ilçesini kapsar. V1 legacy sözleşme
+korunur; Atlas yeni V2 snapshot'ı ayrı pinler ve ayrıntılı tüketim kararını ADR-004'te
+uygular.

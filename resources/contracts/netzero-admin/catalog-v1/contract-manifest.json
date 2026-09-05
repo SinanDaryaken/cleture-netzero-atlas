@@ -1,0 +1,42 @@
+{
+  "snapshot_version": "1.0.0",
+  "owner": "cleture-netzero-admin",
+  "upstream_repository": "cleture-netzero-admin",
+  "upstream_commit": "37a30fae4f68cbea24a981d4e975463a856ac0ee",
+  "captured_at": "2026-09-05",
+  "upstream_manifest": {
+    "path": "atlas-catalog-contract-v1.manifest.json",
+    "sha256": "7a9baab76389708f6e944c6a884003608aa47f10e9556d2554c81086f2ec0542",
+    "upstream_git_blob": "0ae12bd6f57697a5ce936497b9b0e1a1b680abd0",
+    "upstream_path": "ai/codex/architecture/atlas-catalog-contract-v1.manifest.json"
+  },
+  "contracts": [
+    {
+      "name": "geography",
+      "version": "1.0.0",
+      "path": "atlas-catalog-geography-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:atlas-catalog-geography:1",
+      "sha256": "45411402d0ecc07bd869397b2b5de9b17ca22fca93457caa83eb053a579b6320",
+      "upstream_git_blob": "e44c21e9c06fa32170c923639efe1d2bdeeac53a",
+      "upstream_path": "ai/codex/architecture/atlas-catalog-geography-v1.schema.json"
+    },
+    {
+      "name": "unit",
+      "version": "1.0.0",
+      "path": "atlas-catalog-unit-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:atlas-catalog-unit:1",
+      "sha256": "bd1f30686ac80f9d9fd0b48decea523d6d4bf95264cc9d0ca603a00ff6b6175f",
+      "upstream_git_blob": "d97ed7bb2dc1f4874d731eda6c6255cb889032bd",
+      "upstream_path": "ai/codex/architecture/atlas-catalog-unit-v1.schema.json"
+    },
+    {
+      "name": "descriptor",
+      "version": "1.0.0",
+      "path": "atlas-catalog-descriptor-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:atlas-catalog-descriptor:1",
+      "sha256": "85340c7bcb7eab1311d756d0902197a48188ddfff2a5a16d6d998f1ea972d198",
+      "upstream_git_blob": "85c5c9e3d0241fc89ff2ac99330699461247789c",
+      "upstream_path": "ai/codex/architecture/atlas-catalog-descriptor-v1.schema.json"
+    }
+  ]
+}

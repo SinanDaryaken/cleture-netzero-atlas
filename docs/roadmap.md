@@ -39,8 +39,8 @@
   SHA-256 doğrulamasıyla pinle.
 - [x] Eksik relationships/findings/source-diff record sözleşmeleri için package
   üretimini fail-closed kapat.
-- [ ] Canonical unit snapshot/lookup sözleşmesini NetZeroAdmin ile tanımla.
-- [ ] Canonical geography snapshot/lookup sözleşmesini NetZeroAdmin ile tanımla.
+- [x] Canonical unit snapshot/lookup sözleşmesini NetZeroAdmin ile tanımla.
+- [x] Canonical geography snapshot/lookup sözleşmesini NetZeroAdmin ile tanımla.
 - [x] ADEME `SourceNormalizationAdapter` ve registry'sini oluştur.
 - [x] ADEME `Elément` ana candidate ve `Poste` decomposition modelini üret.
 - [x] Parsed artifact'ten normalization input stream'i ve idempotent çalışma
@@ -51,12 +51,30 @@
 
 ### Aşama 5 — Validation, diff ve candidate package
 
-- [ ] NetZeroAdmin'da relationships/findings/source-diff record şemalarını
+- [x] NetZeroAdmin'da relationships/findings/source-diff record şemalarını
   sürümle ve Atlas contract snapshot'ına ekle.
+- [x] Candidate V1 pinlerini değiştirmeden V2 upstream manifest ve beş schema'yı
+  commit/SHA-256 provenance ile ayrı snapshot olarak pinle.
+- [x] Unit/geography descriptor ve payload'ları exact byte/hash, schema ve semantic
+  integrity kapılarıyla runtime storage'dan yükle.
+- [x] Tekil exact geography/unit eşleşmelerini proposal'a dönüştür; eksik veya birden
+  çok eşleşmeyi unresolved/ambiguous koru.
 - [x] Source-agnostic RFC 8785 canonical JSON ve candidate `record_sha256`
   üreticisini oluştur.
 - [x] Final candidate entity'yi pinned JSON Schema'ya karşı doğrula.
+- [x] Doğrulanmış normalized artifact'ten deterministik V2 `entities.ndjson` member
+  üreticisini oluştur.
+- [x] V2 policy'ye uygun sıfır byte/sıfır kayıt `relationships.ndjson` member üret.
+- [ ] `findings.ndjson` ve first-release/source `source-diff.ndjson` member'larını üret.
 - [ ] Quality, license, geography, unit, temporal ve provenance kapılarını uygula.
 - [ ] Field-level release diff üret.
 - [ ] Sürümlü manifest ve immutable candidate package üret.
 - [ ] Paketi NetZeroAdmin staging sınırına teslim et; canonical publish yapma.
+
+### Dış koordinasyon kapıları
+
+- [ ] Unit/geography descriptor ve payload exact byte'larını Atlas `atlas_catalogs`
+  runtime storage'a provision et.
+- [ ] ADEME license terms snapshot girdilerini teslim al ve doğrula.
+- [ ] NetZeroAdmin V2 intake rollout ve Worker durable staging writer hazır olduğunda
+  canlı teslimi koordineli aç; V1'e downgrade etme.

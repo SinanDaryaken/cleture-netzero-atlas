@@ -86,6 +86,11 @@ return [
             'bucket' => env('ATLAS_CANDIDATES_BUCKET', 'atlas-candidates'),
         ],
 
+        'atlas_catalogs' => [
+            ...$objectStorage,
+            'bucket' => env('ATLAS_CATALOG_BUCKET', 'atlas-catalogs'),
+        ],
+
     ],
 
     /*

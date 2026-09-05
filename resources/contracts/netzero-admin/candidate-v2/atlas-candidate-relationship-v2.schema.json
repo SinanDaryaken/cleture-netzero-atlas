@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroatlas:schema:candidate-relationship:2",
+  "title": "NetZeroAtlas Candidate Relationship V2",
+  "description": "ADEME Candidate Package V2 forbids standalone relationship records. Poste decomposition remains embedded in candidate entity components; relationships.ndjson must be present and empty.",
+  "not": {}
+}
