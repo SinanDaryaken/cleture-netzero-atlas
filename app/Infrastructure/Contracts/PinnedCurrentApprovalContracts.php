@@ -18,14 +18,27 @@ final readonly class PinnedCurrentApprovalContracts
 
     public function validate(string $name, stdClass $document): void
     {
+        $schema = $this->schema($name);
+        if (! (new CompliantValidator(new SchemaLoader(resolver: null)))->validate($document, $schema)->isValid()) {
+            throw new CatalogContractViolation('Closed current approval '.$name.' schema failed.');
+        }
+    }
+
+    public function verifyPins(): void
+    {
+        foreach (array_keys(self::HASHES) as $name) {
+            $this->schema($name);
+        }
+    }
+
+    private function schema(string $name): stdClass
+    {
         $pin = self::HASHES[$name] ?? throw new CatalogContractViolation('Unknown approval schema.');
         $bytes = @file_get_contents($this->directory.'/atlas-current-approval-'.$name.'-v1.schema.json');
         if (! is_string($bytes) || ! hash_equals($pin, hash('sha256', $bytes))) {
             throw new CatalogContractViolation('Independent current approval schema pin failed.');
         }
-        $schema = json_decode($bytes, false, 64, JSON_THROW_ON_ERROR);
-        if (! (new CompliantValidator(new SchemaLoader(resolver: null)))->validate($document, $schema)->isValid()) {
-            throw new CatalogContractViolation('Closed current approval '.$name.' schema failed.');
-        }
+
+        return json_decode($bytes, false, 64, JSON_THROW_ON_ERROR);
     }
 }

@@ -95,7 +95,8 @@ final class AtlasServiceProvider extends ServiceProvider
         $this->app->bind(DeliveredResolutionApproval::class, VerifyDeliveredResolution::class);
         $this->app->singleton(PinnedCurrentApprovalContracts::class,
             fn () => new PinnedCurrentApprovalContracts(base_path('resources/contracts/netzero-admin/current-approval-v1')));
-        $this->app->bind(CurrentApprovalClient::class, fn ($app) => new HttpCurrentApprovalClient(
+        $this->app->bind(CurrentApprovalClient::class, HttpCurrentApprovalClient::class);
+        $this->app->bind(HttpCurrentApprovalClient::class, fn ($app) => new HttpCurrentApprovalClient(
             $app->make(Factory::class), $app->make(SortedCatalogJson::class),
             $app->make(PinnedCurrentApprovalContracts::class), config('atlas.current_approval'),
         ));

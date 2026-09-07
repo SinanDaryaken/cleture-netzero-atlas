@@ -16,6 +16,8 @@ kanıtı [katalog teslim işletim notunda](docs/catalog-delivery.md). Atlas'ın
 [güncel çözüm onayı adapter'ı](docs/current-approval.md) imzalı sorguyu doğrular;
 canlı etkinleştirme ve nihai kullanım kapıları açıktır. Admin A1/A2 düzeltmeleri
 [bağımsız tekrar üretimde doğrulandı](docs/admin-atlas-step6-review.md).
+Etkinleştirme önkoşulları `atlas:catalog:approval-readiness` ile secret-safe incelenebilir;
+[Admin'e verilecek iş](docs/admin-approval-next-steps.md) gerekli gerçek teslim ve kullanım sözleşmelerini listeler.
 
 ## Yerel altyapı
 

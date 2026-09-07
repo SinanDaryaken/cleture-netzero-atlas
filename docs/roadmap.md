@@ -12,6 +12,9 @@
 - [x] Atlas bağımsız pinli HTTP adapter, taze sorgu giriş noktası ve kapalı nihai kullanım kontrolü.
 - [x] Admin A1 currency nested hash ve A2 taxonomy parent sıra düzeltmelerinin bağımsız doğrulaması.
 - [x] 50 yeni Feature testi; tam 184 Unit/Feature ve 1 gerçek socket integration başarılı.
+- [x] Secret-safe readiness CLI; gerçek depoda catalog-only teşhisi, 189/715 regresyon ve 1/8 socket testi.
+- [x] Admin'e servis etkinleştirme, gerçek teslim, body schema ve finalization için somut kabul işi.
+- [ ] Atlas container→Admin HTTPS erişim yolu ve sertifika güveni; mevcut hostname loopback'e çözülüyor.
 - [ ] Koordineli key/source grant ve gerçek approved-resolution teslimiyle canlı doğrulama.
 - [ ] Historical authority body schema provisioning ve atomik kullanım/finalization owner sözleşmesi.
 

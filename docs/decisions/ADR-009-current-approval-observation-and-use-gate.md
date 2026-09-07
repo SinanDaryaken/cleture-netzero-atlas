@@ -34,3 +34,14 @@ ayrı kalır. Normalizer, executable mapping, candidate intake ve publish davran
 bu gözlem nedeniyle açılmaz. Gerçek Admin/Atlas etkinleştirmesi, approved delivery
 read-back, body-schema provisioning ve finalization owner sözleşmeleri ayrıca gerekir.
 [İşletim ve test kanıtı](../current-approval.md).
+
+## Etkinleştirme hazırlığı eki — 2026-09-07
+
+Readiness CLI yalnız yerel bağlantı ayarları, bağımsız query schema pinleri,
+depodaki exact teslim ve caller expected envelope önkoşullarını denetler.
+Network isteği veya mutation yapmaz; başarılı local preflight Admin grant veya
+güncel onay yerine kullanılamaz. Secret değerleri rapora yazılmaz.
+
+Admin için hazırlanmış son kabul transaction yaklaşımı bir değerlendirme önerisidir;
+Atlas'ın tek taraflı kabul ettiği yeni wire/authority protokolü değildir.
+[Owner işi ve kabul ölçütleri](../admin-approval-next-steps.md).

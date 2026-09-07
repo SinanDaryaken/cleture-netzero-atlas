@@ -3,8 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Application\Catalog\CheckDeliveredResolutionApproval;
-use App\Domain\Catalog\Exceptions\CatalogContractViolation;
-use App\Domain\Catalog\SortedCatalogJson;
+use App\Infrastructure\Catalog\ExpectedResolutionFile;
 use Illuminate\Console\Command;
 use Throwable;
 
@@ -16,18 +15,10 @@ final class AtlasCurrentApprovalCommand extends Command
 
     protected $description = 'Read the stored delivery and query current approval; grants no mapping, usage or publication';
 
-    public function handle(CheckDeliveredResolutionApproval $check, SortedCatalogJson $json): int
+    public function handle(CheckDeliveredResolutionApproval $check, ExpectedResolutionFile $files): int
     {
         try {
-            $path = (string) $this->argument('expected');
-            if (! is_file($path)) {
-                throw new CatalogContractViolation('Expected resolution must be an explicit local file.');
-            }
-            $bytes = @file_get_contents($path, false, null, 0, 16385);
-            if (! is_string($bytes) || strlen($bytes) > 16384) {
-                throw new CatalogContractViolation('Expected resolution file is unavailable or exceeds its byte limit.');
-            }
-            $expected = $json->decode($bytes);
+            $expected = $files->read((string) $this->argument('expected'));
             $hash = (string) $this->argument('sha256');
             if ($this->option('require-for-use')) {
                 $check->requireForUse($hash, $expected);

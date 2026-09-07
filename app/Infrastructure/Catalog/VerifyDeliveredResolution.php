@@ -110,16 +110,22 @@ final readonly class VerifyDeliveredResolution implements DeliveredResolutionApp
 
     public function inspectCurrentApproval(VerifiedAtlasDelivery $delivery, stdClass $expected): CurrentApprovalObservation
     {
-        $this->verify($delivery);
-        if ($delivery->manifest->resolution === null || $this->json->encode($delivery->manifest->resolution) !== $this->json->encode($expected)) {
-            throw new CatalogContractViolation('Expected current source and decision pins do not match the delivery.');
-        }
+        $this->verifyExpected($delivery, $expected);
 
         $resolution = $this->json->decode($delivery->artifacts['resolution/payload.json']);
         $hash = $resolution->form->unit_catalog_sha256;
         $base = $delivery->catalogs['unit:'.$hash]->descriptor;
 
         return $this->currentApproval->check($delivery->sha256, $expected, (object) ['version' => $base->version, 'sha256' => $hash]);
+    }
+
+    /** Local evidence preflight only; no network observation or usage authority. */
+    public function verifyExpected(VerifiedAtlasDelivery $delivery, stdClass $expected): void
+    {
+        $this->verify($delivery);
+        if ($delivery->manifest->resolution === null || $this->json->encode($delivery->manifest->resolution) !== $this->json->encode($expected)) {
+            throw new CatalogContractViolation('Expected current source and decision pins do not match the delivery.');
+        }
     }
 
     private function references(mixed $value, VerifiedAtlasDelivery $delivery): void

@@ -30,6 +30,24 @@ final readonly class HttpCurrentApprovalClient implements CurrentApprovalClient
         #[\SensitiveParameter] private array $settings,
     ) {}
 
+    /** Local configuration only; never prints credentials or claims a remote grant. */
+    public function connectionReadiness(): array
+    {
+        $problem = null;
+        try {
+            $this->assertConfigured();
+        } catch (CatalogContractViolation $exception) {
+            $problem = $exception->getMessage();
+        }
+
+        return ['enabled' => ($this->settings['enabled'] ?? false) === true,
+            'endpoint_configured' => is_string($this->settings['endpoint'] ?? null) && $this->settings['endpoint'] !== '',
+            'key_id_configured' => is_string($this->settings['key_id'] ?? null) && $this->settings['key_id'] !== '',
+            'secret_configured' => is_string($this->settings['secret'] ?? null) && $this->settings['secret'] !== '',
+            'configuration_valid' => $problem === null, 'problem' => $problem,
+            'network_checked' => false, 'admin_grants_verified' => false];
+    }
+
     public function check(string $deliverySha256, stdClass $expectedResolution, stdClass $baseCatalog): CurrentApprovalObservation
     {
         $this->assertConfigured();

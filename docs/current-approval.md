@@ -61,6 +61,20 @@ Alias/context onayı FX, recipe, applicability veya yayın yetkisi değildir.
 
 ## İşletim
 
+Etkinleştirme öncesi secret-safe yerel kontrol:
+
+```bash
+php artisan atlas:catalog:approval-readiness
+php artisan atlas:catalog:approval-readiness <independent-delivery-sha256> --expected=/absolute/expected-resolution.json
+```
+
+Komut ağ isteği, environment değişikliği, onay veya storage yazımı yapmaz. Seçilen
+Atlas teslimini her çalıştırmada yeniden okur; schema pinleri, bağlantı ayarları,
+resolution varlığı ve bağımsız expected envelope kontrol edilir. Çıktıda credential
+değerleri bulunmaz. Exit 0 / local_preflight_passed yalnız yerel sorgu önkoşullarıdır;
+Admin grant, canlı HTTPS/HMAC ve final kullanım hâlâ ayrıca doğrulanmalıdır.
+Exit 1 / blocked eksik girdileri machine-readable blocker kodlarıyla bildirir.
+
 ```bash
 php artisan atlas:catalog:current-approval <independent-delivery-sha256> /absolute/expected-resolution.json
 php artisan atlas:catalog:current-approval <independent-delivery-sha256> /absolute/expected-resolution.json --require-for-use
@@ -117,3 +131,27 @@ UID 1000 ile tekrar çalıştırıldı, Git safe-directory veya environment değ
 
 Atlas kod/test dilimi tamamlandı. Canlı onaylı çözüm tüketimi, authority body schema
 teslimi ve atomik finalization açık kalır; adım 6'nın bütünü kapatılmaz.
+
+## 2026-09-07 etkinleştirme hazırlığı
+
+Owner Atlas geliştirmesi ve Admin görevine verilecek somut işin hazırlanmasını
+istedi; Admin salt okunur sınırı korundu. Readiness komutu gerçek Atlas MinIO'dan
+önceki catalog-only teslimi doğruladı. İstemci kapalı, endpoint/key/secret boş,
+resolution yok: atlas_connection_not_configured ve approved_resolution_delivery_required.
+Admin runtime current-approval kapalı ve iki grant listesi boş olarak yeniden doğrulandı.
+Admin private iki hazırlanmış tesliminde de resolution=null bulundu; Admin DB'deki
+insan kararları bu incelemede sorgulanmadı.
+
+Ayrı kimliksiz HEAD kontrolünde Atlas container'ından Admin HTTPS adresine TCP
+bağlantısı kurulamadı (curl exit 7). `cleture-netzero-admin.test` container içinde
+127.0.0.1 çözülüyor. TLS veya canlı HMAC başarısı iddia edilmez; platform dosyaları
+ve network ayarları değiştirilmedi. [Admin'e verilecek iş](admin-approval-next-steps.md).
+
+Yeni readiness testi 5 test/39 assertion; ilgili delivery/current-approval ile birlikte
+97 test/364 assertion geçti. Tam Unit/Feature **189 test/715 assertion**, ayrı gerçek
+socket integration **1 test/8 assertion**, ilgili 8 PHP dosyasında Pint ve Composer
+strict validate başarılı. Test başarısızlığı yok. Windows TEMP logları:
+`atlas-approval-readiness-tests-20260907-165218.log`,
+`atlas-readiness-regression-20260907-165249.log`,
+`atlas-approval-readiness-runtime-20260907-165248.log`,
+`atlas-admin-tls-probe-20260907-165249.log`.
