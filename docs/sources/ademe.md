@@ -141,5 +141,13 @@ Bu sonuç ADEME'nin 69 unit label'ının tümünün çözüldüğü anlamına ge
 `K` birden çok quantity-kind hedefinde ambiguous kalır. Compound factor dimension,
 applicability, lisans ve veri bazında kullanım kararı ayrı kapılardır. Gerçek ADEME
 normalization yeniden üretilmedi veya candidate/publish yapılmadı. Çözüm teslimi
-`resolution=null`; Admin current approval kanalı hâlâ açık bağımlılıktır.
+`resolution=null`; gerçek onaylı çözüm teslimi hâlâ açık bağımlılıktır.
 [Exact pinler ve read-back](../evidence/admin-atlas-step6-readback-2026-09-07.json).
+
+## 2026-09-07 — Güncel onay adapter'ı
+
+Source-neutral Atlas current-approval adapter'ı ve sentetik altı tür kontrolleri
+tamamlandı. Bu kod ADEME mapping veya kullanım hakkı üretmez; gerçek source grant,
+approved-resolution teslimi, authority body şemaları ve finalization beklenir.
+ADEME normalizer/candidate artefact'leri yeniden üretilmedi.
+[İşletim ve kanıt sınırı](../current-approval.md).

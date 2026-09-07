@@ -1,5 +1,21 @@
 # Admin–Atlas adım 6 incelemesi — 2026-09-07
 
+## Güncel ek değerlendirme — current-approval adapter
+
+Aşağıdaki A1/A2 ve kanal yokluğu kayıtları ilk incelemenin tarihsel bulgularıdır.
+Admin mevcut çalışma ağacı yeniden incelendi: `FactorContextContract::assertCurrencyIntegrity`
+kayıt hash/tekillik/usable kontrolünü yapıyor; `LookupReviewCatalog::taxonomyPath`
+parent listelerini typed küme olarak sıralayıp karşılaştırıyor. Mevcut Admin sınıflarını
+`tests/Support/reproduce-admin-delivery.php` ile `/tmp` sentetik girdiler üzerinde
+çalıştırınca **currency accepted=false**, **taxonomy status=registered** elde edildi.
+İki bulgu mevcut çalışma ağacında giderilmiştir; Admin repository/DB yazımı yapılmadı.
+
+Yeni `POST /internal/v1/atlas/current-approval` sözleşmesi yeniden kabul kapısından
+geçirildi. Atlas adapter'ı, imzalı yanıt doğrulaması, bağımsız schema pinleri ve
+her çağrıda yeni sorgu geliştirildi. Canlı etkinleştirme, authority body şemaları ve
+atomik finalization açık; final kullanım kontrolü kapalıdır.
+[Güncel kapsam, kanıt ve kalan owner girdileri](current-approval.md).
+
 ## Kapsam ve kabul
 
 Admin mevcut çalışma ağacı salt okunur incelendi; yalnız HEAD kullanılmadı. Atlas

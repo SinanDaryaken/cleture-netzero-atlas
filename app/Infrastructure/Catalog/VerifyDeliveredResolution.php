@@ -2,17 +2,20 @@
 
 namespace App\Infrastructure\Catalog;
 
+use App\Application\Contracts\CurrentApprovalClient;
+use App\Application\Contracts\DeliveredResolutionApproval;
 use App\Domain\Catalog\CatalogType;
+use App\Domain\Catalog\CurrentApprovalObservation;
 use App\Domain\Catalog\Exceptions\CatalogContractViolation;
 use App\Domain\Catalog\SortedCatalogJson;
 use App\Domain\Catalog\VerifiedAtlasDelivery;
 use App\Infrastructure\Contracts\PinnedDeliveryContracts;
 use stdClass;
 
-/** Checks historical evidence links only. There is no contracted current-approval transport. */
-final readonly class VerifyDeliveredResolution
+/** Historical evidence and a separate, non-authorizing current-state observation. */
+final readonly class VerifyDeliveredResolution implements DeliveredResolutionApproval
 {
-    public function __construct(private SortedCatalogJson $json, private PinnedDeliveryContracts $contracts) {}
+    public function __construct(private SortedCatalogJson $json, private PinnedDeliveryContracts $contracts, private CurrentApprovalClient $currentApproval) {}
 
     public function verify(VerifiedAtlasDelivery $delivery): void
     {
@@ -100,12 +103,23 @@ final readonly class VerifyDeliveredResolution
     /** The caller must supply the exact expected envelope, never latest/label defaults. */
     public function requireCurrentApproval(VerifiedAtlasDelivery $delivery, stdClass $expected): never
     {
+        $this->inspectCurrentApproval($delivery, $expected);
+
+        throw new CatalogContractViolation('Current approval is checked-at-only; authority body schemas and atomic finalization are not contracted. Usage remains blocked.');
+    }
+
+    public function inspectCurrentApproval(VerifiedAtlasDelivery $delivery, stdClass $expected): CurrentApprovalObservation
+    {
         $this->verify($delivery);
         if ($delivery->manifest->resolution === null || $this->json->encode($delivery->manifest->resolution) !== $this->json->encode($expected)) {
             throw new CatalogContractViolation('Expected current source and decision pins do not match the delivery.');
         }
 
-        throw new CatalogContractViolation('Current Admin approval channel is not contracted; delivered approval remains forensic only.');
+        $resolution = $this->json->decode($delivery->artifacts['resolution/payload.json']);
+        $hash = $resolution->form->unit_catalog_sha256;
+        $base = $delivery->catalogs['unit:'.$hash]->descriptor;
+
+        return $this->currentApproval->check($delivery->sha256, $expected, (object) ['version' => $base->version, 'sha256' => $hash]);
     }
 
     private function references(mixed $value, VerifiedAtlasDelivery $delivery): void

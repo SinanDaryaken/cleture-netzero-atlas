@@ -25,6 +25,8 @@ use App\Application\Contracts\CanonicalJson;
 use App\Application\Contracts\CatalogContractRegistry;
 use App\Application\Contracts\CatalogSchemaValidator;
 use App\Application\Contracts\CatalogSnapshotLoader;
+use App\Application\Contracts\CurrentApprovalClient;
+use App\Application\Contracts\DeliveredResolutionApproval;
 use App\Application\Contracts\GeographyCatalogResolver;
 use App\Application\Contracts\IngestionLedger;
 use App\Application\Contracts\LicenseSnapshotLoader;
@@ -40,6 +42,7 @@ use App\Application\Contracts\UnitCatalogResolver;
 use App\Application\Ingestion\SourceAdapterRegistry;
 use App\Application\Ingestion\SourceParserRegistry;
 use App\Domain\Catalog\CatalogSnapshotIntegrity;
+use App\Domain\Catalog\SortedCatalogJson;
 use App\Infrastructure\Candidate\DiskCandidateReleaseComparison;
 use App\Infrastructure\Candidate\JsonCandidateDiffRulesetLoader;
 use App\Infrastructure\Candidate\JsonCandidateValidationRulesetLoader;
@@ -53,14 +56,17 @@ use App\Infrastructure\Candidate\Rfc8785CanonicalJson;
 use App\Infrastructure\Candidate\StoredPreviousCandidatePackageReader;
 use App\Infrastructure\Candidate\VerifiedCandidateEntityReader;
 use App\Infrastructure\Catalog\DeliveryCatalogSnapshotLoader;
+use App\Infrastructure\Catalog\HttpCurrentApprovalClient;
 use App\Infrastructure\Catalog\LaravelCatalogSnapshotLoader;
 use App\Infrastructure\Catalog\SnapshotGeographyCatalogResolver;
 use App\Infrastructure\Catalog\SnapshotUnitCatalogResolver;
 use App\Infrastructure\Catalog\VerifyAtlasDelivery;
+use App\Infrastructure\Catalog\VerifyDeliveredResolution;
 use App\Infrastructure\Contracts\OpisCandidateSchemaValidator;
 use App\Infrastructure\Contracts\OpisCatalogSchemaValidator;
 use App\Infrastructure\Contracts\PinnedCandidateContractRegistry;
 use App\Infrastructure\Contracts\PinnedCatalogContractRegistry;
+use App\Infrastructure\Contracts\PinnedCurrentApprovalContracts;
 use App\Infrastructure\Contracts\PinnedDeliveryContracts;
 use App\Infrastructure\Persistence\EloquentCandidateBuildRepository;
 use App\Infrastructure\Persistence\EloquentCandidatePackageIdentityLedger;
@@ -86,6 +92,13 @@ final class AtlasServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(DeliveredResolutionApproval::class, VerifyDeliveredResolution::class);
+        $this->app->singleton(PinnedCurrentApprovalContracts::class,
+            fn () => new PinnedCurrentApprovalContracts(base_path('resources/contracts/netzero-admin/current-approval-v1')));
+        $this->app->bind(CurrentApprovalClient::class, fn ($app) => new HttpCurrentApprovalClient(
+            $app->make(Factory::class), $app->make(SortedCatalogJson::class),
+            $app->make(PinnedCurrentApprovalContracts::class), config('atlas.current_approval'),
+        ));
         $this->app->bind(AtlasDeliveryVerifier::class, VerifyAtlasDelivery::class);
         $this->app->singleton(PinnedDeliveryContracts::class,
             fn () => new PinnedDeliveryContracts(base_path('resources/contracts/netzero-admin/delivery-v1')));

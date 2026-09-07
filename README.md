@@ -12,9 +12,10 @@ ve production hesap sonucu saklamaz. Candidate paketlerin review ve publish sahi
 Oturum devam noktası ve bekleyen proje bağımlılıkları: [Güncel durum](docs/CURRENT.md).
 
 Admin adım 6 için exact katalog teslim/lookup adapter'ı ve gerçek MinIO read-back
-kanıtı [katalog teslim işletim notunda](docs/catalog-delivery.md). Güncel çözüm onayı
-kanalı ayrı açık bağımlılıktır; [Admin inceleme bulguları](docs/admin-atlas-step6-review.md)
-katalog aktarımından bağımsız izlenir.
+kanıtı [katalog teslim işletim notunda](docs/catalog-delivery.md). Atlas'ın
+[güncel çözüm onayı adapter'ı](docs/current-approval.md) imzalı sorguyu doğrular;
+canlı etkinleştirme ve nihai kullanım kapıları açıktır. Admin A1/A2 düzeltmeleri
+[bağımsız tekrar üretimde doğrulandı](docs/admin-atlas-step6-review.md).
 
 ## Yerel altyapı
 

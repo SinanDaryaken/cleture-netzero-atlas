@@ -84,8 +84,9 @@ Container lifecycle veya ortak environment değişmedi.
 
 Dosya başına gerçek read-back ve bütün exact katalog pinleri
 [kanıt kaydında](evidence/admin-atlas-step6-readback-2026-09-07.json).
-Admin bulguları ve güncel onay kanalı talepleri
-[inceleme raporunda](admin-atlas-step6-review.md).
+Admin bulguları ve düzeltme doğrulaması [inceleme raporunda](admin-atlas-step6-review.md).
+Sonradan eklenen imzalı güncel onay sorgusu [ayrı işletim notundadır](current-approval.md);
+gerçek katalog-only teslimi ve bu kanıtın current_approval_verified=false sonucu değişmedi.
 
 ## Test sınırı
 

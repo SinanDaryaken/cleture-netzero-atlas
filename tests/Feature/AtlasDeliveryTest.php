@@ -183,7 +183,7 @@ final class AtlasDeliveryTest extends TestCase
         $this->assertSame('forensic_only', $delivery->receipt()['resolution_status']);
         $this->assertFalse($delivery->receipt()['current_approval_verified']);
         $this->expectException(CatalogContractViolation::class);
-        $this->expectExceptionMessage('Current Admin approval channel is not contracted');
+        $this->expectExceptionMessage('Current Admin approval client is disabled');
 
         app(VerifyDeliveredResolution::class)->requireCurrentApproval($delivery, $delivery->manifest->resolution);
     }

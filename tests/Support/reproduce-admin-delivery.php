@@ -9,15 +9,22 @@ use App\Actions\UnitCatalogRelease\CanonicalUnitCatalogJson;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Translation\ArrayLoader;
+use Illuminate\Translation\Translator;
+use Illuminate\Validation\Factory;
+use Illuminate\Validation\ValidationException;
 
 // Run through Admin's existing PHP runner. Only /tmp synthetic artifacts are written.
 require '/var/www/html/vendor/autoload.php';
 $app = new Application('/var/www/html');
 Facade::setFacadeApplication($app);
+$translator = new Translator(new ArrayLoader, 'en');
+$app->instance('translator', $translator);
+$app->instance('validator', new Factory($translator, $app));
 $json = new CanonicalUnitCatalogJson;
 $contract = new AtlasDeliveryContract($json);
 $review = new ReviewCatalogContract($json);
-$factor = new FactorContextContract;
+$factor = new FactorContextContract($json);
 $read = new ReadDeliveryCatalog($json, $factor, $review, $contract);
 $temp = sys_get_temp_dir().'/atlas-admin-review-'.bin2hex(random_bytes(8));
 mkdir($temp);
@@ -64,9 +71,18 @@ try {
         file_put_contents($file, $content);
         $files[] = $file;
     }
-    $accepted = $read->handle('currency', $hash);
-    echo json_encode(['case' => 'currency entry hash is all zeros; outer bytes/hash valid', 'Admin_ReadDeliveryCatalog_accepted' => isset($accepted['descriptor']),
+    $accepted = false;
+    try {
+        $read->handle('currency', $hash);
+        $accepted = true;
+    } catch (ValidationException) {
+        // Expected after Admin A1 correction.
+    }
+    echo json_encode(['case' => 'currency entry hash is all zeros; outer bytes/hash valid', 'Admin_ReadDeliveryCatalog_accepted' => $accepted,
         'entry_hash_valid' => false, 'expected' => 'reject inconsistent entry hash']).PHP_EOL;
+    if ($accepted) {
+        throw new RuntimeException('Admin A1 regression: inconsistent currency accepted.');
+    }
 
     $u = fn ($i) => '01a00000-0000-7000-8000-'.str_pad((string) $i, 12, '0', STR_PAD_LEFT);
     $kinds = ['protocol', 'scope', 'segment', 'category', 'consumption_type', 'material'];
@@ -98,6 +114,9 @@ try {
     $result = (new LookupReviewCatalog($review, $json))->taxonomyPath('sha256:'.$hash, $hash, $ids);
     echo json_encode(['case' => 'valid taxonomy with segment parent order scope, protocol', 'Admin_contract_accepted' => true,
         'Admin_lookup_status' => $result['status'], 'expected' => 'registered for the same typed graph']).PHP_EOL;
+    if ($result['status'] !== 'registered') {
+        throw new RuntimeException('Admin A2 regression: typed graph depends on parent order.');
+    }
 } finally {
     foreach ($files as $file) {
         unlink($file);

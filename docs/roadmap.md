@@ -8,12 +8,16 @@
 - [x] Gerçek 25 artifact + manifest read-back; aynı paketin retry ve beş katalog tüketimi.
 - [x] Güncel yetki üretmeyen sentetik altı tür çözüm kanıtı tüketici sınırı.
 - [x] Kullanıcı onaylı fixture/assertion düzeltmeleri; 134 Unit/Feature + 1 gerçek MinIO testi başarılı.
-- [ ] Admin'in yetkili güncel onay transport/schema/freshness sözleşmesi.
-- [ ] Admin A1 currency nested hash ve A2 taxonomy parent sıra bulgularının owner değerlendirmesi.
+- [x] Admin'in HMAC current-approval request/response sözleşmesini salt okunur yeniden değerlendir.
+- [x] Atlas bağımsız pinli HTTP adapter, taze sorgu giriş noktası ve kapalı nihai kullanım kontrolü.
+- [x] Admin A1 currency nested hash ve A2 taxonomy parent sıra düzeltmelerinin bağımsız doğrulaması.
+- [x] 50 yeni Feature testi; tam 184 Unit/Feature ve 1 gerçek socket integration başarılı.
+- [ ] Koordineli key/source grant ve gerçek approved-resolution teslimiyle canlı doğrulama.
+- [ ] Historical authority body schema provisioning ve atomik kullanım/finalization owner sözleşmesi.
 
 Katalog provisioning tamamlanmıştır; onaylı çözümün güncel yetki olarak tüketimi ve
 adım 6'nın bütünü kapanmamıştır. [İşletim/kanıt](catalog-delivery.md),
-[sahiplik ve bulgular](admin-atlas-step6-review.md).
+[sahiplik ve bulgular](admin-atlas-step6-review.md), [current-approval adapter](current-approval.md).
 
 ## ADEME Base Carbone pilotu
 

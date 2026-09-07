@@ -1,6 +1,16 @@
 <?php
 
 return [
+    'current_approval' => [
+        'enabled' => env('ATLAS_ADMIN_CURRENT_APPROVAL_ENABLED', false),
+        'endpoint' => env('ATLAS_ADMIN_CURRENT_APPROVAL_ENDPOINT'),
+        'key_id' => env('ATLAS_ADMIN_CURRENT_APPROVAL_KEY_ID'),
+        'secret' => env('ATLAS_ADMIN_CURRENT_APPROVAL_SECRET'),
+        'max_attempts' => (int) env('ATLAS_ADMIN_CURRENT_APPROVAL_MAX_ATTEMPTS', 2),
+        'connect_timeout_seconds' => (int) env('ATLAS_ADMIN_CURRENT_APPROVAL_CONNECT_TIMEOUT_SECONDS', 3),
+        'timeout_seconds' => (int) env('ATLAS_ADMIN_CURRENT_APPROVAL_TIMEOUT_SECONDS', 10),
+    ],
+
     'contracts' => [
         'candidate_manifest_path' => base_path(
             'resources/contracts/netzero-admin/candidate-v2/contract-manifest.json',

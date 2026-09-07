@@ -12,14 +12,29 @@ byte'lar aynı. Beş katalog exact loader ile bu hedeften tüketildi.
 [Dosya bazlı kanıt](evidence/admin-atlas-step6-readback-2026-09-07.json),
 [işletim](catalog-delivery.md), [ADR-008](decisions/ADR-008-exact-admin-delivery-and-current-approval-boundary.md).
 
-Admin current approval transport/caller/freshness ve kapalı authority artifact
-schema'ları henüz yok. Altı tür sentetik çözüm historical-only doğrulanır; güncel
-yetki talebi fail-closed. Gerçek pakette `resolution=null`. Adım 6 bütünü kapalı değil.
-Admin'de currency nested hash kabulü ve taxonomy parent sıra tutarsızlığı salt okunur
-kod + `/tmp` sentetik tekrar üretimle bulundu; [geri bildirim raporu](admin-atlas-step6-review.md).
+Admin current-approval endpoint/sözleşmesi artık mevcut. Atlas HTTP adapter'ı,
+bağımsız schema pinleri, exact HMAC/nonce/request/state doğrulaması ve CLI tamamlandı.
+Her kontrol depoyu yeniden okur ve yeni sorgu yapar; checked-at gözlemi kullanım
+yetkisi değildir. `requireCurrentApproval` güncel sorgudan sonra da eksik authority
+body schema ve atomik finalization nedeniyle kullanımı kapalı tutar.
+Gerçek paket `resolution=null`; canlı service/key/source etkinleştirmesi yapılmadı.
+Adım 6 bütünü kapalı değil. [İşletim ve yeni kanıt](current-approval.md), [ADR-009](decisions/ADR-009-current-approval-observation-and-use-gate.md).
+Admin currency nested hash ve taxonomy parent sıra düzeltmeleri mevcut Admin
+sınıflarıyla `/tmp` sentetik tekrar üretimde doğrulandı; [rapor](admin-atlas-step6-review.md).
 Admin/Worker/core dosyaları, Admin migration/V2 intake ve gerçek kararlar değiştirilmedi.
 
 ### Doğrulamalar tamamlandı
+
+Güncel onay adapter'ı: **50 yeni Feature test /229 assertion**; tam Unit/Feature
+**184 test /676 assertion** başarılı. Bağımsız gerçek socket peer ile **1 integration
+test /8 assertion** geçti (HMAC, aynı body/yeni nonce retry, 409, redirect reddi).
+Bu yerel sentetik HTTP kanıtıdır; canlı Admin grant/onay veya TLS rollout testi değildir.
+İlgili 16 PHP dosyasında Pint, Composer strict validate ve diff kontrolü geçti.
+Geçici loglar Windows TEMP içinde `atlas-approval-final-narrow-20260907-163544.log`,
+`atlas-approval-regression-20260907-163603.log`, `atlas-approval-http-20260907-163431.log`
+ve `atlas-admin-a1-a2-20260907-163431.log`.
+
+Önceki katalog teslim doğrulaması:
 
 Kullanıcının ayrı düzeltme onayıyla iki bilimsel sentetik fixture'a zorunlu `names.tr`
 eklendi; retry assertion'ı exact JSON içerik karşılaştırmasına çevrildi. Eski candidate
@@ -39,10 +54,11 @@ Geçici loglar `C:\Users\Sinan\AppData\Local\Temp` altında:
 bu sonuçlarla giderildi. Provision/transfer/read-back logları aynı dizinde
 `atlas-catalog-{provision,transfer,readback}-20260907-*.log` adlarıyla.
 
-Atlas katalog dilimi doğrulandı ve mevcut `main` branch'inde commit/push edilir;
-commit kimliği `git log` ile okunur. Devam için Admin current-approval sözleşmesi ve
-bulgu geri dönüşü yeniden kabul kapısından geçmeli. Mevcut candidate `.env` pinleri
-kendiliğinden değiştirilmedi; explicit delivery loader CLI kullanılabilir.
+Atlas katalog dilimi `ac6592d` ile origin/main'e gönderildi. Güncel onay adapter
+dilimi de doğrulamalar sonrası mevcut `main` branch'inde commit/push edilir;
+kimliği `git log` ile okunur. Devam için gerçek service/key/source etkinleştirme,
+onaylı çözüm teslimi, kapalı authority body şemaları ve finalization protokolü gerekir.
+Mevcut candidate `.env` pinleri kendiliğinden değiştirilmedi.
 
 ## Önceki candidate build durumu — 2026-09-05
 
@@ -65,7 +81,7 @@ test, migration, deploy veya rollout talimatı değildir.
 
 | Sahip | Bekleyen girdi/karar | Kalıcı kayıt |
 | --- | --- | --- |
-| NetZeroAdmin | Güncel çözüm onayı transport/schema/freshness, A1/A2 bulgu değerlendirmesi, compound applicability ve V2 intake/blocking review politikası. Katalog provisioning 2026-09-07 tamamlandı. | [Adım 6 geri bildirim](admin-atlas-step6-review.md); tarihsel `/home/sinan/projects/cleture-netzero-admin/ai/codex/CURRENT.md` kaydı |
+| NetZeroAdmin / Atlas koordinasyonu | Güncel onay transport/schema ve A1/A2 düzeltmeleri doğrulandı. Explicit service/key/source etkinleştirme, gerçek approved-resolution teslimi, authority body schema ve atomik finalization açık. Compound applicability ve V2 intake/blocking review ayrı bağımlılıklardır. | [Current approval](current-approval.md), [Adım 6 geri bildirim](admin-atlas-step6-review.md) |
 | Worker, Admin koordinasyonuyla | V2 durable staging ve kanıtlı retry/permanent-failure davranışı; mevcut V1 verifier yeniden yazılmayacak | `/home/sinan/projects/cleture-netzero-worker/.ai/CROSS_PROJECT_INBOX.md`, “2026-09-05 — Atlas main 35b82db / Admin V2 durable staging coordination” |
 | Atlas source evidence girdisi | Gerçek ADEME license terms exact byte'ları, kaynak/release bağı ve attribution metadata'sı | Bu günlük; Admin/Worker'a lisans edinme işi atanmadı |
 
