@@ -17,26 +17,30 @@ final readonly class CatalogSnapshotDescriptor
         public int $sizeBytes,
         public string $artifactPath,
     ) {
-        if ($this->schemaVersion !== 'atlas-catalog-snapshot/v1'
+        $schemas = match ($this->catalog) {
+            CatalogType::Unit => ['atlas-catalog-snapshot/v1' => 'unit-catalog-release/v1', 'atlas-catalog-snapshot/v2' => 'unit-catalog-release/v2'],
+            CatalogType::Geography => ['atlas-catalog-snapshot/v1' => 'netzero-geography-snapshot/v1'],
+            CatalogType::Currency => ['netzero-currency-snapshot-descriptor/v1' => 'netzero-currency-snapshot/v1'],
+            CatalogType::Taxonomy => ['netzero-review-catalog-descriptor/v1' => 'netzero-taxonomy-snapshot/v1'],
+            CatalogType::IntendedUse => ['netzero-review-catalog-descriptor/v1' => 'netzero-intended-use-snapshot/v1'],
+        };
+        if (! isset($schemas[$this->schemaVersion])
             || $this->owner !== 'NetZeroAdmin'
             || $this->version === ''
             || $this->canonicalization !== 'netzero-sorted-json-v1'
             || ! preg_match('/^[a-f0-9]{64}$/', $this->sha256)
             || $this->sizeBytes < 1
-            || preg_match('#^atlas-catalog-snapshots/(unit|geography)/sha256/[a-f0-9]{64}\.json$#', $this->artifactPath) !== 1
+            || $this->artifactPath !== "atlas-catalog-snapshots/{$this->catalog->value}/sha256/{$this->sha256}.json"
         ) {
             throw new InvalidArgumentException('Catalog snapshot descriptor identity is invalid.');
         }
 
-        $expectedContentSchema = match ($this->catalog) {
-            CatalogType::Geography => 'netzero-geography-snapshot/v1',
-            CatalogType::Unit => 'unit-catalog-release/v1',
-        };
+        $expectedContentSchema = $schemas[$this->schemaVersion];
 
         if ($this->contentSchemaVersion !== $expectedContentSchema
             || ! str_contains($this->artifactPath, "/{$this->catalog->value}/")
             || ! str_ends_with($this->artifactPath, "/{$this->sha256}.json")
-            || ($this->catalog === CatalogType::Geography && $this->version !== "sha256:{$this->sha256}")
+            || ($this->catalog !== CatalogType::Unit && $this->version !== "sha256:{$this->sha256}")
         ) {
             throw new InvalidArgumentException('Catalog snapshot descriptor does not match its catalog payload.');
         }

@@ -43,7 +43,7 @@ final class CandidatePipelineFixture
             'disk' => 'atlas_processing', 'object_key' => $objectKey, 'format' => 'ndjson', 'normalizer_version' => '1.0.0', 'candidate_schema_version' => '2.0.0',
             'candidate_schema_sha256' => $contract->sha256, 'candidate_count' => 1, 'finding_count' => 0, 'file_size' => strlen($bytes), 'sha256' => $hash,
             'metrics' => '{}', 'created_at' => $now, 'updated_at' => $now]);
-        foreach (CatalogType::cases() as $type) {
+        foreach ([CatalogType::Unit, CatalogType::Geography] as $type) {
             $snapshot = CandidateFixture::snapshot($type);
             $descriptor = $snapshot->descriptor;
             $payloadBytes = json_encode($snapshot->payload, JSON_THROW_ON_ERROR);

@@ -1,5 +1,20 @@
 # NetZero Atlas roadmap
 
+## Admin entegrasyonu — adım 6 (2026-09-07)
+
+- [x] Mevcut Admin çalışma ağacının salt okunur contract/code/test incelemesi.
+- [x] Ayrı pinli delivery/unit 2.1/review/currency registry ve exact beş katalog loader.
+- [x] Owner seçimiyle private Atlas MinIO `atlas-catalogs` hedefi ve conditional immutable transfer.
+- [x] Gerçek 25 artifact + manifest read-back; aynı paketin retry ve beş katalog tüketimi.
+- [x] Güncel yetki üretmeyen sentetik altı tür çözüm kanıtı tüketici sınırı.
+- [x] Kullanıcı onaylı fixture/assertion düzeltmeleri; 134 Unit/Feature + 1 gerçek MinIO testi başarılı.
+- [ ] Admin'in yetkili güncel onay transport/schema/freshness sözleşmesi.
+- [ ] Admin A1 currency nested hash ve A2 taxonomy parent sıra bulgularının owner değerlendirmesi.
+
+Katalog provisioning tamamlanmıştır; onaylı çözümün güncel yetki olarak tüketimi ve
+adım 6'nın bütünü kapanmamıştır. [İşletim/kanıt](catalog-delivery.md),
+[sahiplik ve bulgular](admin-atlas-step6-review.md).
+
 ## ADEME Base Carbone pilotu
 
 ### Aşama 1 — Release discovery
@@ -81,8 +96,8 @@
 
 ### Dış koordinasyon kapıları
 
-- [ ] Unit/geography descriptor ve payload exact byte'larını Atlas `atlas_catalogs`
-  runtime storage'a provision et.
+- [x] Unit/geography ve currency/taxonomy/intended-use exact byte'larını Atlas `atlas_catalogs`
+  runtime storage'a provision et; manifest üzerinden exact descriptor/payload çözümlemesini doğrula.
 - [ ] ADEME license terms snapshot girdilerini teslim al ve doğrula.
 - [ ] NetZeroAdmin V2 intake rollout ve Worker durable staging writer hazır olduğunda
   canlı teslimi koordineli aç; V1'e downgrade etme.

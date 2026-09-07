@@ -1,0 +1,36 @@
+{
+  "schema_version": "admin-intended-use-registry/v1",
+  "owner": "NetZeroAdmin",
+  "uses": [
+    {
+      "canonical_id": "corporate_carbon_footprint",
+      "names": {
+        "tr": "Kurumsal karbon ayak izi",
+        "en": "Corporate carbon footprint"
+      },
+      "description": "Bir kuruluşun faaliyetlerine ilişkin sera gazı hesaplamaları. Faktörün yöntem, kapsam, dönem ve kaynak uygunluğu ayrıca insan tarafından değerlendirilir.",
+      "active": true,
+      "compatibility": "human_review_required"
+    },
+    {
+      "canonical_id": "life_cycle_assessment",
+      "names": {
+        "tr": "Yaşam döngüsü değerlendirmesi",
+        "en": "Life cycle assessment"
+      },
+      "description": "Tanımlı ürün veya sistemin yaşam döngüsü boyunca çevresel etkilerinin değerlendirilmesi. Etki kategorisi, karakterizasyon yöntemi, kapsam ve veri uygunluğu ayrıca insan tarafından değerlendirilir.",
+      "active": true,
+      "compatibility": "human_review_required"
+    },
+    {
+      "canonical_id": "product_carbon_footprint",
+      "names": {
+        "tr": "Ürün karbon ayak izi",
+        "en": "Product carbon footprint"
+      },
+      "description": "Tanımlı bir ürün ve referans miktarı için sera gazı hesaplamaları. Sistem sınırı, yaşam döngüsü aşamaları ve faktörün uygunluğu ayrıca insan tarafından değerlendirilir.",
+      "active": true,
+      "compatibility": "human_review_required"
+    }
+  ]
+}

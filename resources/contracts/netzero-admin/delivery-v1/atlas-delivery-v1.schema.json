@@ -1,0 +1,349 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroadmin:schema:atlas-delivery:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "owner",
+    "policy",
+    "resolution",
+    "catalogs",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "netzero-atlas-delivery/v1"
+    },
+    "owner": {
+      "const": "NetZeroAdmin"
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "consumer_must_recheck_current",
+        "source_scope_required",
+        "automatic_mapping_allowed",
+        "publish_allowed"
+      ],
+      "properties": {
+        "consumer_must_recheck_current": {
+          "const": true
+        },
+        "source_scope_required": {
+          "const": true
+        },
+        "automatic_mapping_allowed": {
+          "const": false
+        },
+        "publish_allowed": {
+          "const": false
+        }
+      }
+    },
+    "resolution": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "family_id",
+            "identity_sha256",
+            "source",
+            "proposal_key",
+            "revision_id",
+            "revision",
+            "proposal_sha256",
+            "receipt_sha256",
+            "resolution_id",
+            "resolution_version",
+            "resolution_sha256",
+            "previous_resolution_id",
+            "decision_id",
+            "decision_sha256",
+            "supersedes_decision_id",
+            "ruleset_sha256",
+            "proposal_type",
+            "status",
+            "published_target"
+          ],
+          "properties": {
+            "family_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "identity_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "source": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "code",
+                "dataset",
+                "release",
+                "raw"
+              ],
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "dataset": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "release": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255
+                },
+                "raw": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "asset_key",
+                    "sha256",
+                    "size_bytes"
+                  ],
+                  "properties": {
+                    "asset_key": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 1024
+                    },
+                    "sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "size_bytes": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 67108864
+                    }
+                  }
+                }
+              }
+            },
+            "proposal_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "revision_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10000
+            },
+            "proposal_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "receipt_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "resolution_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "resolution_version": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "resolution_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "previous_resolution_id": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                }
+              ]
+            },
+            "decision_id": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+            },
+            "decision_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "supersedes_decision_id": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                }
+              ]
+            },
+            "ruleset_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "proposal_type": {
+              "enum": [
+                "alias",
+                "new_unit",
+                "new_quantity_kind",
+                "exact_conversion",
+                "context_relation",
+                "monetary_measure"
+              ]
+            },
+            "status": {
+              "const": "approved_at_lookup"
+            },
+            "published_target": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "catalog_version",
+                    "catalog_sha256",
+                    "definition_id",
+                    "definition_sha256",
+                    "quantity_kind_id",
+                    "unit_code"
+                  ],
+                  "properties": {
+                    "catalog_version": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 1000
+                    },
+                    "catalog_sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "definition_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                    },
+                    "definition_sha256": {
+                      "type": "string",
+                      "pattern": "^[a-f0-9]{64}$"
+                    },
+                    "quantity_kind_id": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+                    },
+                    "unit_code": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "catalogs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "catalog",
+          "version",
+          "sha256",
+          "artifact_name",
+          "descriptor_name"
+        ],
+        "properties": {
+          "catalog": {
+            "enum": [
+              "unit",
+              "geography",
+              "currency",
+              "taxonomy",
+              "intended_use"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "artifact_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "descriptor_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "sha256",
+          "size_bytes",
+          "object_path"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_./-]*$",
+            "maxLength": 512
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 67108864
+          },
+          "object_path": {
+            "type": "string",
+            "pattern": "^objects/sha256/[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

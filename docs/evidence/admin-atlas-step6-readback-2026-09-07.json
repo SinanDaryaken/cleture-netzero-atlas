@@ -1,0 +1,288 @@
+{
+    "verified_at_utc": "2026-09-07T12:18:15+00:00",
+    "runner": "cleture-netzero-atlas-php-1",
+    "disk": "atlas_catalogs",
+    "bucket": "atlas-catalogs",
+    "endpoint": "http://minio:9000",
+    "root": "atlas-deliveries/sha256/38de9ae94013840926af3e6a223188cfabd05e1c12fc4990cf4c11513c2f408c",
+    "manifest_sha256": "38de9ae94013840926af3e6a223188cfabd05e1c12fc4990cf4c11513c2f408c",
+    "manifest_size_bytes": 9404,
+    "retry_identical": true,
+    "current_approval_verified": false,
+    "resolution": null,
+    "artifact_count": 25,
+    "artifact_bytes": 937372,
+    "artifacts": [
+        {
+            "name": "atlas-catalog-snapshots/currency/sha256/9a2bbd9fcc93f10d29c01678bc6b9ab06b6a62e70090b549f9c9a521ca6370ab.json",
+            "object_path": "objects/sha256/9a2bbd9fcc93f10d29c01678bc6b9ab06b6a62e70090b549f9c9a521ca6370ab",
+            "size_bytes": 4777,
+            "sha256": "9a2bbd9fcc93f10d29c01678bc6b9ab06b6a62e70090b549f9c9a521ca6370ab",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/currency/sha256/9a2bbd9fcc93f10d29c01678bc6b9ab06b6a62e70090b549f9c9a521ca6370ab.json.manifest.json",
+            "object_path": "objects/sha256/b3860da777fa9a4e9b72052d72c8ef6c9f43e6e5ae4d9e077139664c026c8b5f",
+            "size_bytes": 510,
+            "sha256": "b3860da777fa9a4e9b72052d72c8ef6c9f43e6e5ae4d9e077139664c026c8b5f",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/geography/sha256/63e4c102f3622f48c746a7a1144a3e07d6d64ee519940acb66c38289bdc36ac8.json",
+            "object_path": "objects/sha256/63e4c102f3622f48c746a7a1144a3e07d6d64ee519940acb66c38289bdc36ac8",
+            "size_bytes": 265521,
+            "sha256": "63e4c102f3622f48c746a7a1144a3e07d6d64ee519940acb66c38289bdc36ac8",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/geography/sha256/63e4c102f3622f48c746a7a1144a3e07d6d64ee519940acb66c38289bdc36ac8.json.manifest.json",
+            "object_path": "objects/sha256/61f46ebde57abba344009d24047b0baaeb6e7cd185ffaf0444d39b762f07eb7f",
+            "size_bytes": 501,
+            "sha256": "61f46ebde57abba344009d24047b0baaeb6e7cd185ffaf0444d39b762f07eb7f",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/intended_use/sha256/4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072.json",
+            "object_path": "objects/sha256/4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+            "size_bytes": 1551,
+            "sha256": "4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/intended_use/sha256/4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072.json.manifest.json",
+            "object_path": "objects/sha256/5c8c2890a3311a8d001f68bbdf4cbbcb11cead85e0846c556e80e0f963b801fd",
+            "size_bytes": 519,
+            "sha256": "5c8c2890a3311a8d001f68bbdf4cbbcb11cead85e0846c556e80e0f963b801fd",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/taxonomy/sha256/cab6fc79fb0b711b7646aad4fece1398e29e1d2f1c86408a41bc882c7a044801.json",
+            "object_path": "objects/sha256/cab6fc79fb0b711b7646aad4fece1398e29e1d2f1c86408a41bc882c7a044801",
+            "size_bytes": 6131,
+            "sha256": "cab6fc79fb0b711b7646aad4fece1398e29e1d2f1c86408a41bc882c7a044801",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/taxonomy/sha256/cab6fc79fb0b711b7646aad4fece1398e29e1d2f1c86408a41bc882c7a044801.json.manifest.json",
+            "object_path": "objects/sha256/52154d7f409fc1435f916fcbef525d617d18aed8869cb393451eb607cdc32193",
+            "size_bytes": 507,
+            "sha256": "52154d7f409fc1435f916fcbef525d617d18aed8869cb393451eb607cdc32193",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/unit/sha256/c578e1bd3d1dc7b7944de75792f676841781378ebd671aace5ab6030c62ad32b.json",
+            "object_path": "objects/sha256/c578e1bd3d1dc7b7944de75792f676841781378ebd671aace5ab6030c62ad32b",
+            "size_bytes": 551437,
+            "sha256": "c578e1bd3d1dc7b7944de75792f676841781378ebd671aace5ab6030c62ad32b",
+            "matches_manifest": true
+        },
+        {
+            "name": "atlas-catalog-snapshots/unit/sha256/c578e1bd3d1dc7b7944de75792f676841781378ebd671aace5ab6030c62ad32b.json.manifest.json",
+            "object_path": "objects/sha256/23ff34ab4d7593b30886ef42531f375db55ae3de6746fb39378a7b8f1bcded46",
+            "size_bytes": 441,
+            "sha256": "23ff34ab4d7593b30886ef42531f375db55ae3de6746fb39378a7b8f1bcded46",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/atlas-catalog-contract-v2.1.manifest.json",
+            "object_path": "objects/sha256/70c816e4d765f76c543b7685ee70d7306ec159030a6133cadc57ccbefcf4fbe9",
+            "size_bytes": 847,
+            "sha256": "70c816e4d765f76c543b7685ee70d7306ec159030a6133cadc57ccbefcf4fbe9",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/atlas-catalog-descriptor-v2.schema.json",
+            "object_path": "objects/sha256/314570a7c245a47a89bdf38ab8b78a9a79e51e67de2032006962b3510327158e",
+            "size_bytes": 2642,
+            "sha256": "314570a7c245a47a89bdf38ab8b78a9a79e51e67de2032006962b3510327158e",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/atlas-catalog-geography-v1.schema.json",
+            "object_path": "objects/sha256/45411402d0ecc07bd869397b2b5de9b17ca22fca93457caa83eb053a579b6320",
+            "size_bytes": 4421,
+            "sha256": "45411402d0ecc07bd869397b2b5de9b17ca22fca93457caa83eb053a579b6320",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/atlas-catalog-unit-v2.1.schema.json",
+            "object_path": "objects/sha256/af6a940de175774a69abd9eb23bc0ce3b8d4dc1d8b6016112f53cd1bedace9a3",
+            "size_bytes": 15866,
+            "sha256": "af6a940de175774a69abd9eb23bc0ce3b8d4dc1d8b6016112f53cd1bedace9a3",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/atlas-delivery-contract-v1.manifest.json",
+            "object_path": "objects/sha256/6b9158b322ae825034c2e6ccaf4b3a6d79697321e7e1390947df0dea0cb71146",
+            "size_bytes": 418,
+            "sha256": "6b9158b322ae825034c2e6ccaf4b3a6d79697321e7e1390947df0dea0cb71146",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/atlas-delivery-v1.schema.json",
+            "object_path": "objects/sha256/1a99d469b76fbfe7289bfaaee2e527a2917211d1bc0ec6bd51d825a6731bbcbe",
+            "size_bytes": 9856,
+            "sha256": "1a99d469b76fbfe7289bfaaee2e527a2917211d1bc0ec6bd51d825a6731bbcbe",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/currency-snapshot-descriptor-v1.schema.json",
+            "object_path": "objects/sha256/865aa5d3ca07a85d8d17b8074039df0176884afe44a8cd6fa8192271dbd3654b",
+            "size_bytes": 1158,
+            "sha256": "865aa5d3ca07a85d8d17b8074039df0176884afe44a8cd6fa8192271dbd3654b",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/currency-snapshot-v1.schema.json",
+            "object_path": "objects/sha256/d47a0dbb549d4301e82b3e4d87c59c38417e7e6d6b6ddd139dfb6ed8cea978a3",
+            "size_bytes": 2078,
+            "sha256": "d47a0dbb549d4301e82b3e4d87c59c38417e7e6d6b6ddd139dfb6ed8cea978a3",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/factor-context-contract-v1.manifest.json",
+            "object_path": "objects/sha256/ba188dd46b11515daba809959d42f715458168e63aaa400390d9e59e70fb629c",
+            "size_bytes": 928,
+            "sha256": "ba188dd46b11515daba809959d42f715458168e63aaa400390d9e59e70fb629c",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/factor-context-v1.schema.json",
+            "object_path": "objects/sha256/204d9a414672a900e14ae934899908a72cf8514b1cf1a1f4be177ec6c517b38f",
+            "size_bytes": 55858,
+            "sha256": "204d9a414672a900e14ae934899908a72cf8514b1cf1a1f4be177ec6c517b38f",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/review-catalog-contract-v1.manifest.json",
+            "object_path": "objects/sha256/08c03d3eda2eb120c066ef7db2be6dbd9a7930f17272839d548758aae2e607cb",
+            "size_bytes": 1118,
+            "sha256": "08c03d3eda2eb120c066ef7db2be6dbd9a7930f17272839d548758aae2e607cb",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/review-catalog-descriptor-v1.schema.json",
+            "object_path": "objects/sha256/e22d87500d3e3d3ed7564fff9647de2d8c0d44dc002fc06334cb3fccf1312e72",
+            "size_bytes": 1260,
+            "sha256": "e22d87500d3e3d3ed7564fff9647de2d8c0d44dc002fc06334cb3fccf1312e72",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/review-catalog-intended-use-v1.json",
+            "object_path": "objects/sha256/4bdb1feadcae22c06e2a03ffc6ed87240860ce9f91de1d84cd720f039209f419",
+            "size_bytes": 1471,
+            "sha256": "4bdb1feadcae22c06e2a03ffc6ed87240860ce9f91de1d84cd720f039209f419",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/review-catalog-intended-use-v1.schema.json",
+            "object_path": "objects/sha256/8f83a142d29d57f7f357ad0a491d0fd12deb7fb50805c5ace5d1143fc8543686",
+            "size_bytes": 2335,
+            "sha256": "8f83a142d29d57f7f357ad0a491d0fd12deb7fb50805c5ace5d1143fc8543686",
+            "matches_manifest": true
+        },
+        {
+            "name": "contracts/review-catalog-taxonomy-v1.schema.json",
+            "object_path": "objects/sha256/75bb514bc2695b12c2a8a18259c0223e38d6c61bec825296a1f6d5167f3eb7b4",
+            "size_bytes": 5221,
+            "sha256": "75bb514bc2695b12c2a8a18259c0223e38d6c61bec825296a1f6d5167f3eb7b4",
+            "matches_manifest": true
+        }
+    ],
+    "catalog_pins": {
+        "currency": {
+            "version": "sha256:9a2bbd9fcc93f10d29c01678bc6b9ab06b6a62e70090b549f9c9a521ca6370ab",
+            "sha256": "9a2bbd9fcc93f10d29c01678bc6b9ab06b6a62e70090b549f9c9a521ca6370ab"
+        },
+        "geography": {
+            "version": "sha256:63e4c102f3622f48c746a7a1144a3e07d6d64ee519940acb66c38289bdc36ac8",
+            "sha256": "63e4c102f3622f48c746a7a1144a3e07d6d64ee519940acb66c38289bdc36ac8"
+        },
+        "intended_use": {
+            "version": "sha256:4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+            "sha256": "4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072"
+        },
+        "taxonomy": {
+            "version": "sha256:cab6fc79fb0b711b7646aad4fece1398e29e1d2f1c86408a41bc882c7a044801",
+            "sha256": "cab6fc79fb0b711b7646aad4fece1398e29e1d2f1c86408a41bc882c7a044801"
+        },
+        "unit": {
+            "version": "netzero-units-2026-09-06-v2",
+            "sha256": "c578e1bd3d1dc7b7944de75792f676841781378ebd671aace5ab6030c62ad32b"
+        }
+    },
+    "loader_counts": {
+        "geography": {
+            "countries": 250,
+            "districts": 973,
+            "provinces": 81
+        },
+        "unit": {
+            "conversions": 694,
+            "definitions": 181
+        },
+        "currency": {
+            "currencies": 21
+        },
+        "taxonomy": {
+            "category_consumption_links": 2,
+            "nodes": 9
+        },
+        "intended_use": {
+            "uses": 3
+        }
+    },
+    "intended_use_lookups": {
+        "corporate_carbon_footprint": {
+            "status": "registered",
+            "targets": [
+                {
+                    "catalog": "intended_use",
+                    "canonical_id": "corporate_carbon_footprint",
+                    "catalog_version": "sha256:4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+                    "catalog_sha256": "4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+                    "entry_sha256": "6c49305b81b5c542516008bb277fcc40009e1d45b633e1bb511d5f434b7249cf"
+                }
+            ],
+            "compatibility": "not_evaluated",
+            "human_review_required": true,
+            "usage_allowed": false,
+            "publish_allowed": false
+        },
+        "product_carbon_footprint": {
+            "status": "registered",
+            "targets": [
+                {
+                    "catalog": "intended_use",
+                    "canonical_id": "product_carbon_footprint",
+                    "catalog_version": "sha256:4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+                    "catalog_sha256": "4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+                    "entry_sha256": "bfb67306ea40638ee94ac9ca1b5093a5e261b8dc9546c0da6db3ff2ac866f739"
+                }
+            ],
+            "compatibility": "not_evaluated",
+            "human_review_required": true,
+            "usage_allowed": false,
+            "publish_allowed": false
+        },
+        "life_cycle_assessment": {
+            "status": "registered",
+            "targets": [
+                {
+                    "catalog": "intended_use",
+                    "canonical_id": "life_cycle_assessment",
+                    "catalog_version": "sha256:4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+                    "catalog_sha256": "4dea6e5761e24fbf78e5ddbfe97fbd84e368bdfb33f8808d589e56b692dc9072",
+                    "entry_sha256": "6463cf1dc332c5229799c207510c2db1d9cb56b0e8d387ee6329a4181cd4c977"
+                }
+            ],
+            "compatibility": "not_evaluated",
+            "human_review_required": true,
+            "usage_allowed": false,
+            "publish_allowed": false
+        }
+    },
+    "unit_kg_status": "proposed",
+    "unit_K_status": "ambiguous",
+    "geography_TR_status": "proposed"
+}

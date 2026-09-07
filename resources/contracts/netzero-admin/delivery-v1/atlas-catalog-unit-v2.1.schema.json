@@ -1,0 +1,692 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroadmin:schema:atlas-catalog-unit:2.1",
+  "description": "Immutable published scientific unit snapshot. Reference kind IDs and Admin quantity kind IDs are distinct namespaces joined by quantity_kind_mappings. Equal vectors or aliases alone do not establish a quantity kind or factor applicability. Exact byte verification precedes parsing; referential integrity and definition hashes require consumer semantic validation. Consumption contract 2.1.0 additionally permits the optional bounded reference.policy.monetary_context annotation; it grants no currency conversion or factor applicability. Published content and descriptor versions remain v2.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "release",
+    "definitions",
+    "conversions",
+    "reference"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "unit-catalog-release/v2"
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        }
+      }
+    },
+    "definitions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/definition"
+      }
+    },
+    "conversions": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "$ref": "#/$defs/conversion"
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "sha256",
+        "dimension_axes",
+        "physical_dimensions",
+        "aliases",
+        "quantity_kind_mappings",
+        "policy"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "dimension_axes": {
+          "const": [
+            "length",
+            "mass",
+            "time",
+            "electric_current",
+            "temperature",
+            "amount",
+            "luminous_intensity"
+          ]
+        },
+        "physical_dimensions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/dimension"
+          }
+        },
+        "aliases": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/alias"
+          }
+        },
+        "quantity_kind_mappings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/kind_mapping"
+          }
+        },
+        "policy": {
+          "$ref": "#/$defs/policy"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "rational": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "numerator",
+        "denominator"
+      ],
+      "properties": {
+        "numerator": {
+          "type": "string",
+          "pattern": "^(?:0|-?[1-9][0-9]*)$"
+        },
+        "denominator": {
+          "type": "string",
+          "pattern": "^[1-9][0-9]*$"
+        }
+      }
+    },
+    "names": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z]{2}(?:-[A-Za-z0-9]+)*$"
+      },
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 1000
+      }
+    },
+    "dimension": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "code",
+        "names",
+        "vector"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "names": {
+          "$ref": "#/$defs/names"
+        },
+        "vector": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "items": {
+            "type": "integer",
+            "minimum": -12,
+            "maximum": 12
+          }
+        }
+      }
+    },
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "code",
+        "symbol",
+        "names",
+        "dimension_id",
+        "dimension_code",
+        "definition_type",
+        "exactness",
+        "scale_num",
+        "scale_den",
+        "expression_factor_num",
+        "expression_factor_den",
+        "source_id",
+        "evidence"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "symbol": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "names": {
+          "$ref": "#/$defs/names"
+        },
+        "dimension_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "dimension_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "definition_type": {
+          "enum": [
+            "atomic",
+            "expression"
+          ]
+        },
+        "exactness": {
+          "const": "exact"
+        },
+        "scale_num": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "scale_den": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expression_factor_num": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "expression_factor_den": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        }
+      }
+    },
+    "term": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_id",
+        "component_unit_id",
+        "component_kind_id",
+        "exponent",
+        "position"
+      ],
+      "properties": {
+        "unit_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "component_unit_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "component_kind_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "exponent": {
+          "type": "integer",
+          "minimum": -12,
+          "maximum": 12,
+          "not": {
+            "const": 0
+          }
+        },
+        "position": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "alias": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unit_id",
+        "namespace",
+        "token",
+        "case_sensitive"
+      ],
+      "properties": {
+        "unit_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "namespace": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "token": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "case_sensitive": {
+          "const": true
+        }
+      }
+    },
+    "kind_mapping": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "quantity_kind_id",
+        "reference_kind_id",
+        "code"
+      ],
+      "properties": {
+        "quantity_kind_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "reference_kind_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "scientific": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_sha256",
+        "reference_kind_id",
+        "quantity_role",
+        "context_fields",
+        "physical_dimension",
+        "unit_definition",
+        "terms"
+      ],
+      "properties": {
+        "reference_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "reference_kind_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "quantity_role": {
+          "enum": [
+            "ratio",
+            "temperature_point",
+            "temperature_difference"
+          ]
+        },
+        "context_fields": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "uniqueItems": true
+        },
+        "physical_dimension": {
+          "$ref": "#/$defs/dimension"
+        },
+        "unit_definition": {
+          "$ref": "#/$defs/unit"
+        },
+        "terms": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "$ref": "#/$defs/term"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "unit_definition": {
+                "properties": {
+                  "definition_type": {
+                    "const": "expression"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "terms": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "terms": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aliases",
+        "context",
+        "exact_arithmetic",
+        "exactness_scope",
+        "expressions",
+        "release",
+        "rule",
+        "temperature",
+        "conversion_request",
+        "deferred",
+        "out_of_scope"
+      ],
+      "properties": {
+        "aliases": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "context": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "exact_arithmetic": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "exactness_scope": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "expressions": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "release": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "rule": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "temperature": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "conversion_request": {
+          "const": [
+            "snapshot_sha256",
+            "quantity_kind_id",
+            "from_unit_id",
+            "to_unit_id",
+            "value_num",
+            "value_den"
+          ]
+        },
+        "deferred": {
+          "type": "array",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reason",
+              "tokens"
+            ],
+            "properties": {
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10000
+              },
+              "tokens": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 1000
+                }
+              }
+            }
+          }
+        },
+        "out_of_scope": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "monetary_context": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10000
+        }
+      }
+    },
+    "definition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "unit_type_id",
+        "unit_dimension_id",
+        "unit_code",
+        "unit_symbol",
+        "dimension_code",
+        "transform_kind",
+        "is_base",
+        "scale",
+        "offset",
+        "sha256",
+        "quantity_kind_id",
+        "scientific"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "unit_type_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "unit_dimension_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "unit_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "unit_symbol": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 255
+        },
+        "dimension_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "transform_kind": {
+          "enum": [
+            "ratio",
+            "affine"
+          ]
+        },
+        "is_base": {
+          "type": "boolean"
+        },
+        "scale": {
+          "$ref": "#/$defs/rational"
+        },
+        "offset": {
+          "$ref": "#/$defs/rational"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "quantity_kind_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "scientific": {
+          "$ref": "#/$defs/scientific"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "scientific": {
+                "properties": {
+                  "quantity_role": {
+                    "const": "temperature_point"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "transform_kind": {
+                "const": "affine"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "transform_kind": {
+                "const": "ratio"
+              },
+              "offset": {
+                "const": {
+                  "numerator": "0",
+                  "denominator": "1"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "conversion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "from_definition_id",
+        "to_definition_id",
+        "from_code",
+        "to_code",
+        "multiplier",
+        "offset",
+        "sha256"
+      ],
+      "properties": {
+        "from_definition_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "to_definition_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "from_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "to_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "multiplier": {
+          "$ref": "#/$defs/rational"
+        },
+        "offset": {
+          "$ref": "#/$defs/rational"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    }
+  }
+}

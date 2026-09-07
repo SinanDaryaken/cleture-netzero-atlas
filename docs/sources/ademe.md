@@ -128,3 +128,18 @@ package build veya Admin teslimi bu fazda yapılmadı: exact katalog provision v
 source'a bağlı gerçek lisans kanıtı girdileri bekleniyor. Katalogdaki basit unit
 tanımlarından ADEME compound factor dimension/applicability sonucu türetilmez.
 Blocking/unresolved sonuçlar gizlenmez. Devam kapıları [CURRENT](../CURRENT.md) içindedir.
+
+## 2026-09-07 — Exact katalog provisioning
+
+Admin katalog-only teslimi gerçek Atlas MinIO `atlas-catalogs` bucket'ına alındı.
+Manifest `38de9ae94013840926af3e6a223188cfabd05e1c12fc4990cf4c11513c2f408c`;
+beş katalog ve 25 artifact exact byte/hash ile hedeften doğrulandı. Unit katalog artık
+181 definition/694 conversion içeriyor; geography 250 ülke/81 il/973 ilçe, currency 21,
+taxonomy 9 node/2 link ve intended-use üç explicit kayıt taşıyor.
+
+Bu sonuç ADEME'nin 69 unit label'ının tümünün çözüldüğü anlamına gelmez. Örneğin
+`K` birden çok quantity-kind hedefinde ambiguous kalır. Compound factor dimension,
+applicability, lisans ve veri bazında kullanım kararı ayrı kapılardır. Gerçek ADEME
+normalization yeniden üretilmedi veya candidate/publish yapılmadı. Çözüm teslimi
+`resolution=null`; Admin current approval kanalı hâlâ açık bağımlılıktır.
+[Exact pinler ve read-back](../evidence/admin-atlas-step6-readback-2026-09-07.json).

@@ -53,6 +53,12 @@ birimlerini çözmüş sayılmaz.
 
 ## Açık kapılar
 
+2026-09-07 güncellemesi: katalog-only delivery beş katalogla gerçek Atlas MinIO'ya
+aktarıldı ve exact loader/read-back doğrulandı; aşağıdaki provision ve package assembly
+maddeleri bu ADR'nin 2026-09-05 tarihsel durumudur. Güncel teslim/onay ayrımı
+[ADR-008](ADR-008-exact-admin-delivery-and-current-approval-boundary.md) ve
+[CURRENT](../CURRENT.md) içindedir. Eski schema/hash'ler korunmuştur.
+
 - Katalog descriptor/payload exact byte'ları Atlas `atlas_catalogs` runtime storage'a
   henüz provision edilmemiştir.
 - ADEME license terms snapshot somut girdileri teslim edilmemiştir. Geography kaynak

@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Application\Candidate\SourceNormalizerRegistry;
+use App\Application\Catalog\TransferAtlasDelivery;
+use App\Application\Contracts\AtlasDeliveryStore;
+use App\Application\Contracts\AtlasDeliveryVerifier;
 use App\Application\Contracts\CandidateBuildRepository;
 use App\Application\Contracts\CandidateContractRegistry;
 use App\Application\Contracts\CandidateDiffRulesetLoader;
@@ -49,13 +52,16 @@ use App\Infrastructure\Candidate\PinnedCandidateMappingPolicy;
 use App\Infrastructure\Candidate\Rfc8785CanonicalJson;
 use App\Infrastructure\Candidate\StoredPreviousCandidatePackageReader;
 use App\Infrastructure\Candidate\VerifiedCandidateEntityReader;
+use App\Infrastructure\Catalog\DeliveryCatalogSnapshotLoader;
 use App\Infrastructure\Catalog\LaravelCatalogSnapshotLoader;
 use App\Infrastructure\Catalog\SnapshotGeographyCatalogResolver;
 use App\Infrastructure\Catalog\SnapshotUnitCatalogResolver;
+use App\Infrastructure\Catalog\VerifyAtlasDelivery;
 use App\Infrastructure\Contracts\OpisCandidateSchemaValidator;
 use App\Infrastructure\Contracts\OpisCatalogSchemaValidator;
 use App\Infrastructure\Contracts\PinnedCandidateContractRegistry;
 use App\Infrastructure\Contracts\PinnedCatalogContractRegistry;
+use App\Infrastructure\Contracts\PinnedDeliveryContracts;
 use App\Infrastructure\Persistence\EloquentCandidateBuildRepository;
 use App\Infrastructure\Persistence\EloquentCandidatePackageIdentityLedger;
 use App\Infrastructure\Persistence\EloquentCandidatePackageLedger;
@@ -65,6 +71,7 @@ use App\Infrastructure\Persistence\EloquentParsingLedger;
 use App\Infrastructure\Sources\Ademe\AdemeCandidateNormalizer;
 use App\Infrastructure\Sources\Ademe\AdemeCsvParser;
 use App\Infrastructure\Sources\Ademe\AdemeSourceAdapter;
+use App\Infrastructure\Storage\LaravelAtlasDeliveryStore;
 use App\Infrastructure\Storage\LaravelCandidatePackageStorage;
 use App\Infrastructure\Storage\LaravelNormalizedArtifactStorage;
 use App\Infrastructure\Storage\LaravelParsedObservationReader;
@@ -79,6 +86,11 @@ final class AtlasServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        $this->app->bind(AtlasDeliveryVerifier::class, VerifyAtlasDelivery::class);
+        $this->app->singleton(PinnedDeliveryContracts::class,
+            fn () => new PinnedDeliveryContracts(base_path('resources/contracts/netzero-admin/delivery-v1')));
+        $this->app->bind(AtlasDeliveryStore::class,
+            fn ($app) => new LaravelAtlasDeliveryStore($app->make(FilesystemManager::class), config('atlas.storage.catalog_disk')));
         $this->app->bind(CandidateMappingPolicyLoader::class, fn ($app) => $app->make(PinnedCandidateMappingPolicy::class));
         $this->app->bind(CandidateEntityReader::class, VerifiedCandidateEntityReader::class);
         $this->app->bind(CandidateReleaseComparison::class, DiskCandidateReleaseComparison::class);
@@ -167,13 +179,16 @@ final class AtlasServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             CatalogSnapshotLoader::class,
-            fn ($app): CatalogSnapshotLoader => new LaravelCatalogSnapshotLoader(
-                filesystems: $app->make(FilesystemManager::class),
-                schemaValidator: $app->make(CatalogSchemaValidator::class),
-                integrity: $app->make(CatalogSnapshotIntegrity::class),
-                disk: config('atlas.storage.catalog_disk'),
-                snapshotConfigurations: config('atlas.catalogs.snapshots'),
-            ),
+            fn ($app): CatalogSnapshotLoader => config('atlas.catalogs.delivery.sha256') !== null
+                ? new DeliveryCatalogSnapshotLoader(
+                    $app->make(TransferAtlasDelivery::class), config('atlas.catalogs.delivery.sha256'), config('atlas.catalogs.delivery.pins'),
+                ) : new LaravelCatalogSnapshotLoader(
+                    filesystems: $app->make(FilesystemManager::class),
+                    schemaValidator: $app->make(CatalogSchemaValidator::class),
+                    integrity: $app->make(CatalogSnapshotIntegrity::class),
+                    disk: config('atlas.storage.catalog_disk'),
+                    snapshotConfigurations: config('atlas.catalogs.snapshots'),
+                ),
         );
 
         $this->app->singleton(AdemeSourceAdapter::class, function ($app): AdemeSourceAdapter {

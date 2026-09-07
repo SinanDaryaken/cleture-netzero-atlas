@@ -1,0 +1,25 @@
+{
+  "snapshot_version": "1.0.0",
+  "owner_repository": "cleture-netzero-admin",
+  "scope": "standalone factor context and currency snapshot; not a candidate package revision",
+  "contracts": [
+    {
+      "path": "factor-context-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:factor-context:1",
+      "version": "1.0.0",
+      "sha256": "204d9a414672a900e14ae934899908a72cf8514b1cf1a1f4be177ec6c517b38f"
+    },
+    {
+      "path": "currency-snapshot-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:currency-snapshot:1",
+      "version": "1.0.0",
+      "sha256": "d47a0dbb549d4301e82b3e4d87c59c38417e7e6d6b6ddd139dfb6ed8cea978a3"
+    },
+    {
+      "path": "currency-snapshot-descriptor-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:currency-snapshot-descriptor:1",
+      "version": "1.0.0",
+      "sha256": "865aa5d3ca07a85d8d17b8074039df0176884afe44a8cd6fa8192271dbd3654b"
+    }
+  ]
+}

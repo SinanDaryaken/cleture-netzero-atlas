@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroadmin:schema:review-catalog-descriptor:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "owner",
+    "catalog",
+    "version",
+    "content_schema_version",
+    "canonicalization",
+    "sha256",
+    "size_bytes",
+    "artifact_path"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "netzero-review-catalog-descriptor/v1"
+    },
+    "owner": {
+      "const": "NetZeroAdmin"
+    },
+    "catalog": {
+      "enum": [
+        "taxonomy",
+        "intended_use"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "content_schema_version": {
+      "enum": [
+        "netzero-taxonomy-snapshot/v1",
+        "netzero-intended-use-snapshot/v1"
+      ]
+    },
+    "canonicalization": {
+      "const": "netzero-sorted-json-v1"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20000000
+    },
+    "artifact_path": {
+      "type": "string",
+      "pattern": "^atlas-catalog-snapshots/(taxonomy|intended_use)/sha256/[a-f0-9]{64}\\.json$"
+    }
+  }
+}

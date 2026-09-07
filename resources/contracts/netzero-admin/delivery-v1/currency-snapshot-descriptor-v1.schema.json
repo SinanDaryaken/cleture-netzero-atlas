@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:netzeroadmin:schema:currency-snapshot-descriptor:1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "owner",
+    "catalog",
+    "version",
+    "content_schema_version",
+    "canonicalization",
+    "sha256",
+    "size_bytes",
+    "artifact_path"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "netzero-currency-snapshot-descriptor/v1"
+    },
+    "owner": {
+      "const": "NetZeroAdmin"
+    },
+    "catalog": {
+      "const": "currency"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$(?![\\s\\S])"
+    },
+    "content_schema_version": {
+      "const": "netzero-currency-snapshot/v1"
+    },
+    "canonicalization": {
+      "const": "netzero-sorted-json-v1"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$(?![\\s\\S])"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "artifact_path": {
+      "type": "string",
+      "pattern": "^atlas-catalog-snapshots/currency/sha256/[a-f0-9]{64}\\.json$(?![\\s\\S])"
+    }
+  }
+}

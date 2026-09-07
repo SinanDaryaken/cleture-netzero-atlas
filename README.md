@@ -11,12 +11,17 @@ ve production hesap sonucu saklamaz. Candidate paketlerin review ve publish sahi
 
 Oturum devam noktası ve bekleyen proje bağımlılıkları: [Güncel durum](docs/CURRENT.md).
 
+Admin adım 6 için exact katalog teslim/lookup adapter'ı ve gerçek MinIO read-back
+kanıtı [katalog teslim işletim notunda](docs/catalog-delivery.md). Güncel çözüm onayı
+kanalı ayrı açık bağımlılıktır; [Admin inceleme bulguları](docs/admin-atlas-step6-review.md)
+katalog aktarımından bağımsız izlenir.
+
 ## Yerel altyapı
 
 - PostgreSQL: ortak `laravel-dev-postgres` servisi, `atlas_netzero` veritabanı
 - Redis: ortak `laravel-dev-redis` servisi
 - Object storage: Atlas instance'ına özel MinIO
-- Private bucket'lar: `atlas-raw`, `atlas-processing`, `atlas-candidates`
+- Private bucket'lar: `atlas-raw`, `atlas-processing`, `atlas-candidates`, `atlas-catalogs`
 - MinIO API: `127.0.0.1:49000`
 - MinIO Console: `127.0.0.1:49001`
 

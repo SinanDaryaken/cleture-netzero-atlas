@@ -1,0 +1,29 @@
+{
+  "snapshot_version": "1.0.0",
+  "owner_repository": "cleture-netzero-admin",
+  "scope": "taxonomy and intended-use lookup; no scientific applicability or publication authority",
+  "contracts": [
+    {
+      "path": "review-catalog-taxonomy-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:review-catalog-taxonomy:1",
+      "version": "1.0.0",
+      "sha256": "75bb514bc2695b12c2a8a18259c0223e38d6c61bec825296a1f6d5167f3eb7b4"
+    },
+    {
+      "path": "review-catalog-intended-use-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:review-catalog-intended-use:1",
+      "version": "1.0.0",
+      "sha256": "8f83a142d29d57f7f357ad0a491d0fd12deb7fb50805c5ace5d1143fc8543686"
+    },
+    {
+      "path": "review-catalog-descriptor-v1.schema.json",
+      "schema_id": "urn:netzeroadmin:schema:review-catalog-descriptor:1",
+      "version": "1.0.0",
+      "sha256": "e22d87500d3e3d3ed7564fff9647de2d8c0d44dc002fc06334cb3fccf1312e72"
+    }
+  ],
+  "registry": {
+    "path": "review-catalog-intended-use-v1.json",
+    "sha256": "4bdb1feadcae22c06e2a03ffc6ed87240860ce9f91de1d84cd720f039209f419"
+  }
+}

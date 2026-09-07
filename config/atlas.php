@@ -24,6 +24,16 @@ return [
     ],
 
     'catalogs' => [
+        'delivery' => [
+            'sha256' => env('ATLAS_CATALOG_DELIVERY_SHA256'),
+            'pins' => [
+                'unit' => ['version' => env('ATLAS_DELIVERY_UNIT_VERSION'), 'sha256' => env('ATLAS_DELIVERY_UNIT_SHA256')],
+                'geography' => ['version' => env('ATLAS_DELIVERY_GEOGRAPHY_VERSION'), 'sha256' => env('ATLAS_DELIVERY_GEOGRAPHY_SHA256')],
+                'currency' => ['version' => env('ATLAS_DELIVERY_CURRENCY_VERSION'), 'sha256' => env('ATLAS_DELIVERY_CURRENCY_SHA256')],
+                'taxonomy' => ['version' => env('ATLAS_DELIVERY_TAXONOMY_VERSION'), 'sha256' => env('ATLAS_DELIVERY_TAXONOMY_SHA256')],
+                'intended_use' => ['version' => env('ATLAS_DELIVERY_INTENDED_USE_VERSION'), 'sha256' => env('ATLAS_DELIVERY_INTENDED_USE_SHA256')],
+            ],
+        ],
         'snapshots' => [
             'geography' => [
                 'descriptor_path' => env(

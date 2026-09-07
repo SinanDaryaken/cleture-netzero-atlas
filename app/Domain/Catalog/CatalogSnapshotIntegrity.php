@@ -11,6 +11,7 @@ final class CatalogSnapshotIntegrity
         match ($snapshot->descriptor->catalog) {
             CatalogType::Geography => $this->assertGeography($snapshot),
             CatalogType::Unit => $this->assertUnit($snapshot),
+            default => throw new CatalogContractViolation('Review catalogs require delivery semantic validation.'),
         };
     }
 
@@ -91,7 +92,9 @@ final class CatalogSnapshotIntegrity
             throw new CatalogContractViolation('Unit snapshot release version does not match its descriptor.');
         }
 
-        $this->assertUniqueField($definitions, 'unit_code', 'unit code');
+        if ($snapshot->descriptor->contentSchemaVersion === 'unit-catalog-release/v1') {
+            $this->assertUniqueField($definitions, 'unit_code', 'unit code');
+        }
 
         foreach ($definitions as $definition) {
             $id = $this->stringField($definition, 'id', 'unit definition');
