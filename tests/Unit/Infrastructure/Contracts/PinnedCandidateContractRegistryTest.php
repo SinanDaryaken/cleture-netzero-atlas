@@ -25,14 +25,13 @@ final class PinnedCandidateContractRegistryTest extends TestCase
         $this->assertJson($document->contents);
     }
 
-    public function test_loads_every_v2_contract_and_accepts_the_authoritative_archive_policy(): void
+    public function test_loads_retained_v2_normalization_contracts(): void
     {
         $registry = new PinnedCandidateContractRegistry(
             base_path('resources/contracts/netzero-admin/candidate-v2/contract-manifest.json'),
         );
 
         $documents = array_map($registry->get(...), CandidateContract::cases());
-        $registry->assertPackageBuildReady();
 
         $this->assertCount(5, $documents);
         $this->assertSame(
@@ -110,21 +109,6 @@ final class PinnedCandidateContractRegistryTest extends TestCase
         } finally {
             $this->removeTemporaryDirectory($directory);
         }
-    }
-
-    public function test_blocks_package_build_until_every_member_record_contract_is_pinned(): void
-    {
-        $registry = new PinnedCandidateContractRegistry(
-            base_path('resources/contracts/netzero-admin/candidate-v1/contract-manifest.json'),
-        );
-
-        $this->expectException(CandidateContractViolation::class);
-        $this->expectExceptionMessage(
-            'Candidate package build is blocked by missing record contracts: '
-            .'candidate_relationship_record, candidate_finding_record, candidate_source_diff_record.',
-        );
-
-        $registry->assertPackageBuildReady();
     }
 
     private function temporaryContractDirectory(): string

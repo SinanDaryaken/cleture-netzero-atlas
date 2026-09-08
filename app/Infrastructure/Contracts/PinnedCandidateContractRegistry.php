@@ -30,44 +30,6 @@ final class PinnedCandidateContractRegistry implements CandidateContractRegistry
         throw new CandidateContractViolation("Candidate contract {$contract->value} is not pinned.");
     }
 
-    public function missingPackageRecordContracts(): array
-    {
-        $missing = $this->manifest()['missing_package_record_contracts'] ?? null;
-
-        if (! is_array($missing)) {
-            throw new CandidateContractViolation('Pinned candidate contract manifest has an invalid package readiness gate.');
-        }
-
-        foreach ($missing as $name) {
-            if (! is_string($name) || $name === '') {
-                throw new CandidateContractViolation('Pinned candidate contract manifest has an invalid package readiness gate.');
-            }
-        }
-
-        return array_values($missing);
-    }
-
-    public function assertPackageBuildReady(): void
-    {
-        $missing = $this->missingPackageRecordContracts();
-
-        if ($missing !== []) {
-            throw new CandidateContractViolation(
-                'Candidate package build is blocked by missing record contracts: '.implode(', ', $missing).'.',
-            );
-        }
-
-        foreach (CandidateContract::cases() as $contract) {
-            $this->get($contract);
-        }
-
-        $manifest = $this->manifest();
-
-        if (($manifest['snapshot_version'] ?? null) === '2.0.0') {
-            $this->assertV2ArchivePolicy($manifest);
-        }
-    }
-
     /**
      * @return array<string, mixed>
      */
@@ -173,37 +135,6 @@ final class PinnedCandidateContractRegistry implements CandidateContractRegistry
     }
 
     /** @param array<string, mixed> $manifest */
-    private function assertV2ArchivePolicy(array $manifest): void
-    {
-        $members = $manifest['archive_members'] ?? null;
-
-        if (! is_array($members) || count($members) !== 4) {
-            throw new CandidateContractViolation('Pinned candidate V2 archive policy is invalid.');
-        }
-
-        $policies = [];
-
-        foreach ($members as $member) {
-            if (! is_array($member)
-                || ! is_string($member['path'] ?? null)
-                || ! is_string($member['contract'] ?? null)
-                || ! is_string($member['record_policy'] ?? null)
-            ) {
-                throw new CandidateContractViolation('Pinned candidate V2 archive policy is invalid.');
-            }
-
-            $policies[$member['path']] = [$member['contract'], $member['record_policy']];
-        }
-
-        if ($policies !== [
-            'entities.ndjson' => ['candidate_entity_record', 'records_allowed'],
-            'relationships.ndjson' => ['candidate_relationship_record', 'records_forbidden'],
-            'findings.ndjson' => ['candidate_finding_record', 'records_allowed_or_empty'],
-            'source-diff.ndjson' => ['candidate_source_diff_record', 'records_allowed_or_empty'],
-        ]) {
-            throw new CandidateContractViolation('Pinned candidate V2 archive policy is invalid.');
-        }
-    }
 
     /**
      * @param  array<string, mixed>  $manifest

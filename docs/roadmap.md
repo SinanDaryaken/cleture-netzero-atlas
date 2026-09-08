@@ -1,5 +1,16 @@
 # NetZero Atlas roadmap
 
+## Sürümlü candidate transport (2026-09-07)
+
+- [x] S3 upload/reuse receipt VersionId, koşullu immutable yazım ve sabit sürümlü retry.
+- [x] `atlas.candidate_ingress` logical profile ve version-pinned previous package okuması.
+- [x] Admin semantic fingerprint/raw descriptor hash uyumu ve bağımsız golden vector.
+- [x] İlgili 30 test /149 assertion; gerçek loopback SDK/socket dahil.
+- [x] Sentetik gerçek MinIO upload/read-back ve 24h exact-ARN Worker kimliğinin allow/deny doğrulaması.
+- [x] Worker credential uygulaması sonrası gerçek Admin–Worker staging/replay kabulü (Admin owner bildirimi; Atlas intake HTTP kullanılmadı).
+
+[Kanıt ve kabul planı](candidate-versioned-acceptance.md), [ADR-010](decisions/ADR-010-versioned-candidate-transport.md).
+
 ## Admin entegrasyonu — adım 6 (2026-09-07)
 
 - [x] Mevcut Admin çalışma ağacının salt okunur contract/code/test incelemesi.

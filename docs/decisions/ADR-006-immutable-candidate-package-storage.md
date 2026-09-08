@@ -3,6 +3,9 @@
 - Durum: Kabul edildi
 - Tarih: 2026-09-05
 
+2026-09-07 ek karar: [ADR-010](ADR-010-versioned-candidate-transport.md) S3 VersionId,
+conditional create ve internal/transport idempotency ayrımını tanımlar; mevcut kayıtlar değişmez.
+
 ## Bağlam
 
 Deterministik V2 package builder geçici ZIP artifact'i ve canonical sidecar manifest

@@ -1,150 +1,21 @@
 # NetZero Atlas
 
-NetZero Atlas, `moduler_netzero` platformunun çevresel veri tedarik ve hazırlama
-bileşenidir. Kaynak keşfi, immutable raw saklama, parse, normalize, canonical
-kavramlara eşleme, kalite ve lisans doğrulama, sürüm karşılaştırma ve review'a
-hazır candidate dataset üretiminden sorumludur.
+Atlas kaynak verisini alır, özgün dosyayı saklar, kaynak motoruyla parse/normalize eder ve birim/ülke eşleştirmeleriyle doğrudan Admin gelen faktörler alanına yazar.
 
-Atlas canonical katalogları doğrudan yayımlamaz, tenant veritabanlarına bağlanmaz
-ve production hesap sonucu saklamaz. Candidate paketlerin review ve publish sahibi
-`cleture-netzero-admin` uygulamasıdır.
+## Çalışan akış
 
-Oturum devam noktası ve bekleyen proje bağımlılıkları: [Güncel durum](docs/CURRENT.md).
+ADEME → acquire → parse → normalize → unit/geo → moduler_netzero → Admin inceleme
 
-Admin adım 6 için exact katalog teslim/lookup adapter'ı ve gerçek MinIO read-back
-kanıtı [katalog teslim işletim notunda](docs/catalog-delivery.md). Atlas'ın
-[güncel çözüm onayı adapter'ı](docs/current-approval.md) imzalı sorguyu doğrular;
-canlı etkinleştirme ve nihai kullanım kapıları açıktır. Admin A1/A2 düzeltmeleri
-[bağımsız tekrar üretimde doğrulandı](docs/admin-atlas-step6-review.md).
-Etkinleştirme önkoşulları `atlas:catalog:approval-readiness` ile secret-safe incelenebilir;
-[Admin'e verilecek iş](docs/admin-approval-next-steps.md) gerekli gerçek teslim ve kullanım sözleşmelerini listeler.
+Platform komutu: cleture-netzero-atlas artisan atlas:source:prepare-admin ADEME
 
-## Yerel altyapı
+Kaynak satırları, alt gazlar, yaşam döngüsü bileşenleri, açık GWP/formül/PCI-PCS bilgileri ve kanıtları korunur. Kaynakta olmayan bilimsel bilgi uydurulmaz. Aynı kaynak kimliğiyle tekrar aktarım yeni kopya üretmez; Admin kararları ve düzenlemeleri korunur.
 
-- PostgreSQL: ortak `laravel-dev-postgres` servisi, `atlas_netzero` veritabanı
-- Redis: ortak `laravel-dev-redis` servisi
-- Object storage: Atlas instance'ına özel MinIO
-- Private bucket'lar: `atlas-raw`, `atlas-processing`, `atlas-candidates`, `atlas-catalogs`
-- MinIO API: `127.0.0.1:49000`
-- MinIO Console: `127.0.0.1:49001`
+Paket üretme, Worker üzerinden taşıma, katalog teslimi ve karşılıklı onay sorgulama kaldırılmıştır. Acquire/parse/normalize/inspect komutları kaynak incelemesi için kalır. Candidate isimli kalan sınıflar ve sabit JSON sözleşmeleri mevcut normalizasyon dosyalarının biçim/kimlik uyumunu korur; paket aktarımını etkinleştirmez.
 
-Laravel bağlantı örnekleri `.env.example` içinde, yerel Docker servis tanımı ise
-`laravel-dev-platform/instances/cleture-netzero-atlas` altında tutulur. Secret
-değerler Git'e eklenmez.
+Merkezi şema sahibi Admin'dir. Kaynak işleme kayıtları Atlas DB'sinde, gelen faktörler merkezi DB'de tutulur. Admin onayı ve hesap tanımları Atlas tarafından değiştirilmez.
 
-## Kod sınırları
+## Doğrulama
 
-- Framework bağımsız domain kuralları: `app/Domain`
-- Use-case orkestrasyonu: `app/Application`
-- Veritabanı, queue, HTTP ve source adapter'ları: `app/Infrastructure`
-- Source'a özel kod: `app/Infrastructure/Sources/<code>`
+Servis durumunu cleture-netzero-atlas status ile kontrol edin. Testleri platform PHP runner'ıyla çalıştırın. Testler izole SQLite belleği ve sahte depolama kullanır; gerçek aktarım komutu geliştirme veritabanına yazar.
 
-`old-atlas` yalnızca analiz ve kontrollü taşıma için referans snapshot'tır. Yeni
-uygulamanın çalışma zamanı veya mimari kaynağı değildir.
-
-## ADEME pilotu
-
-İlk source pilotu ADEME Base Carbone'dur. Kaynağın güncel release metadata'sı veri
-indirilmeden ve persist edilmeden incelenebilir:
-
-```bash
-php artisan atlas:source:inspect ADEME
-```
-
-Komut dataset kimliği, finalized durumu, dosya kimliği, satır sayısı ve açık lisans
-sözleşmesini fail-closed doğrular. Raw acquisition, parse, normalization ve candidate
-package aşamaları [roadmap](docs/roadmap.md) içinde ayrı kapılar olarak izlenir.
-Acquired release ve normalize öncesi gerçek veri profili
-[ADEME source inventory](docs/sources/ademe.md) içinde bulunur.
-
-Coğrafya eşlemesi Atlas içinde sahiplenilmez. Ülke/il/ilçe canonical kataloğunun
-sahibi NetZeroAdmin, route/mesafe bilgisinin sahibi Logi'dir. Atlas merkezi DB'ye
-bağlanmadan NetZeroAdmin'ın sürümlü ve hash'li geography snapshot'ını kullanacaktır;
-mevcut entegrasyon sınırı
-[ADR-001](docs/decisions/ADR-001-geography-ownership-boundary.md) içinde açıklanmıştır.
-ADEME'ye özgü normalization ile bütün kaynakların kullanacağı ortak candidate package
-altyapısının sorumluluk ayrımı ve pinlenmiş NetZeroAdmin sözleşme kapısı
-[ADR-003](docs/decisions/ADR-003-normalization-and-candidate-contract-boundary.md)
-içinde tanımlanmıştır.
-
-NetZeroAdmin candidate V2 ve immutable unit/geography snapshot consumer sınırı
-[ADR-004](docs/decisions/ADR-004-admin-v2-contract-and-catalog-snapshots.md) içinde
-tanımlanmıştır. Contract/schema dosyaları repository'de pinlidir; gerçek katalog
-payload'ları repository'ye gömülmez ve `atlas_catalogs` runtime storage üzerinden exact
-descriptor/payload hash'leriyle tüketilir. Bu hazırlık canlı V2 intake yetkisi vermez.
-
-Source-agnostic findings, release diff ve candidate archive/manifest assembly kuralları
-[ADR-005](docs/decisions/ADR-005-source-diff-and-package-assembly.md) içinde
-tanımlanmıştır. Release karşılaştırması source adına bağlı koşul çalıştırmaz; hash-pinned
-JSON ruleset'i kullanır. Package ZIP'i dört contracted member'ı sabit sırada ve sabit
-metadata ile içerir, artifact SHA-256 değerinden content-addressed object key türetir ve
-sidecar manifesti yazmadan önce pinned NetZeroAdmin V2 şemasına karşı doğrular.
-Package ZIP ve manifestinin immutable storage ile idempotent ledger sınırı
-[ADR-006](docs/decisions/ADR-006-immutable-candidate-package-storage.md) içinde
-tanımlanmıştır. Archive ve manifest ayrı content-addressed nesnelerdir; var olan
-nesneler boyut ve SHA-256 doğrulaması yapılmadan yeniden kullanılmaz.
-
-Doğrulanan release'in orijinal dosyası MD5 ve SHA-256 kontrolünden geçirilerek
-content-addressed biçimde `atlas-raw` alanına alınabilir:
-
-```bash
-php artisan migrate
-php artisan atlas:source:acquire ADEME
-```
-
-Acquisition komutu yalnız Atlas çalışma DB'sindeki source/release/run/raw asset
-kayıtlarını ve MinIO raw nesnesini oluşturur. Parse, normalize, candidate veya
-canonical publish işlemi yapmaz; aynı release yeniden çalıştırıldığında mevcut raw
-nesneyi döndürür.
-
-Acquired raw release, source'a özel ve sürümlü parser sözleşmesiyle kayıpsız parsed
-observation'lara dönüştürülebilir:
-
-```bash
-php artisan atlas:source:parse ADEME
-```
-
-ADEME V23.6 parser'ı noktalı virgülle ayrılmış 67 kolonun adını ve sırasını SHA-256
-fingerprint ile doğrular; UTF-8 BOM'u kabul eder ve resmî Windows-1252 exportu için
-açık fallback uygular. Bütün `Elément`, `Poste`, archived ve source-data kayıtları
-özgün alan değerleri korunarak Atlas çalışma DB'sine ve content-addressed NDJSON
-artifact olarak `atlas-processing` alanına yazılır. Şema kayması, satır sayısı farkı,
-geçersiz decimal ve duplicate geçerli factor `Elément` kimliği işlemi fail-closed
-sonlandırır. Aynı raw checksum ve parser sürümü yeniden çalıştırıldığında mevcut
-parsed artifact kullanılır. Ayrıntılı sözleşme [ADR-002](docs/decisions/ADR-002-ademe-parsed-observation-contract.md)
-içinde açıklanmıştır.
-
-Latest parsed artifact, ADEME'ye özel normalizer ile source-neutral candidate draft'a
-dönüştürülebilir:
-
-```bash
-php artisan migrate
-php artisan atlas:source:normalize ADEME
-```
-
-Komut parsed artifact'in satır sayısını ve SHA-256 değerini yeniden doğrular. Geçerli
-`Elément` satırlarını candidate draft, ilişkili `Poste` ve gaz değerlerini component,
-negatif toplamları ise review finding olarak üretir. Unit, taxonomy, intended-use ve
-geography eşlemeleri canonical snapshot gelene kadar `unresolved` kalır. Draft NDJSON
-content-addressed olarak `atlas-processing` alanına yazılır; run ve finding kayıtları
-Atlas çalışma DB'sinde tutulur. Bu çıktı henüz `record_sha256` eklenmiş candidate package
-değildir ve Admin'e gönderilmez.
-
-## Doğrulanmış candidate paket üretimi
-
-```bash
-php artisan migrate
-php artisan atlas:candidate:build /absolute/path/build-plan.json
-```
-
-Sabit akış: normalized artifact → pinlenmiş katalog/lisans kanıtı → entity ve
-semantic validation → kalıcı findings/receipt → doğrulanmış önceki paketle diff →
-immutable ZIP/manifest ve idempotent ledger. Komut Admin'e gönderim yapmaz.
-Plan, lisans kanıtı ve hata davranışı [candidate build işletim notunda](docs/candidate-build.md),
-kararlar [ADR-007](docs/decisions/ADR-007-validation-and-fixed-candidate-build.md) içindedir.
-Katalog payload'ı veya lisans kanıtı yoksa varsayılan eşleme/lisans üretilmez.
-
-## Backlog
-
-Public, kayıtsız ve snapshot'sız hesaplama arayüzü ayrı bir geliştirme hattıdır:
-[GitHub Issue #1](https://github.com/SinanDaryaken/cleture-netzero-atlas/issues/1).
+old-atlas/ salt-okunur referanstır. Eski paket/delivery ADR ve kanıtları tarihsel kayıttır; güncel çalışma yolu yukarıdaki doğrudan akıştır.

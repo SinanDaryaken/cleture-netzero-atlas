@@ -1,4 +1,19 @@
+## 2026-09-08 — Owner-approved obsolete transport retirement
+
+Atlas → Worker → Admin cleanup is approved by the owner in the shared task. Direct prepare-admin is the supported path. Package building, catalog delivery/current-approval lookup and their dedicated tests are retired. Historical requirements below for mandatory package/Worker transport are superseded. Preserve normalization contracts, raw data, Admin decisions, unit/geo references and the readonly old-atlas snapshot. No development schema/data deletion is authorized by this cleanup.
+
 # NetZero Atlas agent çalışma sözleşmesi
+
+## 2026-09-08 owner kararı — doğrudan gelen faktörler
+
+Owner bu konuşmada kaynak özelindeki parse/normalize ve unit/geo eşleme sonucunun
+Atlas tarafından doğrudan moduler_netzero gelen faktörler alanına yazılmasını istedi.
+Bu yeni yol aşağıdaki merkezi DB kullanılmaz / zorunlu paket-API-Worker taşıması
+hükümlerinin dar istisnasıdır. Merkezi şema migration sahibi Admin, kaynak işleme ve
+gelen faktör yazıcısı Atlas'tır. Referans katalogları merkezi bağlantıdan okunabilir.
+İlk dilim yalnız Admin liste/detay; tekil/toplu onay sonraki dilim, client sorguları
+ve hesaplama kapsam dışıdır. Mevcut kod ve aktarım yolu silinmez. Bu dilimde otomatik
+commit/push yapılmaz; değişiklikler mevcut konuşmada incelemeye sunulur.
 
 ## Ürün rolü
 

@@ -32,6 +32,20 @@ return [
 
     'connections' => [
 
+        'central' => [
+            'driver' => 'pgsql',
+            'host' => env('ATLAS_CENTRAL_DB_HOST', env('DB_HOST', '127.0.0.1')),
+            'port' => env('ATLAS_CENTRAL_DB_PORT', env('DB_PORT', '5432')),
+            'database' => env('ATLAS_CENTRAL_DB_DATABASE', 'moduler_netzero'),
+            'username' => env('ATLAS_CENTRAL_DB_USERNAME', env('ATLAS_DB_USERNAME', env('DB_USERNAME'))),
+            'password' => env('ATLAS_CENTRAL_DB_PASSWORD', env('ATLAS_DB_PASSWORD', env('DB_PASSWORD'))),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => env('ATLAS_CENTRAL_DB_SSLMODE', env('DB_SSLMODE', 'prefer')),
+        ],
+
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),

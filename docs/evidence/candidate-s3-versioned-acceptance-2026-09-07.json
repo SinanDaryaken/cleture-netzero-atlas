@@ -1,0 +1,102 @@
+{
+  "synthetic_only": true,
+  "dml_performed": false,
+  "source": "TEST_SOURCE",
+  "dataset_id": "test-dataset",
+  "bucket": "atlas-candidates",
+  "storage_profile": "atlas.candidate_ingress",
+  "archive_object_key": "sha256/09e3f18ccd295c936a37032078caefeddc9948f61af5c9fbdc59e360337e6dff.zip",
+  "archive_sha256": "09e3f18ccd295c936a37032078caefeddc9948f61af5c9fbdc59e360337e6dff",
+  "archive_size_bytes": 6934,
+  "object_version_id": "d61c8fb0-e4ec-47e9-a136-b17bbabc3b9d",
+  "manifest_object_key": "manifests/sha256/3af77be6b063fc512b73e1e4d2ec269b01f48475d939af9f1014d3005572eac1.json",
+  "manifest_sha256": "3af77be6b063fc512b73e1e4d2ec269b01f48475d939af9f1014d3005572eac1",
+  "manifest_size_bytes": 3449,
+  "package_id": "01a07cd0-2412-72df-9848-03e44d9a766b",
+  "producer_run_id": "01a07cd0-2412-72df-9848-03e44e574d86",
+  "idempotency_key": "sha256:c4a3a5d8067fa64640a621a3b409fa3a542d0bdbd79e46af78533f6e0b212b4e",
+  "generated_at": "2026-09-07T17:00:10.642668+00:00",
+  "exact_readback_verified": true,
+  "idempotent_retry_verified": true,
+  "verification_time_utc": "2026-09-07T17:04:56.370852+00:00",
+  "permissions": {
+    "all_checks_passed": true,
+    "object_version_id": "d61c8fb0-e4ec-47e9-a136-b17bbabc3b9d",
+    "archive_sha256": "09e3f18ccd295c936a37032078caefeddc9948f61af5c9fbdc59e360337e6dff",
+    "checks": {
+      "GetObject": {
+        "allowed": true,
+        "sha256_verified": true,
+        "version_verified": true
+      },
+      "GetObjectVersion": {
+        "allowed": true,
+        "sha256_verified": true,
+        "version_verified": true
+      },
+      "ListObjectsV2": {
+        "denied": true,
+        "http_status": 403,
+        "code": "AccessDenied"
+      },
+      "PutObject_exact_zip": {
+        "denied": true,
+        "http_status": 403,
+        "code": "AccessDenied"
+      },
+      "DeleteObject_absent_key": {
+        "denied": true,
+        "http_status": 403,
+        "code": "AccessDenied"
+      },
+      "DeleteObjectVersion_exact_zip_nonexistent_version": {
+        "denied": true,
+        "http_status": 403,
+        "code": "AccessDenied"
+      },
+      "GetObject_other_key": {
+        "denied": true,
+        "http_status": 403,
+        "code": "AccessDenied"
+      },
+      "GetObject_manifest": {
+        "denied": true,
+        "http_status": 403,
+        "code": "AccessDenied"
+      },
+      "GetObject_receipt": {
+        "denied": true,
+        "http_status": 403,
+        "code": "AccessDenied"
+      }
+    },
+    "delivered_zip_unchanged": true
+  },
+  "iam": {
+    "expiry_requested": "24h",
+    "expiration": "2026-09-08T17:01:33Z",
+    "scope": {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "s3:GetObject",
+            "s3:GetObjectVersion"
+          ],
+          "Resource": [
+            "arn:aws:s3:::atlas-candidates/sha256/09e3f18ccd295c936a37032078caefeddc9948f61af5c9fbdc59e360337e6dff.zip"
+          ]
+        }
+      ]
+    },
+    "secret_values_included": false
+  },
+  "boundary": {
+    "synthetic_only": true,
+    "worker_modified": false,
+    "admin_intake_executed_here": false,
+    "canonical_publish": false,
+    "commit_push": false
+  }
+}

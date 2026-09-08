@@ -73,8 +73,14 @@ formula ve taxonomy sahip sözleşmeleri olmadan Atlas canonical kural icat etme
 Validation receipt entity/findings hash'leri, kataloglar, lisans, raw kanıt, normalized
 artifact kimliği ve policy ile sabitlenir. Package builder receipt eşleşmesini zorunlu
 tutar ve ZIP öncesinde member byte'larını yeniden doğrular. Release kilidi altında
-idempotency key için package UUID, producer run ve generated_at bir kez ayrılır.
+internal idempotency key için package UUID, producer run ve generated_at bir kez ayrılır.
 Aynı ZIP farklı lisans/pipeline manifestlerinde kullanılabilir; archive key unique değildir.
+
+S3 storage versioning Enabled olmalı; producer doğrulanmış ZIP VersionId receipt'inden
+sonra manifest üretir. `atlas.candidate_ingress` logical profildir, yerel disk adı değildir.
+Wire idempotency key Admin semantic fingerprint v1'dir; Atlas internal full identity
+anahtarından ayrıdır. Raw asset set hash'i yalnız sıralı dört transport descriptor alanını
+içerir; provenance URI/zaman alanları korunur. [ADR-010](decisions/ADR-010-versioned-candidate-transport.md).
 
 ## Doğrulama
 
@@ -82,5 +88,8 @@ Varsayılan suite Unit/Feature testlerini içerir. Gerçek PostgreSQL/MinIO test
 `tests/Integration/CandidatePackagePipelineTest.php` ile çağrılır; yalnız
 `atlas_validation_test_*` adlı ayrılmış DB'yi kabul eder. Migration reset yapar: hiçbir
 uygulama DB'sine yöneltilmez. Rastgele test bucket'ını kendi temizler. İki bağımsız PHP
-süreci eşzamanlı üretim yapar; retry, önceki paket diff'i ve bozuk ZIP reddi kontrol edilir.
+süreci eşzamanlı üretim yapar; retry, önceki paket diff'i ve latest değişse de pin'in
+korunması kontrol edilir. Test bucket'ı versioning açar, sürümler/delete marker'lar temizlenir.
+Bu gerçek MinIO testi son transport diliminde çalıştırılmadı; yalnız ilgili local/SDK/socket
+testleri çalıştırıldı. [Güncel kabul kanıtı](candidate-versioned-acceptance.md).
 Testler kullanıcı talebiyle çalıştırılır ve timestamp'li geçici loga alınır.

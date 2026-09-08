@@ -1,9 +1,0 @@
-{
-  "schema_version": "1.0.0",
-  "ruleset_version": "candidate-exact-mapping-v1",
-  "unit_match": "exact_code_or_symbol",
-  "geography_match": "exact_country_code_or_localized_name",
-  "geography_role": "market",
-  "multiple_matches": "ambiguous",
-  "missing_match": "unresolved"
-}
